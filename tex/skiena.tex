@@ -1,0 +1,51 @@
+\documentclass{report}
+
+\usepackage{amsmath}
+\usepackage{enumitem}  % enumerate
+
+\begin{document}
+
+\chapter{Introduction to algorithm design}
+
+n/a
+
+\chapter{Algorithm analysis}
+
+\paragraph{2-10}
+\begin{enumerate}[label=\alph*)]
+	\item $f(n) = (n^2 - n)/2,\ g(n) = 6n.$
+	
+		Is $f(n) = O(g(n))$? If so, there is $c$ such that $f(n) \le cg(n)$
+		for sufficiently large $n$.
+		\begin{equation*}
+			\frac{1}{2}\left(n^2 - n\right) \le 6n
+				\ \rightarrow\ n^2 - n \le 12n
+				\ \rightarrow\ n(n-1) \le 12n
+		\end{equation*}
+		Suppose there is such a $c$, then
+		\begin{equation*}
+			n(n-1) \le 12cn\ \rightarrow\ n-1 \le 12c
+		\end{equation*}
+		Clearly we can always find $n$ such that this inequality won't hold,
+		so $f(n) \ne O(g(n))$.
+		
+		Is $g(n) = O(f(n))$? If so, there is $c$ such that $g(n) \le cf(n)$
+		for sufficiently large $n$.
+		\begin{equation*}
+			6n \le \frac{1}{2}\left(n^2 - n\right)
+			\ \rightarrow\ 12n \le n^2 - n = n(n-1)
+			\ \rightarrow\ 12 \le n - 1
+			\ \rightarrow\ 13 \le n.
+		\end{equation*}
+		So with $c = 1$ the inequality will hold for $n_0 \ge 13$, and $g(n) = O(f(n))$.
+		
+	\item $f(n) = n + 2\sqrt{n},\ g(n) = n^2.$
+	
+		$f(n) = O(g(n)) \Leftrightarrow f(n) \le cg(n)$ for sufficiently large $n$.
+		\begin{gather*}
+			n + s\sqrt{n} \le cn^2,\ \text{with}\ c = 1, n = 4, \\
+			4 + 2\sqrt{4} = 8 \le 4^2 = 16\ \text{so}\ f(n) = O(g(n)).
+		\end{gather*}
+\end{enumerate}
+
+\end{document}

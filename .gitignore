@@ -1,0 +1,6 @@
+.DS_Store
+.idea
+cpp/cmake-build-debug
+tex/*.aux
+tex/*.log
+tex/*.gz
