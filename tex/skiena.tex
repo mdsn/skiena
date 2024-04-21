@@ -22,7 +22,7 @@ The dominance pecking order:
 \paragraph{2-10}
 \begin{enumerate}[label=(\alph*)]
 	\item $f(n) = (n^2 - n)/2,\ g(n) = 6n.$
-	
+
 		Is $f(n) = O(g(n))$? If so, there is $c$ such that $f(n) \le cg(n)$
 		for sufficiently large $n$.
 		\begin{equation*}
@@ -36,7 +36,7 @@ The dominance pecking order:
 		\end{equation*}
 		Clearly we can always find $n$ such that this inequality won't hold,
 		so $f(n) \ne O(g(n))$.
-		
+
 		Is $g(n) = O(f(n))$? If so, there is $c$ such that $g(n) \le cf(n)$
 		for sufficiently large $n$.
 		\begin{equation*}
@@ -46,20 +46,20 @@ The dominance pecking order:
 			\ \rightarrow\ 13 \le n.
 		\end{equation*}
 		So with $c = 1$ the inequality will hold for $n_0 \ge 13$, and $g(n) = O(f(n))$.
-		
+
 	\item $f(n) = n + 2\sqrt{n},\ g(n) = n^2.$
-	
+
 		$f(n) = O(g(n)) \Leftrightarrow f(n) \le cg(n)$ for sufficiently large $n$.
 		\begin{gather*}
 			n + 2\sqrt{n} \le cn^2,\ \text{with}\ c = 1, \\
 			n + 2\sqrt{n} \le 2n\ \text{for $n > 4$}, \\
 			2n \le n^2\ \text{so}\ f(n) = O(g(n)).
 		\end{gather*}
-		
+
 		$g(n) = O(f(n)) \Leftrightarrow g(n) \le cf(n)$ for sufficiently large $n$. But
 		this asks to find $c$ such that $n^2 \le c\left(n + 2\sqrt{n}\right)$; since
 		ultimately $n^2 \gg n$, $g(n) \ne O(f(n))$.
-		
+
 	\item $f(n) = n\log n,\ g(n) = n\sqrt{n}.$
 		\begin{gather*}
 			f(n) = O(g(n)) \Leftrightarrow n\log n \le cn\sqrt{n},\ \text{with $c=1,$} \\ 
@@ -68,15 +68,15 @@ The dominance pecking order:
 		since $\sqrt{n} \gg \log n,\ f(n) = O(g(n)).$
 
 		By the same argument, $g(n) \ne O(f(n)).$
-		
+
 	\item $f(n) = n + \log n,\ g(n) = \sqrt{n}\ \rightarrow\ n + \log n \le c\sqrt{n}$, and
 		since $n \gg \sqrt{n}$, any constant factor will be dominated by the linear term, so
 		$f(n) \ne O(g(n)).$ Conversely and by the same argument, $g(n) = O(f(n)).$
-		
+
 	\item $f(n) = 2\left(\log n\right)^2,\ g(n) = \log n + 1.$ Note that
 		$2\left(\log n\right)^2 = 2\log^2 n$, and $\log^2 n \gg \log n,$ so $g(n) = O(f(n))$
 		and $f(n) \ne O(g(n)).$
-		
+
 	\item $f(n) = 4n\log n + n,\ g(n) = \left(n^2 - n\right)/2.$ We know that
 		$n\log n \gg n,$ so we can consider just this term from $f(n).$ But ultimately the
 		quadratic term in $g(n)$ dominates so $f(n) = O(g(n)).$
@@ -85,7 +85,81 @@ The dominance pecking order:
 
 \paragraph{2-11}
 \begin{enumerate}[label=(\alph*)]
-	\item HOLA
+	\item $f(n) = 3n^2,\ g(n) = n^2.$
+
+		With $c = 3,\ f(n) \le 3g(n)$ so $f(n) = O(g(n)).$
+
+		$f(n) = \Omega(n) \Leftrightarrow cg(n) \le f(n)$ for sufficiently large $n$. For
+		$c = 1$ the inequality holds, so $f(n) = \Omega(g(n))$ and $f(n) = \Theta(g(n)).$
+
+	\item $f(n) = 2n^4 - 3n^2 + 7,\ g(n) = n^5.$
+	
+		$n^5 \gg n^4$ so $f(n) = O(g(n))$ and $f(n) \ne \Omega(g(n)).$
+
+	\item $f(n) = \log n,\ g(n) = \log n + \frac{1}{n}.$
+
+		$\lim_{n\rightarrow\infty} \frac{1}{n} = 0,$ so as $n\rightarrow\infty$,
+		$f(n) - g(n) = 0$. So no function dominates the other. Thus, $f(n) = \Theta(g(n)).$
+
+	\item $f(n) = 2^{k\log n},\ g(n) = n^k.$
+		\begin{gather*}
+			f(n) = O(g(n)) \Leftrightarrow f(n) \le cg(n) \\
+			\rightarrow\ 2^{k\log n} \le cn^k;\ \text{taking logarithms,} \\
+			\rightarrow\ \log\left(2^{k\log n}\right) \le \log\left(cn^k\right)
+				= \log c + \log n^k \\
+			\rightarrow\ k\log n\log 2 \le \log c + k\log n.
+		\end{gather*}
+		Ignoring constant terms and multiplicative constants, we are left with
+		$\log n \le \log n$, so $f(n) = \Theta(g(n)).$
+
+	\item $f(n) = 2^n,\ g(n) = 2^{2n}.$
+
+		$2^n \le c2^{2n}$ clearly holds for $c = 1$, so $f(n) = O(g(n)).$
+
+		$c2^{2n} \le 2^n$? Well, $2^{2n} = 2^2\cdot2^n = 4\cdot2^n,$ so
+		$4c2^n \le 2^n$ is satisfied with $c = 1/4.$ So $f(n) = \Omega(g(n))$ and
+		finally, $f(n) = \Theta(g(n)).$
 \end{enumerate}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 \end{document}
