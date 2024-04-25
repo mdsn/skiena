@@ -28,3 +28,7 @@ common skiena
 executable ex03_12
     import: skiena
     main-is: ex03_12.hs
+
+executable ex03_13
+    import: skiena
+    main-is: ex03_13.hs
