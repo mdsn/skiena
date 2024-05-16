@@ -1,13 +1,14 @@
 cmake_minimum_required(VERSION 3.26)
 project(skiena)
 
-set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD 23)
 
 set(SGB ../../sgb)
 include_directories(${SGB})
 link_directories(/usr/local/lib)
 
 find_library(gb REQUIRED NAMES libgb.a)
+find_package(scn CONFIG REQUIRED)
 find_package(fmt CONFIG REQUIRED)
 
 add_executable(ex03-01 ex03-01.cpp)
@@ -21,3 +22,6 @@ add_executable(ex03-29-partial-sums-ii ex03-29-partial-sums-ii.cpp)
 
 add_executable(sgb-example0 sgb-example0.cpp)
 target_link_libraries(sgb-example0 PRIVATE gb)
+
+add_executable(ch07-bfs ch07-bfs.cpp)
+target_link_libraries(ch07-bfs PRIVATE fmt::fmt scn::scn)

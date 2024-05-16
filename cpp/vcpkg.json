@@ -1,0 +1,24 @@
+{
+  "name" : "skiena",
+  "version-string" : "1.0.0",
+  "builtin-baseline" : "28c4ec8670e356d704827a349751c3454156d808",
+  "dependencies" : [ {
+    "name" : "fast-float",
+    "version>=" : "6.1.1"
+  }, {
+    "name" : "fmt",
+    "version>=" : "10.2.1#2"
+  }, {
+    "name" : "simdutf",
+    "version>=" : "5.2.5"
+  }, {
+    "name" : "vcpkg-cmake-config",
+    "version>=" : "2022-02-06#1"
+  }, {
+    "name" : "vcpkg-cmake",
+    "version>=" : "2024-04-18"
+  }, {
+    "name" : "scnlib",
+    "version>=" : "2.0.2#2"
+  } ]
+}
