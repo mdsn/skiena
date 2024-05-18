@@ -25,3 +25,6 @@ target_link_libraries(sgb-example0 PRIVATE gb)
 
 add_executable(ch07-bfs ch07-bfs.cpp)
 target_link_libraries(ch07-bfs PRIVATE fmt::fmt scn::scn)
+
+add_executable(ch07-dfs ch07-dfs.cpp)
+target_link_libraries(ch07-dfs PRIVATE fmt::fmt scn::scn)
