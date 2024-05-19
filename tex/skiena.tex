@@ -1,6 +1,8 @@
 \documentclass{report}
 
 \usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amsfonts}
 \usepackage[inline]{enumitem}  % enumerate
 \usepackage{listings}
 \usepackage{tikz}
@@ -21,6 +23,11 @@
 %		/tikz/every node/.append style={font=\footnotesize},
 %	}
 %}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\C}{\mathbb{C}}
 
 \begin{document}
 
@@ -163,9 +170,101 @@ This holds for $n_0 \ge 7$, so $f(n) = \Omega\!\left(n^3\right)$ and finally $f(
 
 Since $\log n \ll n$ this inequality holds for large enough $n$, and $n^2 = O\!\left(2^n\right)$.
 
+\paragraph{2-14} $\Theta\!\left(n^2\right) = \Theta\!\left(n^2+1\right)$? This is to say whether both classes are the same. We can show this by assuming we have $f(n) = \Theta\!\left(n^2\right)$, and proving that $f(n) = \Theta\!\left(n^2+1\right)$, and likewise with the other assumption.
+
+First, $f(n) = \Theta\!\left(n^2\right) \Rightarrow f(n) = O\!\left(n^2\right)$ and $f(n) = \Omega\!\left(n^2\right)$. Is $f(n) = O\!\left(n^2+1\right)$? This would mean $f(n) \le c\left(n^2+1\right)$, for $n > n_0$. Since $f(n) = O\!\left(n^2\right)$ there is $c_0$ such that $f(n) \le c_0 n^2$, but $c_0 n^2 \le c_0\left(n^2 + 1\right)$ so with the same $c_0$ we see that $f(n) = O\!\left(n^2+1\right)$.
+
+Now we want to show that $f(n) = \Omega\!\left(n^2+1\right)$, that is, $c\left(n^2 + 1\right) \le f(n)$ for $n > n_0$. Since $f(n) = \Omega\!\left(n^2\right)$ there are $c_1, n_1$ such that $c_1 n^2 \le f(n)$, for $n > n_1$. In particular this holds for $n+1 > n_1$, so
+\begin{equation*}
+	c_1 n^2 < c_1 (n+1)^2 \le f(n), \quad n > n_1.
+\end{equation*}
+But note that $n^2 + 1 \le (n+1)^2$, so for $n_0 = n_1 + 1$ above, we have that $c_1\left(n^2 + 1\right) \le c_1 (n+1)^2 \le f(n)$ for $n > n_0$. So $f(n) = \Omega\!\left(n^2+1\right)$ and thus $f(n) = \Theta\!\left(n^2 + 1\right)$.
+
+\vskip 1em
+
+Now we need to show that $f(n) = \Theta\!\left(n^2+1\right) \Rightarrow f(n) = \Theta\!\left(n^2\right)$.
+
+$f(n) = \Omega\!\left(n^2\right) \Leftrightarrow c n^2 \le f(n)$ for $n > n_0$. We know that $f(n) = \Omega\!\left(n^2+1\right)$ so there is a $c_1$ such that $c_1\left(n^2+1\right) \le f(n)$ for $n > n_1$; since $n^2 < n^2 + 1$, by letting $c = c_1$ we see that $c_1 n^2 < c_1 \left(n^2+1\right) \le f(n)$, so $f(n) = \Omega\!\left(n^2\right)$.
+
+$f(n) = O\!\left(n^2\right) \Leftrightarrow f(n) \le c n^2$ for $n > n_0$. Since $f(n) = O\!\left(n^2 + 1\right)$ we know there are $c_1$ and $n_1$ such that $f(n) \le c_1\left(n^2+1\right)$ for $n \ge n_1$; in particular, $f(n) \le c_1\left(n_1^2+1\right)$. Then let $c = c_1\left(n_1^2+1\right)$, then $c n^2 > c_1\left(n_1^2+1\right) \ge f(n)$, for $n > n_1$. Thus $f(n) = O\!\left(n^2\right)$ and $f(n) = \Theta\!\left(n^2\right)$.
+
+\vskip 1em
+
+This shows that if a function is $\Theta\!\left(n^2\right)$ then it must be $\Theta\!\left(n^2+1\right)$ and viceversa---that is, both classes are the same.
+
+\paragraph{2-17}
+\begin{enumerate}[label=\alph*)]
+	\item $f(n) = n^2 + n + 1,\ g(n) = 2n^3$. We want to find $c > 0$ such that $f(n) \le c g(n)$ for $n > 1$. $f(2) = 7;\ g(2) = 16 \rightarrow c = 1$.
+	\item $f(n) = n\sqrt{n},\ g(n) = n^2$. $n\sqrt{n} < n^2 \rightarrow 2n^2 > n\sqrt{n} + n^2 \rightarrow c = 2$.
+	\item $f(n) = n^2 - n + 1,\ g(n) = n^2/2$. $n^2 - n + 1 < \frac{c}{2}n^2 \rightarrow$ if $n = 2,\ f(2) = 3$, and $g(2) = 2$. For $c=2,\ n^2 - n + 1 < n^2. (f(2) = 3, 2g(2) = 4)$.
+\end{enumerate}
+
+\paragraph{2-18} Let $f_1(n) = O(g_1(n)),\ f_2(n) = O(g_2(n))$. Show that $f_1(n) + f_2(n) = O(g_1(n) + g_2(n))$.
+
+\begin{proof}There are $c_1,\ n_1$ such that $f_1(n) \le c_1 g_1(n)$ for $n > n_1$, and $c_2,\ n_2$ such that $f_2(n) \le c_2 g_2(n)$ for $n > n_2$. Let $c = \max(c_1, c_2),\ n_0 = \max(n_1, n_2)$. Then $f_1(n) < c g_1(n)$, and $f_2(n) < c g_2(n)$, which implies that $f_1(n) + f_2(n) < c g_1(n) + c g_2(n) = c(g_1(n) + g_2(n))$ for $n > n_0$.
+\end{proof}
+
+\paragraph{2-19} Let $f_1(n) = \Omega(g_1(n)),\ f_2(n) = \Omega(g_2(n))$. Then there are $c_1, n_1$ such that $f_1(n) \ge c_1 g_1(n)$ for $n > n_1$, and $c_2, n_2$ such that $f_2(n) \ge c_2 g_2(n)$ for $n > n_2$. Let $n_0 = \max(n_1, n_2)$ and let $c_0 = \min(c_1, c_2)$. Then $c g_1(n) \le c_1 g_1(n)$ and also $c g_2(n) \le c_2 g_2(n)$. These inequalities imply that
+\begin{gather*}
+	c g_1(n) \le f_1(n),\ n > n_0, \\
+	c g_2(n) \le f_2(n),\ n > n_0.
+\end{gather*}
+Thus $c(g_1(n) + g_2(n)) \le f_1(n) + f_2(n),\ n > n_0$, and $f_1(n) + f_2(n) = \Omega(g_1(n) + g_2(n))$.
+
+\paragraph{2-20} Let $f_1(n) = O(g_1(n))$ and $f_2(n) = O(g_2(n))$. Then there are $c_1, n_1, c_2, n_2$ such that $f_1(n) \le c_1 g_1(n)$ for $n > n_1$, and $f_2(n) \le c_2 g_2(n)$ for $n > n_2$. Let $c = \max(c_1, c_2)$ and $n_0 = \max(n_1, n_2)$. Then $f_1(n) \le c g_1(n)$ and $f_2(n) \le c g_2(n)$ for $n > n_0$, which implies that $f_1(n)\cdot f_2(n) \le c(g_1(n)\cdot g_2(n))$. Thus $f_1(n)\cdot f_2(n) = O(g_1(n)\cdot g_2(n))$.
+
+\paragraph{2-21} We are to prove that $p(n) = a_k n^k + \ldots + a_0 = O\!\left(n^k\right)$, for $k \ge 0$ and arbitrary real coefficients $a_i$. This is to say that we can find a $c > 0$ and $n_0$ such that $p(n) \le c n^k$, for all $n > n_0$.
+
+\begin{proof}We know that after some $n$, $a_k n^k > p(n) - a_k n^k$, that is to say, the leading order term will come to dominate. To see this, note that
+\begin{equation*}\lim_{n\to\infty}\frac{n^m}{n^q} = 0 \Leftrightarrow q > m,\end{equation*}
+is to say that $n^q \gg n^m$.
+
+Now take $c = \max(a_0,\ldots, a_k)$. Then clearly $c n^k + \ldots + c \ge a_k n^k + \ldots + a_0 = p(n)$. But because of the same argument as above, there is some $n_0$ after which $c n^k > c n^{k-1} + \ldots + c$. Then it follows that $p(n) \le c n^k$ for $n > n_0$, which means $p(n) = O\!\left(n^k\right)$.
+\end{proof}
+
+\paragraph{2-22} Let $a, b \in \R$, with $b > 0$. Show that $(n+a)^b = \Theta\!\left(n^b\right)$.
+
+\begin{proof}
+To prove that $(n+a)^b = O\!\left(n^b\right)$ we need to find $c_0$ such that $c_0 n^b \ge (n+a)^b$ for sufficiently large $n$. If $a=0,\ (n+a)^b = n^b$ and with $c=1$ the inequality holds. If $a<0, (n+a)^b \le n^b$, so
+\begin{equation*}
+	\frac{(n+a)^b}{n^b} = \left(\frac{n+a}{n}\right)^b < 1.
+\end{equation*}
+If $a>0$ we need to see that $\left(1 + \frac{a}{n}\right)^b$ is bounded. (To see why, $(n+a)^b \le c n^b \rightarrow (n+a/n)^b \le c \rightarrow (1 + a/n)^b \le c$).
+
+Note that $\frac{a}{n}$ can get arbitrarily close to 0 for large enough $n$, so the entire expression tends to 1 as $n\to\infty$. Thus for, say, $c=2$ it is possible to find $n_0$ large enough such that $(n+a)^b \le 2n^b$. So $(n+a)^b = O\!\left(n^b\right)$.
+
+\vskip 0.5em
+
+To prove that $(n+a)^b = \Omega\!\left(n^b\right)$, by the same argument, $c n^b \le (n+a)^b \rightarrow c \le (n+a/n)^b = (1 + a/n)^b$. For $a\ne0$ the expression $1+a/n$ tends to 1, either ``from below'' or ``from above''---at any rate, by taking some $c<1$, say, $1/2$, it will be possible to find $n$ large enough that the inequality will hold. Thus $(n+a)^b = \Omega\!\left(n^b\right)$, and finally $(n+a)^b = \Theta\!\left(n^b\right)$.
+\end{proof}
+
+\paragraph{2-27}
+\begin{enumerate}[label=(\alph*)] 
+	\item $f(n) = o(g(n))$ and $f(n)\ne\Theta(g(n))$. If $f(n) = o(g(n))$ then $g(n)\gg f(n)$---they are on different classes. But $f(n)\ne\Theta(g(n))$ implies that either $f(n)\ne\Omega(g(n))$ or $f(n)\ne O(g(n))$. Take $f(n)=n,\ g(n)=n^2$. Clearly $f(n)\ne\Omega(g(n))$ but $g(n)\gg f(n)$ so $f(n)=o(g(n))$.
+	\item $f(n) = \Theta(g(n)),\ f(n) = o(g(n))$. If $f(n)=\Theta(g(n))$ then $f(n)=O(g(n))$ and $f(n)=\Omega(g(n))$, that is, they are in the same class. So it's not possible for both $f(n)=\Omega(g(n))$ and $f(n)=o(g(n))$ to hold simultaneously.
+	\item $f(n)=\Theta(g(n))$ and $f(n)\ne O(g(n))$. None, by definition.
+	\item $f(n)=\Omega(g(n))$ and $f(n)\ne O(g(n))$. $f(n)=n^2,\ g(n)=n$.
+\end{enumerate}
+
+\paragraph{2-29}
+\begin{enumerate}[label=(\alph*)]
+	\item $f(n) = n^2 + 3n + 4,\ g(n) = 6n + 7 \rightarrow f(n) = \Omega(g(n))$.
+	\item $f(n) = n\sqrt{n},\ g(n)=n^2-n \rightarrow f(n) = \Omega(g(n))$.
+	\item $f(n) = 2^n-n^2,\ g(n)=n^4+n^2 \rightarrow f(n) = \Omega(g(n))$.
+\end{enumerate}
+
+\paragraph{2-30}
+\begin{enumerate}[label=(\alph*)]
+	\item Yes---$O\!\left(n^2\right)$ worst case time doesn't necessarily mean it ever takes $n^2$ steps on any input. If the algorithm was $O(n)$ worst case, it would still be $O\!\left(n^2\right)$.
+	\item Yes---$O\!\left(n^2\right)$ only talks about an upper bound.
+	\item Yes. It could be that the best case time complexity of the algorithm is $O(n)$.
+	\item No. Some inputs will trigger worst case behavior so will necessarily be $\Theta\!\left(n^2\right)$.
+	\item Yes. We ignore multiplicative constants and terms of lower degree.
+\end{enumerate}
+
 \chapter{Data structures}
 
-\section{Solutions}
+\section*{Solutions}
 
 \paragraph{3-5}
 \begin{enumerate}[label=\alph*)]
@@ -505,7 +604,7 @@ This actually gives $O(1)$ access to the median, so it is probably wrong for the
 
 \chapter{Sorting}
 
-\section{Solutions}
+\section*{Solutions}
 
 \paragraph{4-1} The Grinch wants the most unbalanced game possible. This is the same as asking to maximize the difference in total skill between the two teams.
 
@@ -529,6 +628,12 @@ Why does this work? Suppose in my pairing I find that $(x,y)$ are my maximum pai
 Let's say that $x<y$. The claim that a different partition does better implies that, whatever its maximum pair is, element $y$ in this hypothetical partition has to be paired up with an element $t$ such that $t<x$, otherwise the maximum pair could not be less than $x+y$. But the same logic applies to every element larger than $y$. They need to be paired up with elements smaller than $x$ certainly, or for any $z>y$ we'd have a pair $(z,x)$ where $z+x > x+y$ is larger than the claimed maximum.
 
 Now suppose there are $i$ elements larger than $y$. In my original pairing, that means there are $i$ elements smaller than $x$. But the claim forced me to pair $y$ with one of those $i$ elements smaller than $x$, so there are now $i-1$ numbers available to pair with the $i$ numbers larger than $y$. We see that we won't be able to find pairs for every element that don't surpass our claimed maximum pair. The contradiction shows that our original pairing was indeed optimal, and the algorithm correct.
+
+\paragraph{4-4} Keep three linked lists and pointers to the end of each. Iterate over the input pairs, appending each to the list corresponding to its color. By the pointers to the ends, this can be done in $O(1)$ time. Finally concatenate all three lists, which is again constant time.
+
+\paragraph{4-5} $O(n)$ is the best we can hope for, since we need to at least visit every element in the input. By using a hash table with (amortized) $O(1)$ query and insertion we can check for each value's membership, set it to 1 on first sight, then increment it on subsequent visits to construct a frequency table of all values. There are $n$ of them, and constant work for each (query, increment, insert), so building the table is $O(n)$ time. Iterating over all the key-value pairs and selecting the maximum frequency is another $O(n)$ effort after which we have found the mode.
+
+\paragraph{4-6} We can afford to sort one of the sets into a sorted array $A$ in $O(n\log n)$ time. It's now possible to query $A$ for membership of a number in $O(\log n)$ time by binary search. Then for each number $b$ in the other set, let $a = x-b$, and query $A$ for $a$. If $a\in A$ then we have a number $a = x-b$, which is to say $x = a+b$, and we can answer positively. If we test every number in the second set unsuccessfully, there is no pair that adds to $x$. In this (worst) case, we do $n$ binary searches for a total $O(n\log n)$ time.
 
 
 
