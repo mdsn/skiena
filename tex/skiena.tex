@@ -10,6 +10,8 @@
 
 \usetikzlibrary{patterns}
 \usetikzlibrary{positioning}
+\usetikzlibrary{graphs,graphdrawing}
+\usegdlibrary{trees}
 
 \lstset{
 	basicstyle=\ttfamily,
@@ -147,9 +149,9 @@ The dominance pecking order:
 		finally, $f(n) = \Theta(g(n)).$
 \end{enumerate}
 
-\paragraph{2-12}$n^3 - 3n^2 -n + 1 = \Theta\!\left(n^3\right).$
+\paragraph{2-12}$n^3 - 3n^2 -n + 1 = \Theta(n^3).$
 
-Note that $0 \le 3n^2 + n \rightarrow n^3 \le n^3 + 3n^2 + n \rightarrow n^3 - 3n^2 - n \le n^3$. Thus $f(n) = O\left(n^3\right)$.
+Note that $0 \le 3n^2 + n \rightarrow n^3 \le n^3 + 3n^2 + n \rightarrow n^3 - 3n^2 - n \le n^3$. Thus $f(n) = O(n^3)$.
 
 Now $cn^3 \le n^3 - 3n^2 - n + 1.$ Consider $c = 1/2$, then
 \begin{align*}
@@ -158,7 +160,7 @@ Now $cn^3 \le n^3 - 3n^2 - n + 1.$ Consider $c = 1/2$, then
 	-n^3 &\le -6n^2 - 2n + 2 \\
 	n^3 &\ge 6n^2 + 2n - 2. 
 \end{align*}
-This holds for $n_0 \ge 7$, so $f(n) = \Omega\!\left(n^3\right)$ and finally $f(n) = \Theta\!\left(n^3\right)$.
+This holds for $n_0 \ge 7$, so $f(n) = \Omega(n^3)$ and finally $f(n) = \Theta(n^3)$.
 
 \paragraph{2-13}$f(n) = n^2 = O\left(2^n\right) \Leftrightarrow f(n) \le c2^n,$ after some $n_0$. For $c = 1$,
 \begin{align*}
@@ -168,29 +170,29 @@ This holds for $n_0 \ge 7$, so $f(n) = \Omega\!\left(n^3\right)$ and finally $f(
 	\log n &\le kn,\ k = \frac{\log 2}{2}
 \end{align*}
 
-Since $\log n \ll n$ this inequality holds for large enough $n$, and $n^2 = O\!\left(2^n\right)$.
+Since $\log n \ll n$ this inequality holds for large enough $n$, and $n^2 = O(2^n)$.
 
-\paragraph{2-14} $\Theta\!\left(n^2\right) = \Theta\!\left(n^2+1\right)$? This is to say whether both classes are the same. We can show this by assuming we have $f(n) = \Theta\!\left(n^2\right)$, and proving that $f(n) = \Theta\!\left(n^2+1\right)$, and likewise with the other assumption.
+\paragraph{2-14} $\Theta(n^2) = \Theta(n^2+1)$? This is to say whether both classes are the same. We can show this by assuming we have $f(n) = \Theta(n^2)$, and proving that $f(n) = \Theta(n^2+1)$, and likewise with the other assumption.
 
-First, $f(n) = \Theta\!\left(n^2\right) \Rightarrow f(n) = O\!\left(n^2\right)$ and $f(n) = \Omega\!\left(n^2\right)$. Is $f(n) = O\!\left(n^2+1\right)$? This would mean $f(n) \le c\left(n^2+1\right)$, for $n > n_0$. Since $f(n) = O\!\left(n^2\right)$ there is $c_0$ such that $f(n) \le c_0 n^2$, but $c_0 n^2 \le c_0\left(n^2 + 1\right)$ so with the same $c_0$ we see that $f(n) = O\!\left(n^2+1\right)$.
+First, $f(n) = \Theta(n^2) \Rightarrow f(n) = O(n^2)$ and $f(n) = \Omega(n^2)$. Is $f(n) = O(n^2+1)$? This would mean $f(n) \le c\left(n^2+1\right)$, for $n > n_0$. Since $f(n) = O(n^2)$ there is $c_0$ such that $f(n) \le c_0 n^2$, but $c_0 n^2 \le c_0\left(n^2 + 1\right)$ so with the same $c_0$ we see that $f(n) = O(n^2+1)$.
 
-Now we want to show that $f(n) = \Omega\!\left(n^2+1\right)$, that is, $c\left(n^2 + 1\right) \le f(n)$ for $n > n_0$. Since $f(n) = \Omega\!\left(n^2\right)$ there are $c_1, n_1$ such that $c_1 n^2 \le f(n)$, for $n > n_1$. In particular this holds for $n+1 > n_1$, so
+Now we want to show that $f(n) = \Omega(n^2+1)$, that is, $c\left(n^2 + 1\right) \le f(n)$ for $n > n_0$. Since $f(n) = \Omega(n^2)$ there are $c_1, n_1$ such that $c_1 n^2 \le f(n)$, for $n > n_1$. In particular this holds for $n+1 > n_1$, so
 \begin{equation*}
 	c_1 n^2 < c_1 (n+1)^2 \le f(n), \quad n > n_1.
 \end{equation*}
-But note that $n^2 + 1 \le (n+1)^2$, so for $n_0 = n_1 + 1$ above, we have that $c_1\left(n^2 + 1\right) \le c_1 (n+1)^2 \le f(n)$ for $n > n_0$. So $f(n) = \Omega\!\left(n^2+1\right)$ and thus $f(n) = \Theta\!\left(n^2 + 1\right)$.
+But note that $n^2 + 1 \le (n+1)^2$, so for $n_0 = n_1 + 1$ above, we have that $c_1\left(n^2 + 1\right) \le c_1 (n+1)^2 \le f(n)$ for $n > n_0$. So $f(n) = \Omega(n^2+1)$ and thus $f(n) = \Theta(n^2 + 1)$.
 
 \vskip 1em
 
-Now we need to show that $f(n) = \Theta\!\left(n^2+1\right) \Rightarrow f(n) = \Theta\!\left(n^2\right)$.
+Now we need to show that $f(n) = \Theta(n^2+1) \Rightarrow f(n) = \Theta(n^2)$.
 
-$f(n) = \Omega\!\left(n^2\right) \Leftrightarrow c n^2 \le f(n)$ for $n > n_0$. We know that $f(n) = \Omega\!\left(n^2+1\right)$ so there is a $c_1$ such that $c_1\left(n^2+1\right) \le f(n)$ for $n > n_1$; since $n^2 < n^2 + 1$, by letting $c = c_1$ we see that $c_1 n^2 < c_1 \left(n^2+1\right) \le f(n)$, so $f(n) = \Omega\!\left(n^2\right)$.
+$f(n) = \Omega(n^2) \Leftrightarrow c n^2 \le f(n)$ for $n > n_0$. We know that $f(n) = \Omega(n^2+1)$ so there is a $c_1$ such that $c_1\left(n^2+1\right) \le f(n)$ for $n > n_1$; since $n^2 < n^2 + 1$, by letting $c = c_1$ we see that $c_1 n^2 < c_1 \left(n^2+1\right) \le f(n)$, so $f(n) = \Omega(n^2)$.
 
-$f(n) = O\!\left(n^2\right) \Leftrightarrow f(n) \le c n^2$ for $n > n_0$. Since $f(n) = O\!\left(n^2 + 1\right)$ we know there are $c_1$ and $n_1$ such that $f(n) \le c_1\left(n^2+1\right)$ for $n \ge n_1$; in particular, $f(n) \le c_1\left(n_1^2+1\right)$. Then let $c = c_1\left(n_1^2+1\right)$, then $c n^2 > c_1\left(n_1^2+1\right) \ge f(n)$, for $n > n_1$. Thus $f(n) = O\!\left(n^2\right)$ and $f(n) = \Theta\!\left(n^2\right)$.
+$f(n) = O(n^2) \Leftrightarrow f(n) \le c n^2$ for $n > n_0$. Since $f(n) = O(n^2 + 1)$ we know there are $c_1$ and $n_1$ such that $f(n) \le c_1\left(n^2+1\right)$ for $n \ge n_1$; in particular, $f(n) \le c_1\left(n_1^2+1\right)$. Then let $c = c_1\left(n_1^2+1\right)$, then $c n^2 > c_1\left(n_1^2+1\right) \ge f(n)$, for $n > n_1$. Thus $f(n) = O(n^2)$ and $f(n) = \Theta(n^2)$.
 
 \vskip 1em
 
-This shows that if a function is $\Theta\!\left(n^2\right)$ then it must be $\Theta\!\left(n^2+1\right)$ and viceversa---that is, both classes are the same.
+This shows that if a function is $\Theta(n^2)$ then it must be $\Theta(n^2+1)$ and viceversa---that is, both classes are the same.
 
 \paragraph{2-17}
 \begin{enumerate}[label=\alph*)]
@@ -213,29 +215,29 @@ Thus $c(g_1(n) + g_2(n)) \le f_1(n) + f_2(n),\ n > n_0$, and $f_1(n) + f_2(n) = 
 
 \paragraph{2-20} Let $f_1(n) = O(g_1(n))$ and $f_2(n) = O(g_2(n))$. Then there are $c_1, n_1, c_2, n_2$ such that $f_1(n) \le c_1 g_1(n)$ for $n > n_1$, and $f_2(n) \le c_2 g_2(n)$ for $n > n_2$. Let $c = \max(c_1, c_2)$ and $n_0 = \max(n_1, n_2)$. Then $f_1(n) \le c g_1(n)$ and $f_2(n) \le c g_2(n)$ for $n > n_0$, which implies that $f_1(n)\cdot f_2(n) \le c(g_1(n)\cdot g_2(n))$. Thus $f_1(n)\cdot f_2(n) = O(g_1(n)\cdot g_2(n))$.
 
-\paragraph{2-21} We are to prove that $p(n) = a_k n^k + \ldots + a_0 = O\!\left(n^k\right)$, for $k \ge 0$ and arbitrary real coefficients $a_i$. This is to say that we can find a $c > 0$ and $n_0$ such that $p(n) \le c n^k$, for all $n > n_0$.
+\paragraph{2-21} We are to prove that $p(n) = a_k n^k + \ldots + a_0 = O(n^k)$, for $k \ge 0$ and arbitrary real coefficients $a_i$. This is to say that we can find a $c > 0$ and $n_0$ such that $p(n) \le c n^k$, for all $n > n_0$.
 
 \begin{proof}We know that after some $n$, $a_k n^k > p(n) - a_k n^k$, that is to say, the leading order term will come to dominate. To see this, note that
 \begin{equation*}\lim_{n\to\infty}\frac{n^m}{n^q} = 0 \Leftrightarrow q > m,\end{equation*}
 is to say that $n^q \gg n^m$.
 
-Now take $c = \max(a_0,\ldots, a_k)$. Then clearly $c n^k + \ldots + c \ge a_k n^k + \ldots + a_0 = p(n)$. But because of the same argument as above, there is some $n_0$ after which $c n^k > c n^{k-1} + \ldots + c$. Then it follows that $p(n) \le c n^k$ for $n > n_0$, which means $p(n) = O\!\left(n^k\right)$.
+Now take $c = \max(a_0,\ldots, a_k)$. Then clearly $c n^k + \ldots + c \ge a_k n^k + \ldots + a_0 = p(n)$. But because of the same argument as above, there is some $n_0$ after which $c n^k > c n^{k-1} + \ldots + c$. Then it follows that $p(n) \le c n^k$ for $n > n_0$, which means $p(n) = O(n^k)$.
 \end{proof}
 
-\paragraph{2-22} Let $a, b \in \R$, with $b > 0$. Show that $(n+a)^b = \Theta\!\left(n^b\right)$.
+\paragraph{2-22} Let $a, b \in \R$, with $b > 0$. Show that $(n+a)^b = \Theta(n^b)$.
 
 \begin{proof}
-To prove that $(n+a)^b = O\!\left(n^b\right)$ we need to find $c_0$ such that $c_0 n^b \ge (n+a)^b$ for sufficiently large $n$. If $a=0,\ (n+a)^b = n^b$ and with $c=1$ the inequality holds. If $a<0, (n+a)^b \le n^b$, so
+To prove that $(n+a)^b = O(n^b)$ we need to find $c_0$ such that $c_0 n^b \ge (n+a)^b$ for sufficiently large $n$. If $a=0,\ (n+a)^b = n^b$ and with $c=1$ the inequality holds. If $a<0, (n+a)^b \le n^b$, so
 \begin{equation*}
 	\frac{(n+a)^b}{n^b} = \left(\frac{n+a}{n}\right)^b < 1.
 \end{equation*}
 If $a>0$ we need to see that $\left(1 + \frac{a}{n}\right)^b$ is bounded. (To see why, $(n+a)^b \le c n^b \rightarrow (n+a/n)^b \le c \rightarrow (1 + a/n)^b \le c$).
 
-Note that $\frac{a}{n}$ can get arbitrarily close to 0 for large enough $n$, so the entire expression tends to 1 as $n\to\infty$. Thus for, say, $c=2$ it is possible to find $n_0$ large enough such that $(n+a)^b \le 2n^b$. So $(n+a)^b = O\!\left(n^b\right)$.
+Note that $\frac{a}{n}$ can get arbitrarily close to 0 for large enough $n$, so the entire expression tends to 1 as $n\to\infty$. Thus for, say, $c=2$ it is possible to find $n_0$ large enough such that $(n+a)^b \le 2n^b$. So $(n+a)^b = O(n^b)$.
 
 \vskip 0.5em
 
-To prove that $(n+a)^b = \Omega\!\left(n^b\right)$, by the same argument, $c n^b \le (n+a)^b \rightarrow c \le (n+a/n)^b = (1 + a/n)^b$. For $a\ne0$ the expression $1+a/n$ tends to 1, either ``from below'' or ``from above''---at any rate, by taking some $c<1$, say, $1/2$, it will be possible to find $n$ large enough that the inequality will hold. Thus $(n+a)^b = \Omega\!\left(n^b\right)$, and finally $(n+a)^b = \Theta\!\left(n^b\right)$.
+To prove that $(n+a)^b = \Omega(n^b)$, by the same argument, $c n^b \le (n+a)^b \rightarrow c \le (n+a/n)^b = (1 + a/n)^b$. For $a\ne0$ the expression $1+a/n$ tends to 1, either ``from below'' or ``from above''---at any rate, by taking some $c<1$, say, $1/2$, it will be possible to find $n$ large enough that the inequality will hold. Thus $(n+a)^b = \Omega(n^b)$, and finally $(n+a)^b = \Theta(n^b)$.
 \end{proof}
 
 \paragraph{2-27}
@@ -255,12 +257,100 @@ To prove that $(n+a)^b = \Omega\!\left(n^b\right)$, by the same argument, $c n^b
 
 \paragraph{2-30}
 \begin{enumerate}[label=(\alph*)]
-	\item Yes---$O\!\left(n^2\right)$ worst case time doesn't necessarily mean it ever takes $n^2$ steps on any input. If the algorithm was $O(n)$ worst case, it would still be $O\!\left(n^2\right)$.
-	\item Yes---$O\!\left(n^2\right)$ only talks about an upper bound.
+	\item Yes---$O(n^2)$ worst case time doesn't necessarily mean it ever takes $n^2$ steps on any input. If the algorithm was $O(n)$ worst case, it would still be $O(n^2)$.
+	\item Yes---$O(n^2)$ only talks about an upper bound.
 	\item Yes. It could be that the best case time complexity of the algorithm is $O(n)$.
-	\item No. Some inputs will trigger worst case behavior so will necessarily be $\Theta\!\left(n^2\right)$.
+	\item No. Some inputs will trigger worst case behavior so will necessarily be $\Theta(n^2)$.
 	\item Yes. We ignore multiplicative constants and terms of lower degree.
 \end{enumerate}
+
+\paragraph{2-31}
+\begin{enumerate}[label=(\alph*)]
+	\item Is $3^n = O(2^n)$? Only if there is $c$ such that $3^n \le c 2^n$ for sufficiently large $n$. But if there was such $c$, then $(3/2)^n \le c$, and since $3/2 > 1,\ (3/2)^n\to\infty$ as $n\to\infty$, thus $3^n \ne O(2^n)$.
+	\item Is $\log 3^n = O(\log 2^n)$? Only if there is $c$ such that $\log 3^n \le c\log 2^n$ for sufficiently large $n$. Note that $\log 3^n = n\log 3$, and $c\log 2^n = cn\log 2$. So we want $c$ such that $n\log 3 \le cn\log2 \rightarrow \log 3 \le c\log2 \rightarrow \frac{\log 3}{\log 2} \le c$. The answer is yes, $\log 3^n = O(\log 2^n)$.
+	\item Is $3^n = \Omega(2^n)$? Only if there is $c$ such that $c 2^n \le 3^n$ for large enough $n$. Trivially visible for $c=1$.
+	\item Is $\log 3^n = \Omega(\log 2^n)$? Only if there exists $c$ such that $c\log 2^n \le \log 3^n$. Since $\log$ is monotonically increasing and $2^n \le 3^n$, also trivially visible for $c=1$.
+\end{enumerate}
+
+\paragraph{2-34}
+\begin{enumerate}[label=(\alph*)]
+	\item $\sum_1^n 3^i = \Theta(3^{n-1})$? This would imply both $\Omega(3^{n-1})$ and $O(3^{n-1})$. For the first we need $c$ such that $c 3^{n-1} \le \sum_1^n 3^i = 3^n + \ldots + 3$. Well, for $c=1$ this inequality holds.
+	
+	Now for $O(3^{n-1})$ we need $c$ such that $\sum_1^n 3^i \le c 3^{n-1}$. Let $c=9$, then $c 3^{n-1} = 9\cdot 3^{n-1} = 3^{n+1} \ge \sum_1^n 3^i$ for large enough $n$.
+	
+	Thus the answer is true.
+	
+	\item $\sum_1^n 3^i = \Theta(3^n)$? True.
+	\item $\sum_1^n 3^i = \Theta(3^{n+1})$? True.
+	
+	For $\Omega(3^{n+1})$: $c 3^{n+1} \le \sum_1^n 3^i = 3^n + \ldots + 3$. Let $c=1/9$, then $c 3^{n+1} = (1/9)\cdot9\cdot3^{n-1} = 3^{n-1} \le \sum_1^n 3^i$ as stated before.
+	
+	For $O(3^{n+1})$: $\sum_1^n 3^i \le c 3^{n+1}$ for $c=1$.
+\end{enumerate}
+
+\paragraph{2-35}
+\begin{enumerate}[label=(\alph*)]
+	\item $g(n) = 4^n$
+	\item $g(n) = n\log n$
+	\item $g(n) = \log^{10} n$
+	\item $g(n) = n^{100}$
+\end{enumerate}
+
+% TODO draw the triangle here
+\paragraph{2-37} Each number in row $n-1$ is added exactly three times into row $n$. So if the value of the sum of row $n-1$ is $T$, then the sum of the values of row $n$ is $3T$. This suggests a recurrence
+\begin{align*}
+	T_1 &= 1 = 3^0, \\
+	T_n &= 3\,T_{n-1},\quad n>1.
+\end{align*}
+
+The recurrence seems to hold, at least up to $n=5$. This suggests a closed form $t(n) = 3^{n-1},\ n \ge 1$. Base case $n=1$, clearly $t(1) = 3^0 = 1 = T_1$. Now assume this is true up to $n$, then $t(n+1) = 3^{n+1-1} = 3^n = 3\cdot3^{n-1} = 3t(n) = 3\,T_{n-1} = T_n$.
+
+\paragraph{2-39} $\sum^{n+1} i = \sum^n i + (n+1) = n(n+1)/2 + n + 1$. Traverse the array adding up all the numbers and subtract the result from $\sum^{n+1} i$. The difference is the missing element.
+
+\paragraph{2-40} The fragment:
+\begin{lstlisting}
+for i=1 to n do
+  for j=i to 2*i do
+    output ``foobar''
+\end{lstlisting}
+\begin{enumerate}[label=\alph*.]
+	\item $T(n) = \sum_{i=1}^n \sum_{j=1}^{2i} 1$. Let's look at the inner sum. There are $i$ elements between $i$ and $2i$, so
+	\item $\sum_i^{2i} 1 = \sum_1^i 1 = i$. Then $T(n) = \sum_{i=1}^n i = n(n+1)/2$.
+\end{enumerate}
+
+\paragraph{2-41} The fragment:
+\begin{lstlisting}
+for i=1 to n/2 do
+  for j=i to n-i do
+    for k=1 to j do
+      output ``foobar''
+\end{lstlisting}
+\begin{enumerate}[label=\alph*.]
+	\item $T(n) = \sum_{i=1}^{n/2} \sum_{j=i}^{n-i} \sum_{k=1}^j 1$.
+	\item $\sum_{k=1}^j 1 = j \rightarrow T(n) = \sum_{i=1}^{n/2} \sum_{j=i}^{n-1} j$.
+	
+	Now consider $\sum_{j=i}^{n-i} j$. When $i = 1$, $j$ goes from 1 to $n-1$; for $i=2$, $j$ goes from 2 to $n-2$. So for some given $i$, this sum has $n-i-i = n-2i$ terms, from $i$ to $n-i$. We can add the numbers from 1 to $n-i$, $\sum_1^{n-i} i = \frac{1}{2}(n-i)(n-i+1)$, and take from that the sum from 1 to $i-1$, $\sum_{k=1}^{i-1} k = \frac{1}{2}(i-1)(i-1+1) = \frac{i(i-1)}{2}$. Then the sum $\sum_{j=i}^{n-i} j = \sum_{k=1}^{n-i} k - \sum_{k=1}^{i-1} k = \frac{n^2+n}{2}$.
+	
+	Back to $T(n)$. We now have the outer sum $T(n) = \sum_{i=1}^{n/2} \frac{n^2+n}{2} = (n/2)(\frac{n^2+n}{2}) = \frac{1}{4}(n^3 + n^2)$.
+\end{enumerate}
+
+\paragraph{2-42} Suppose we have two $n$-digit numbers in base $b$,
+\begin{align*}
+	x &= b^{n-1} x_{n-1} + b^{n-2} x_{n-2} + \ldots + b x_1 + b^0 x_0 \\
+	y &= b^{n-1} y_{n-1} + \ldots + b^0 y_0.
+\end{align*}
+Each number is represented in base $b$ as the concatenation of the digits $x_i$, as in $x = \text{``}x_{n-1}x_{n-2}\ldots x_0\text{''}$. Their product will be $xy = (b^{n-1}x_{n-1} + \ldots + x_0)(b^{n-1} y_{n-1} + \ldots + y_0)$ and the highest order term of this product will be $b^{n-1} x_{n-1} b^{n-1} y_{n-1} = (b^{n-1})^2 x_{n-1}y_{n-1}$. Every other term in this product will be of lower order, so the complexity will be driven by the number $b^{2n-2}$.
+
+We could say that $b^{2n-2} xy$ takes $O(1)$ for $xy$, which is then added to itself $b^{2n-2}$ times. Then the complexity of multiplying two numbers of $n$ digits in base $b$ is $O(b^{2n-2})$. Note that there are a lot of hidden multiplications in $b^{2n-2} = b\cdot b^{2n-3}$. If $b$ is one digit then it takes $O(1)$, but for $b=10$, well, I don't know.
+
+\paragraph{2-44}
+\begin{enumerate}[label=(\alph*)]
+	\item By definition $a^{\log_a x} = x$. So $xy = a^{\log_a x} a^{\log_a y} = a^{\log_a x + \log_a y}$. Taking logarithms, $\log_a xy = \log_a a^{\log_a x + \log_a y} = \log_a x + \log_a y.$
+	\item Consider $a^{y\log_a x} = \left(a^{\log_a x}\right)^y = x^y.$ Then taking logarithms, $\log_a x^y = \log_a a^{y\log_a x} = y\log_a x$.
+	\item Consider $\log_a x\, \log_b a \rightarrow b^{\log_a x \log_b a} = \left(b^{\log_b a}\right)^{\log_a x} = a^{\log_a x} = x$. Taking logarithms, $\log_b x = \log_b b^{\log_a x \log_b a} = \log_a x\,\log_b a$. Equivalently, $\log_a x = \frac{\log_b x}{\log_b a}$.
+	\item $\log_b y = w \rightarrow y = b^w$, so $y^{\log_b x} = \left(b^w\right)^{\log_b x} = \left(b^{\log_b x}\right)^w = x^w = x^{\log_b y}$.
+\end{enumerate}
+
 
 \chapter{Data structures}
 
@@ -432,6 +522,63 @@ The answer is a \emph{priority queue}. Prioritize the item that expires next. Th
     \end{center}
 \end{enumerate}
 
+\paragraph{3-8} The winning condition is for $n$ \lstinline!X! or \lstinline!O! to be placed in a row, column or diagonal. We can keep \lstinline!X! and \lstinline!O! counters for every row, column and diagonal. There are $n$ rows, $n$ columns and 2 diagonals, so we need $2n+2$ counters to keep state, which is $O(n)$ space as requested.
+
+Consider a move to be represented as a tuple indicating the position played and the player, for example \lstinline!((1,1), X)!. Given a list of legal moves alternating players, execute each move by increasing the affected row and column, and diagonal counter for the player. The final move is a winning move if any of its affected counters are equal to $n$.
+
+\begin{lstlisting}
+enum Player {
+    X = 0,
+    O = 1,
+}
+
+struct Counter {
+    counter: [u32; 2],
+}
+
+type Move = (usize, usize, Player);
+
+struct TicTacToe {
+    n: usize,
+    rows: Vec<Counter>,
+    cols: Vec<Counter>,
+    diag: [Counter; 2],
+    last_move: Option<Move>,
+}
+\end{lstlisting}
+
+\paragraph{3-9} Each sequence of digits maps to multiple potential words---we have a one-to-many relation. Conversely, a word maps to a unique numeric representation with as many digits as the words as letters.
+
+If multiple queries were necessary, we might justify transforming the dictionary into a hash map of numbers to lists of words. If words are on average $m$ characters long, and there are $n$ of them, we would pay $O(nm)$ complexity in traversing the entire dictionary and hashing every word.
+
+Suppose we are to use the given dictionary only to collect all words that match our sequence of digits. If our given sequence of digits is $s$ digits long, we will have at most 4 possible characters associated with each digit, so there will be $4^s$ letter combinations to look up in the dictionary. So it looks like we are after all better off hashing the entire thing and querying directly with the sequence.
+
+\begin{lstlisting}
+fn hash_char(c: char) -> char {
+    match c {
+        'a' | 'b' | 'c' => '2',
+        ...
+        'w' | 'x' | 'y' | 'z' => '9',
+        _ => unreachable!(),
+    }
+}
+
+fn hash_dictionary() -> HashMap<String, Vec<String>> {
+    let mut result = HashMap::new();
+    for (key, word) in WORDS.iter().map(|w| {
+        let hash: String = w.chars().map(hash_char).collect();
+        (hash, w.to_string())
+    }) {
+        result.entry(key).or_default().push(word);
+    }
+    result
+}
+\end{lstlisting}
+
+\paragraph{3-10} The best we could possibly do is linear time---we must check that all letters match somehow. Assign each character in the alphabet the $n$th prime number. Hash each string by multiplying the prime numbers corresponding to each character in the string. This takes $O(n)$ time on the length of the string. If two strings are anagrams of each other, their hash will be the same number by virtue of the Fundamental Theorem of Arithmetic.
+
+\paragraph{3-11} Constant time search means \emph{random access}, so we will represent the dictionary using an array of length $n$. The universe of possible elements are the positive naturals up to and including $n$, so the absence of element $k$ can be signaled by setting the $k$th element of the backing array to 0.
+
 \paragraph{3-12} Maximum depth of a tree:
 \begin{lstlisting}
 data Tree = Node Tree Tree
@@ -601,6 +748,83 @@ median. The right counter increases by one, the left counter decreases by one, a
 balanced again.
 
 This actually gives $O(1)$ access to the median, so it is probably wrong for the exercise.
+
+\paragraph{3-23} Let $p$ be some prefix. We wish to find all strings in a dictionary $D$ that start with $p$.
+
+Begin by querying the dictionary for $p$. If the prefix is not in $D$, insert it and make a note of it. Now query for the prefix to get a pointer $x$ to it in $D$. Call \lstinline!successor(D,x)! repeatedly, printing all the strings that match the prefix, stopping at the first one that does not. Finally, if the prefix was not in the dictionary to begin with, delete it from $D$.
+
+Comparing strings is not like comparing integers---it takes time linear on the length of the strings. For prefix matching, since strings in $D$ are at most $l$ characters long, comparisons will take $O(l)$ time in the worst case. So the initial query for $p$ does at most $\log n$ comparisons, each taking $O(l)$ time, so this takes $O(l\log n)$ time. Insertion, querying again and the potential delete at the end also take $O(l\log n)$ time. Each call to \lstinline!successor()! is $O(\log n)$, and there will be $m$ matching strings each verified by a $O(l)$ comparison, for a total of $O(ml\log n)$ time complexity.
+
+\paragraph{3-24} An array is $k$-unique if no elements within a $k$-wide range are equal. For example $\langle1,2,3,2,4\rangle$ is not 2-unique, and $\langle2,0,1,3,5,0\rangle$ is 3-unique but not 4-unique. Note that if an array is not $k$-unique, then it's not $(k+1)$-unique. If an array is $k$-unique, then it is $(k-1)$-unique.
+
+A binary tree with $k$ elements can be built in $O(k)$ time. So do this:
+\begin{enumerate}[label=\arabic*)]
+	\item Insert the first $k$ elements into the tree, while checking for duplicates. Each query is $O(\log k)$ as is each insertion, and there are $k$ of them so this is $O(k\log k)$.
+	\item If no dupes were found, remove the first item in the array from the tree, leaving a tree with $k-1$ elements. This takes $O(\log k)$ time. \label{3-24-step2}
+	\item Query for the $(k+1)$th element of the array---if it is in the tree, the array is not $k$-unique. Otherwise, insert the element into the tree and go back to step \ref{3-24-step2}, subsequently removing the lowest indexed element in the array from the tree.
+	\item If the last element of the array is successfully inserted, this means we didn't find any duplicates within a $k$ element window, so the array is $k$-unique.
+\end{enumerate}
+
+There are at most $n$ $O(\log k)$ groups of operations as the array is traversed while querying, so this algorithm is $O(n\log k)$ in the worst case.
+
+\paragraph{3-25} We can represent the bins as a binary search tree, where each node is an integer representing the available space in that bin. This will bring trouble with bins simultaneously having the same available space, but let's ignore that.
+
+We would insert a weight by querying for the minimum in the binary tree in $O(\log n)$ time---if the weight fits, save the updated weight in a new node, delete the stale bin in $O(\log n)$ time and insert the updated node, again in $O(\log n)$ time. If the weight does not fit in the first bin returned, call \lstinline!successor()! until one is found that has enough room. This search takes $O(n\log n)$ time in the worst case, as we go through all the bins. If no bin has space, create and insert a new node with the current weight inside. The minimum number of bins at the end is the number of nodes in the tree.
+
+\paragraph{3-26}
+\begin{enumerate}[label=\alph*)]
+	\item Make an $n$-by-$n$ array and populate it in $O(n^2)$ time with the minimum value in $x_i,\ldots,x_j$ for $i,j$ in $[1\ldots n]$. Then given $i$ and $j$, just return whatever is in the $i,j$ position of the matrix in $O(1)$.
+	\item Consider an unsorted array and take the minimum, say $x_i$. This element partitions the array into a left side, from $x_1$ to $x_{i-1}$; the minimum itself, $x_i$; the right side, from $x_{i+1}$ to $x_n$.
+	
+	Now make the root of a tree by pairing up $(x_i, i)$, the minimum and its position. The left subtree's root node is the minimum in the range $[x_1\ldots x_{i-1}]$ and itself splits this range in two sides (plus itself). Likewise with the right subtree and the range $[x_{i+1}\ldots x_n]$.
+	
+	Given a query range, we start on the root of the tree. If $i$ is in the query range, we have our (global) minimum. Otherwise the range is entirely to the left or right of $i$. Traverse accordingly.
+
+	By following this tree until we hit a minimum that is in the input interval we will find the minimum value in $O(\log n)$ steps. Since each node is its value plus its index this takes $O(n)$ space.	
+\end{enumerate}
+
+\paragraph{3-27} From doing a couple of experiments, it seems that given some $k$, using the oracle to test $f(S, k-x_i)$ for each $x_i\in S$ selects and eliminates the correct elements.
+
+Suppose a subset $T=\{x_1, x_2, x_3\}$ is a solution for set $S=\{x_1, x_2, x_3, x_4\}$ and $k$. That means $k = x_1+x_2+x_3$, and implies that there are subsets of $S$ that add up to $k-x_1=x_2+x_3,\ k-x_2=x_1+x_3$, and $k-x_3=x_1+x_2$.
+
+If $f(S, k-x_4)$ is 0, that means no selection of elements $x_j$ will fulfill $k-x_4=\sum_j x_j$, equivalently that no selection of numbers that contains $x_4$ will add up to $k$.
+
+So we have gone over $S$ once and eliminated all the numbers that could never be in a solution. But there may be more than one solution---that is, there may be proper subsets of $T$ that add up to $k$. For example, for $S=\{1,3,8,9,10\}$ and $k=18$, there are two solutions, $\{1,8,9\}$ and $\{8,10\}$. In this example, the process of elimination would have left us with $T=\{1,8,9,10\}$.
+\begin{align*}
+	f(S-\{1\}, k-1) &= 1 \\
+	f(S-\{3\}, k-3) &= f(\{1,8,9,10\}, 15) = 0.
+\end{align*}
+This says we wouldn't be able to get up to 15 to use 3 to get us to $k=18$.
+\begin{align*}
+	f(S-\{8\}, k-8) = 1 \\
+	f(S-\{9\}, k-9) = 1 \\
+	f(S-\{10\}, k-10) = 1.
+\end{align*}
+Out of this $O(n)$ verification we are left with $T=\{1,8,9,10\}$ but $\sum_T t_i = 28 \ne k$. Now let $m=k-1=17$, and let $U=T-\{1\}=\{8,9,10\}$. We do the same:
+\begin{align*}
+	f(U-\{8\}, m-8) &= f(\{9,10\}, 9) = 1 \\
+	f(U-\{9\}, m-9) &= f(\{8,10\}, 8) = 1 \\
+	f(U-\{10\}, m-10) &= f(\{8,9\}, 7) = 0.
+\end{align*}
+From this, in a second $O(n)$ run, we have determined that the subset $\{1,8,9\}$ adds up to $k=18$.
+
+Why does step two work? We know for sure a solution will include any element of $T$, let's say, $x_i$. Then the task is finding $x_j\in T$ such that $k = x_i + \sum_j x_j \rightarrow k-x_i = \sum_j x_j$. We can use our oracle to find a subset of $T-\{x_i\}$ that adds up to $k-x_i$, thus completing a solution.
+
+\paragraph{3-28} We can use a \emph{segment tree} to solve this. They support more general range queries than prefix sums, but we can treat those as range queries with $l=0$.
+
+Each node in a segment tree represents a range within the array and carries the partial sum for that range, with the root node representing the total range of the array. The subtrees represent each half of the range, such that their union is equal to the range represented by the parent. The root node of each subtree holds its corresponding partial sum. Each leaf node represents a one element range; naturally, the partial sum for this is the element itself.
+
+To update an element, traverse to the leaf node, update it, and trace back the path modifying each node. Alternatively modify each node visited on the way to the leaf node.
+
+For partial sum queries, traverse to the leftmost leaf and find the right end of the range, then treat it as a special case of a general range query with $l=0$. The general range query $\sum_{[l,r]} x$ is answered by traversing the tree and using the precomputed sums of the segments. For some node corresponding to the range $[tl,tr]$ there are three cases:
+
+\begin{enumerate}
+	\item The segment $[l,r]$ is the same as $[tl,tr]$. Just return the precomputed sum of the node.
+	\item The query segment is entirely contained in the domain of the left or right child. The left child covers $[tl,tm]$ and the right child covers $[tm+1, tr]$, with $tm=(tl+tr)/2$. In this case we recurse to the correct subtree and execute the algorithm on it.
+	\item The final case is when the query segment intersects the domains of both children. Two recursive calls are made, each for the sum query of the \emph{intersection} of the range query and the child's domain, and the results are combined.
+\end{enumerate}
+
+The segment tree can be represented as a heap-style, packed implicit tree. We need at most $4n$ nodes for an array of size $n$. The root at index 1, the left child of $k$ at $2k$, the right child at $2k+1$. The parent is at $\lfloor k/2\rfloor$.
 
 \chapter{Sorting}
 
