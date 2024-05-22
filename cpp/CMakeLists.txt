@@ -19,12 +19,10 @@ target_link_libraries(ex03-14 PRIVATE fmt::fmt)
 add_executable(ex03-26 ex03-26.cpp)
 add_executable(ex03-28-partial-sums ex03-28-partial-sums.cpp)
 add_executable(ex03-29-partial-sums-ii ex03-29-partial-sums-ii.cpp)
-
 add_executable(sgb-example0 sgb-example0.cpp)
 target_link_libraries(sgb-example0 PRIVATE gb)
-
 add_executable(ch07-bfs ch07-bfs.cpp)
 target_link_libraries(ch07-bfs PRIVATE fmt::fmt scn::scn)
-
 add_executable(ch07-dfs ch07-dfs.cpp)
 target_link_libraries(ch07-dfs PRIVATE fmt::fmt scn::scn)
+add_executable(ex04-07 ex04-07.cpp)
