@@ -814,6 +814,8 @@ Why does step two work? We know for sure a solution will include any element of 
 
 Each node in a segment tree represents a range within the array and carries the partial sum for that range, with the root node representing the total range of the array. The subtrees represent each half of the range, such that their union is equal to the range represented by the parent. The root node of each subtree holds its corresponding partial sum. Each leaf node represents a one element range; naturally, the partial sum for this is the element itself.
 
+%\tikz \draw (0pt,0pt) -- (20pt,6pt);
+
 To update an element, traverse to the leaf node, update it, and trace back the path modifying each node. Alternatively modify each node visited on the way to the leaf node.
 
 For partial sum queries, traverse to the leftmost leaf and find the right end of the range, then treat it as a special case of a general range query with $l=0$. The general range query $\sum_{[l,r]} x$ is answered by traversing the tree and using the precomputed sums of the segments. For some node corresponding to the range $[tl,tr]$ there are three cases:
@@ -859,7 +861,26 @@ Now suppose there are $i$ elements larger than $y$. In my original pairing, that
 
 \paragraph{4-6} We can afford to sort one of the sets into a sorted array $A$ in $O(n\log n)$ time. It's now possible to query $A$ for membership of a number in $O(\log n)$ time by binary search. Then for each number $b$ in the other set, let $a = x-b$, and query $A$ for $a$. If $a\in A$ then we have a number $a = x-b$, which is to say $x = a+b$, and we can answer positively. If we test every number in the second set unsuccessfully, there is no pair that adds to $x$. In this (worst) case, we do $n$ binary searches for a total $O(n\log n)$ time.
 
+\paragraph{4-7} We can sort the array in descending order, then do a linear sweep, counting how many elements are strictly greater than their (0-based) index. Sorting is $O(n\log n)$ and the linear sweep is, well, linear, so overall this algorithm is $O(n\log n)$.
 
+\begin{lstlisting}
+int h(std::vector<int>& papers) {
+  auto xs = papers;
+  std::sort(xs.begin(), xs.end(), std::greater<int>());
+  for (int i=0; i < xs.size(); i++) {
+    if (xs[i] <= i)
+      return i;
+  }
+  return xs.size();
+}
+\end{lstlisting}
+
+Starting with the values sorted in descending order, consider the array of differences between each value and its index. Then an alternative view of the algorithm above is that the $h$-index of an array $A$ is the count of elements in the difference array that are greater than 0.
+\begin{align*}
+	\langle 6,5,4,3,3 \rangle &\rightarrow \langle 6,4,2,0,-1 \rangle \\
+	\langle 5,4,4,2,1,1,0 \rangle &\rightarrow \langle 5,3,2,-1,-3,-4,-6 \rangle \\
+	\langle 0,0,0,0 \rangle &\rightarrow \langle 0,-1,-2,-3 \rangle
+\end{align*}
 
 
 
