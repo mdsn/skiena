@@ -897,6 +897,59 @@ Starting with the values sorted in descending order, consider the array of diffe
 	If the set is implemented as a binary tree, each insert is $O(\log n)$ for $n$ total cards, meaning $n$ insertions, so $O(n\log n)$ total effort. If the set is implemented as a hash table instead, each insertion is $O(1)$ so the overall complexity is $O(n)$.
 \end{enumerate}
 
+\paragraph{4-9} To start simple, let's consider the case for $k=1$. We are then looking to answer if $k\in S$ in $O(\log n)$ time. This is a tall order unless we make the further assumption that $S$ comes in the form of an already sorted array, in which case we can do a binary search. Otherwise a linear search will take $O(n)$ time and sorting, $O(n\log n)$.
+
+For $k=2$ we can already afford to sort the array in $O(n\log n)$. Let $x$ be some element in $S$ and consider $y=T-x$, then we want to see if $y\in S$. This can be done in $O(\log n)$ time since the array is already sorted and we know what we are looking for.
+
+Thinking back to exercise 3-27, we had a similar scenario in which we were given an oracle that could answer a simplified version of this question: given $T$ it would answer if there was a subset of \emph{some} length that added up to it. Here we have no oracle, and we have a fixed number $k$ of elements with which to build a solution.
+
+As in exercise 3-27, let's start by assuming we have a solution $\left\{ x_1,\ldots,x_k \right\}$, that is $T = \sum^k x_i$. This means that before we were done we found $x_k = T - \sum^{k-1}$ to complete a partial solution $\left\{ x_1,\ldots,x_{k-1}\right\}$. That is, we searched $S - \left\{x_1,\ldots,x_{k-1}\right\}$ for $x_k$; but note that we only know to search for a specific value on the last $x_i$, when we know exactly what value we are missing in our solution to get to $T$. This is the scenario above where $k=2$.
+
+In selecting the $x_1,\ldots,x_{k-1}$ we don't search but try these values out. This is where the $n^{k-1}$ factor comes from---it's the combinations of $k-1$ elements for the first $k-1$ positions, for each of which we can perform an intentional binary search in $O(\log n)$ for the final piece of the solution. More specifically, we do a $O(\log n)$ search for the $k$th value for, at most, $n^{k-1}$ partial solutions of $k-1$ elements.
+
+Suppose we have a method to generate the $\binom{n}{k-1}$ combinations out of the set $S$. Then the algorithm would look something like this:
+\begin{lstlisting}
+for C in combinations(S, k-1):
+  if (T - sum(C)) in S-C:
+    return true
+return false
+\end{lstlisting}
+
+\paragraph{4-10}
+\begin{enumerate}[label=(\alph*)]
+	\item If $S$ is unsorted, we can sort it in $O(n\log n)$ time, then for each of the $n$ elements do a binary search for the difference with $x$. At most we do a binary search for all $n$ elements, each being $O(\log n)$, for a total $O(n\log n)$ effort.
+	
+	\item If the array is sorted, consider two pointers $l$ and $r$, pointing to the first and last elements of the array respectively. While they haven't crossed each other, compare the sum of the pointed elements to $x$---if the sum is greater than $x$, point $r$ to the next smaller element; if the sum is less than $x$, point $l$ to the next largest element. If the two pointers cross each other, then no two elements in the array add up to $x$.
+	
+	\begin{proof}Let us call $l, r$ the left and right pointers respectively. Suppose a given array and real number $x$ have a solution at indices $i, j$---that is, $x = x_i + x_j,\ i<j$.
+	
+	The pointers $l$ and $r$ only ever go in one direction, so we would fail to find a solution if $l>i$ or $r<j$ (taking some notational license).
+	
+	Suppose there is a solution, yet $l = i+1$. Then $l$ was incremented because $x_i + x_j < x$, which contradicts the assumption that our solution was the pair $(x_i, x_j)$. Note that $r>j$, since the array is ordered, would mean that $x_i+x_{j+1} > x$ since $x_j < x_{j+1}$. But this contradicts the fact that $l$ was incremented to $i+1$.
+	
+	By a similar argument, we can see that $r$ can't be less than $j$.
+	
+	\vskip 1em
+	
+	To drive the point home, consider the moment where $l=i-1$ and $r=j+1$. Either $x < x_{i-1} + x_{j+1}$ or $x > x_{i-1} + x_{j+1}$.
+	
+	If $x < x_{i-1} + x_{j+1}$, we will increment $l$ and have a pair $(x_i,x_{j+1})$ which must be greater than $x$, for $x = x_i + x_j$ and $x_j < x_{j+1}$. At this point the algorithm will bring $r$ in to find pair $(x_i, x_j)$.
+	
+	If $x > x_{i-1} + x_{j+1}$, conversely, we will see $r$ be brought in first to find pair $(x_{i-1}, x_j)$. By the same argument, $x_{i-1} + x_j < x$, so $l$ will be advanced to point to $x_i$, and again find the solution $(x_i,x_j)$.
+	\end{proof}
+\end{enumerate}
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
