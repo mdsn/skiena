@@ -882,6 +882,20 @@ Starting with the values sorted in descending order, consider the array of diffe
 	\langle 0,0,0,0 \rangle &\rightarrow \langle 0,-1,-2,-3 \rangle
 \end{align*}
 
+\paragraph{4-8}
+\begin{enumerate}[label=(\alph*)]
+	\item Assuming customers don't double pay, there will be at most as many checks as there are bills. Let's sort both bills and checks by the customer id. Then treat each list as a queue, and consider each bill. If the check at the front of its queue is for this bill, this customer has paid; pop the front of both queues. If the check doesn't match the bill, this bill hasn't been paid---pop the bill and put it aside in the list of unpaid bills.
+	
+	Sorting the bills and checks is $O(n\log n)$, and the linear sweep is $O(n)$ for a total effort of $O(n\log n)$ time.
+	
+	\item Sort the list of books by publisher. This is $O(n\log n)$ for $n$ books in the library. Then for each publisher use binary search to find the boundaries of the corresponding block of published books in the sorted list. (See section 5.1.1 Counting Occurrences.)
+	
+	Each binary search is $O(\lg n)$ time and there are 30 publishers, which is a constant factor so the overall effort is $O(n\log n)$ with the sorting of all the books dominating.
+	
+	\item Don't sort anything. Make an empty set, then for each card push the name into the set. The size of the set after going over all the cards is the answer.
+	
+	If the set is implemented as a binary tree, each insert is $O(\log n)$ for $n$ total cards, meaning $n$ insertions, so $O(n\log n)$ total effort. If the set is implemented as a hash table instead, each insertion is $O(1)$ so the overall complexity is $O(n)$.
+\end{enumerate}
 
 
 
