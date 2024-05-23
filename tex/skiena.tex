@@ -939,7 +939,23 @@ return false
 	\end{proof}
 \end{enumerate}
 
+\paragraph{4-11} This is cheating, but assume you have a hash table with $O(1)$ insertion and update. Traverse the list, incrementing the count of keys already in the table, or inserting them with an initial value of 1 otherwise. Finally, traverse the hash table filtering the items that fulfill the predicate.
 
+\paragraph{4-12}
+\begin{enumerate}[label=(\alph*)]
+	\item Sort the two arrays in $O(n\log n)$ then do a linear sweep merging from each array, while skipping duplicates. The linear sweep is, well, linear, while skipping duplicates is constant time because we will insert each unique number the first time we see it, then see it again immediately in the other set. \label{ch4e12a}
+	\item Just do the merging part of \ref{ch4e12a}.
+\end{enumerate}
+
+\paragraph{4-13} Consider the number of people at the party at any given time as a counter. Then each $a_i$ increments the counter while each $b_i$ decrements it. A trivial algorithm is to gather all $a_i$ and $b_i$ in an array. Suppose we have a discriminant in each data point such that we can tell that a timestamp is an entrance or a departure. Sort the array in $O(n\log n)$ then do a linear sweep executing the increases and decreases on a counter while keeping track of the maximum throughout.
+
+\paragraph{4-14} Sort the array of intervals by their first component in $O(n\log n)$. Then do a linear sweep, looking at the first element and its immediate successor.
+
+If they overlap, that is if $x_{i+1} \le y_i$, merge them and make this new larger interval the current interval. Repeat the process skipping both of the intervals just processed.
+
+If the intervals did not overlap, we finished merging a group of intersecting intervals which is disjoint from the next one. Push the interval under consideration into the list and continue ahead considering the next interval.
+
+Finally, once we reach the end of the list, push the last interval under consideration into the list.
 
 
 
