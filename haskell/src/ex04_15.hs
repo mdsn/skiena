@@ -35,13 +35,13 @@ example2 = [Interval 10 40, Interval 15 30, Interval 30 50, Interval 30 30]
 combine :: [Interval] -> [(End, Coord)]
 combine = foldr f []
   where
-    f (Interval start end) ys
-      | start /= end = (Open, start) : (Close, end) : ys
-      | otherwise    = (Singular, start) : ys
+    f (Interval start end) xs
+      | start /= end = (Open, start) : (Close, end) : xs
+      | otherwise    = (Singular, start) : xs
 
 -- O(n log n), I think Haskell uses merge sort for lists. Sort the combined
 -- list of categorized coordinates by coordinate. This will put all the
--- interval endpoints together.
+-- interval endpoints together that lie at the same point.
 sortPoints :: [(End, Coord)] -> [(End, Coord)]
 sortPoints = sortBy $ \(_, x) (_, y) -> compare x y
 
@@ -51,10 +51,8 @@ sortPoints = sortBy $ \(_, x) (_, y) -> compare x y
 -- this is theoretically doable in O(n) as all points in a group will lie next
 -- to each other.
 groupPoints :: [(End, Coord)] -> [Group]
-groupPoints xs = fmap makeGroup groups
+groupPoints xs = fmap makeGroup $ groupBy (\(_, x) (_, y) -> x == y) xs
   where
-    groups = groupBy (\(_, x) (_, y) -> x == y) xs
-
     makeGroup :: [(End, Coord)] -> Group
     makeGroup (x:xs') = Group (snd x) $ fmap fst (x:xs')
     makeGroup [] = error "unreachable"
@@ -67,29 +65,29 @@ groupPoints xs = fmap makeGroup groups
 --  This algorithm visits a group only once, and within each group, it visits
 -- its grouped endpoints once each. Therefore it is O(n) time on both the
 -- number of groups and of endpoints in the groups.
-determinePoint :: [Group] -> Maximum
-determinePoint groups = findMaximum groups 0 Nothing
+findMaximum :: [Group] -> Maximum
+findMaximum groups = go groups 0 Nothing
   where
-    findMaximum :: [Group] -> Int -> Maybe Maximum -> Maximum
-    findMaximum ((Group coord points):xs) counter m =
-        let (opening, closing, singular) = count points
+    go :: [Group] -> Int -> Maybe Maximum -> Maximum
+    go ((Group p ends):gs) i m =
+        let (opening, closing, singular) = count ends
             -- The updated counter is determined only by the number of
             -- intervals that open and close at this coordinate.
-            counter' = counter - closing + opening
+            i' = i - closing + opening
             -- The number of intersecting intervals at this coordinate is
-            -- whatever number of intervals were already running so far
-            -- (counter), plus any new intervals that open, plus any 1-point
-            -- intervals. Closing intervals have no effect because they were
-            -- already counted when being open, so they are already in counter.
-            intersecting = counter + opening + singular
+            -- whatever number of intervals were already running so far (i),
+            -- plus any new intervals that open, plus any 1-point intervals.
+            -- Closing intervals have no effect because they were already
+            -- counted when being open, so they are already in i.
+            x' = i + opening + singular
             -- Update the running maximum+coordinate.
             m' = case m of
-                Nothing -> Maximum intersecting coord
-                Just (Maximum x c) | intersecting > x -> Maximum intersecting coord
-                                   | otherwise        -> Maximum x c
-         in findMaximum xs counter' (Just m')
-    findMaximum [] _ (Just m) = m
-    findMaximum [] _ Nothing = error "unreachable"
+                Nothing -> Maximum x' p
+                Just (Maximum x c) | x' > x    -> Maximum x' p
+                                   | otherwise -> Maximum x c
+         in go gs i' (Just m')
+    go [] _ (Just m) = m
+    go [] _ Nothing = error "unreachable"
 
     -- Given the list of endpoints meeting at some coordinate, count how many
     -- are opening and closing intervals, and how many are 1-point intervals.
@@ -101,4 +99,5 @@ determinePoint groups = findMaximum groups 0 Nothing
 
 main :: IO ()
 main = do
-    print $ determinePoint . groupPoints . sortPoints . combine $ example2
+    print $ findMaximum . groupPoints . sortPoints . combine $ example2 -- Maximum 4 30
+    print $ findMaximum . groupPoints . sortPoints . combine $ example  -- Maximum 3 20
