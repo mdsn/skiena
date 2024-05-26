@@ -7,8 +7,8 @@ type Id = Int
 
 data Interval = Interval Coord Coord deriving Show
 data End = Open | Close | Singular deriving Show
-data Point = Point Id End deriving Show
-data Group = Group Coord [Point] deriving Show
+-- data Point = Point End deriving Show
+data Group = Group Coord [End] deriving Show
 data Maximum = Maximum Int Coord deriving Show
 
 -- The example from the book. All intervals' endpoints are distinct.
@@ -41,57 +41,62 @@ example2 :: [Interval]
 example2 = [Interval 10 40, Interval 15 30, Interval 30 50, Interval 30 30]
 
 -- O(n)
-combine :: [Interval] -> [(Id, End, Coord)]
-combine intervals = go 1 intervals
+combine :: [Interval] -> [(End, Coord)]
+combine intervals = go intervals
   where
-    go :: Int -> [Interval] -> [(Id, End, Coord)]
-    go _ [] = []
-    go i ((Interval start end):xs)
-      | start /= end = (i, Open, start) : (i, Close, end) : go (i+1) xs
-      | otherwise    = (i, Singular, start) : go (i+1) xs
+    go :: [Interval] -> [(End, Coord)]
+    go [] = []
+    go ((Interval start end):xs)
+      | start /= end = (Open, start) : (Close, end) : go xs
+      | otherwise    = (Singular, start) : go xs
 
 -- O(n log n), I think Haskell uses merge sort for lists.
-sortPoints :: [(Id, End, Coord)] -> [(Id, End, Coord)]
-sortPoints = sortBy $ \(_, _, x) (_, _, y) -> compare x y
+sortPoints :: [(End, Coord)] -> [(End, Coord)]
+sortPoints = sortBy $ \(_, x) (_, y) -> compare x y
 
 -- No idea of the complexity of the implementation of this function in Haskell
 -- but since we have sorted the points by the component by which we now group
 -- them, this is theoretically doable in O(n) as all points in a group will lie
 -- next to each other.
-groupPoints :: [(Id, End, Coord)] -> [Group]
+groupPoints :: [(End, Coord)] -> [Group]
 groupPoints xs = fmap makeGroup groups
   where
-    groups = groupBy (\(_, _, x) (_, _, y) -> x == y) xs
-    makeGroup :: [(Id, End, Coord)] -> Group
-    makeGroup (x@(_, _, c):xs) = Group c $ fmap (\(i, e, _) -> Point i e) (x:xs)
+    groups = groupBy (\(_, x) (_, y) -> x == y) xs
+
+    makeGroup :: [(End, Coord)] -> Group
+    makeGroup (x:xs') = Group (snd x) $ fmap fst (x:xs')
+    makeGroup [] = error "unreachable"
 
 determinePoint :: [Group] -> Maximum
 determinePoint points = processGroups points 0 Nothing
   where
     processGroups :: [Group] -> Int -> Maybe Maximum -> Maximum
-    processGroups (xs:xss) c Nothing = let (opening, closing, singular) = processGroup xs
-                                           c' = c - closing + opening
-                                           intersecting = c + opening + singular
-                                           -- TODO update -1 with actual point after factoring it out
-                                           -- of the group
-                                        in processGroups xss c' (Just $ Maximum intersecting (-1))
-    processGroups (xs:xss) c (Just (Maximum m p)) = let (opening, closing, singular) = processGroup xs
-                                                        c' = c - closing + opening
-                                                        intersecting = c + opening + singular
-                                                        m' = max m intersecting
-                                                     in processGroups xss c' (Just $ Maximum m' p)
+    processGroups (x:xs) counter Nothing =
+        let (opening, closing, singular) = processGroup x
+            counter' = counter - closing + opening
+            intersecting = counter + opening + singular
+            -- TODO update -1 with actual coord
+         in processGroups xs counter' (Just $ Maximum intersecting (-1))
+    processGroups (x@(Group coord points):xs) counter (Just (Maximum m p)) =
+        let (opening, closing, singular) = processGroup x
+            counter' = counter - closing + opening
+            intersecting = counter + opening + singular
+            (m', p') = if intersecting > m
+                then (intersecting, coord)
+                else (m, p)
+         in processGroups xs counter' (Just $ Maximum m' p')
     processGroups [] _ (Just m) = m
     processGroups [] _ Nothing = error "unreachable"
 
     processGroup :: Group -> (Int, Int, Int)
-    processGroup (Group c xs) = go xs (0, 0, 0)
+    processGroup (Group _ xs) = go xs (0, 0, 0)
       where
-        go :: [Point] -> (Int, Int, Int) -> (Int, Int, Int)
-        go ((Point _ Open):xs') (o, c, s) = go xs' (o+1, c, s)
-        go ((Point _ Close):xs') (o, c, s) = go xs' (o, c+1, s)
-        go ((Point _ Singular):xs') (o, c, s) = go xs' (o, c, s+1)
+        go :: [End] -> (Int, Int, Int) -> (Int, Int, Int)
+        go (Open:xs') (o, c, s) = go xs' (o+1, c, s)
+        go (Close:xs') (o, c, s) = go xs' (o, c+1, s)
+        go (Singular:xs') (o, c, s) = go xs' (o, c, s+1)
         go [] (o, c, s) = (o, c, s)
 
 main :: IO ()
 main = do
-    print $ groupPoints . sortPoints . combine $ example2
+    print $ determinePoint . groupPoints . sortPoints . combine $ example2
