@@ -957,10 +957,31 @@ If the intervals did not overlap, we finished merging a group of intersecting in
 
 Finally, once we reach the end of the list, push the last interval under consideration into the list.
 
+\paragraph{4-15} Consider a scenario in which two intervals intersect but don't intersect at their extremes. Then we see that in a sequential ordering of extremes, two intervals starts before one ends. The serialization of the endpoints of the example in the book would be $10\uparrow,15\uparrow,20\uparrow,40\downarrow,50\uparrow,60\downarrow,70\downarrow,90\downarrow$, where a $\uparrow$ means an interval opens at that point and $\downarrow$ means that an interval closes at that point.
+%TODO image here
 
+Now consider a scenario where two endpoints meet, for example for $S=\{(10,20),(20,30)\}$. The serialization of endpoints of this set would be $10\uparrow,20\uparrow\downarrow,30\downarrow$, meaning that at point 20 an endpoint ends and another one begins.
 
+There is one final case to consider, that of intervals that start and end at the same point. For example, a set $S=\{(x_0, x_1), (y_0, y_1)\}$ with $y_0=y_1$. The serialization of endpoints of this set would be $x_0\uparrow, y_0\updownarrow, x_1\downarrow$ assuming that $x_1 > y_0$.
 
+It's not hard to see that with an ordering of endpoints like this it's possible to sweep from left to right, maintaining a counter of concurrently running intervals that changes at the points where intervals start or end. This requires a little extra thought for scenarios where intervals intersect at their endpoints, as well as when 1-point intervals are involved, but the general idea is simple.
 
+We set things up so as to process ``groups of endpoints'', each group being a collection of all endpoints that meet at a specific coordinate.
+%TODO image here
+
+At the coordinate of each group, some number of intervals meet at an endpoint plus any other currently running intervals, represented by the running counter. For each group, we know which endpoints are opening or closing intervals, and which are 1-point (let's call them \emph{singular}) intervals; these are the arrows above. Therefore, when processing a group, given a counter $i$, counts of opening, closing and singular endpoints $o, c, s$ respectively, and a current maximum $m$ of intersecting intervals already seen, we have that
+\begin{gather*}
+	i' = i - c + o \\
+	x = c + o + s \\
+	m' = \max(m, x)
+\end{gather*}
+Where $i'$ is the updated counter after processing this group, $x$ is the number of intersecting intervals at this group's coordinate, and $m'$ is the updated maximum after processing this group.
+
+Two things to note. When updating the counter, the number $s$ is insignificant because these are intervals that open and close at a singular point. Thus the number of running intervals before and after this point will not be affected by them. On the other hand, when calculating the number of intersecting intervals $x$ at the current group's coordinate, the singular intervals are counted and the closing intervals are ignored, because these were already accounted for when they were opened.
+
+Thus after processing these groups in order, we will have a final maximum carrying both a point (at some interval's endpoint) and a count of intervals that intersect at that point.
+
+The code for this is too long to include here. See \lstinline!ex04_15.hs! in the Haskell directory for a full implementation.
 
 
 
