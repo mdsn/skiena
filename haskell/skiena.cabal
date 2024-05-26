@@ -36,3 +36,7 @@ executable ex03_13
 executable ex03_17
     import: skiena
     main-is: ex03_17.hs
+
+executable ex04_15
+    import: skiena
+    main-is: ex04_15.hs
