@@ -40,3 +40,7 @@ executable ex03_17
 executable ex04_15
     import: skiena
     main-is: ex04_15.hs
+
+executable ex04_16
+    import: skiena
+    main-is: ex04_16.hs

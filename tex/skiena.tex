@@ -471,7 +471,7 @@ The answer is a \emph{priority queue}. Prioritize the item that expires next. Th
     }
     \end{center}
     
-    \lstinline;list.head != p;, \lstinline;p->next != tail;, overwrite \lstinline!p! with the content of \lstinline!p->next!, then free \lstinline!p->next!.
+    \lstinline;list.head != p;, \lstinline;p->next != tail;, overwrite \lstinline!p! with \lstinline!p->next!, then free \lstinline!p->next!.
 
 	\begin{center}    
     \tikz[] {
@@ -725,7 +725,7 @@ $n$ elements in $S_1$ and $m$ elements in $S_2$. The traversal of $S_2$ to its
 minimum would be $O(log m)$ and the concatenation---a simple matter of pointer
 manipulation---would be constant time.
 
-\paragraph{3-22} We have to design a data structure that supports \lstinline!insert(x)!
+\paragraph{3-22} We're to design a data structure that supports \lstinline!insert()!
 and \lstinline!median()! operations, both in $O(\log n)$ time. Inserting is easy enough,
 but the median is an element relative to all other elements in the structure; it depends
 on its logical position within the set of all the elements, so it's not clear that it
@@ -964,12 +964,12 @@ Now consider a scenario where two endpoints meet, for example for $S=\{(10,20),(
 
 There is one final case to consider, that of intervals that start and end at the same point. For example, a set $S=\{(x_0, x_1), (y_0, y_1)\}$ with $y_0=y_1$. The serialization of endpoints of this set would be $x_0\uparrow, y_0\updownarrow, x_1\downarrow$ assuming that $x_1 > y_0$.
 
-It's not hard to see that with an ordering of endpoints like this it's possible to sweep from left to right, maintaining a counter of concurrently running intervals that changes at the points where intervals start or end. This requires a little extra thought for scenarios where intervals intersect at their endpoints, as well as when 1-point intervals are involved, but the general idea is simple.
+It's not hard to see that with an ordering of endpoints like this it's possible to sweep from left to right, maintaining a counter of simultaneously running intervals that changes at the points where intervals start or end. The counter increases when an interval is opened, and decreases when one is closed. This requires a little extra thought for scenarios where intervals intersect at their endpoints, as well as when 1-point intervals are involved, but the general idea is simple.
 
 We set things up so as to process ``groups of endpoints'', each group being a collection of all endpoints that meet at a specific coordinate.
 %TODO image here
 
-At the coordinate of each group, some number of intervals meet at an endpoint plus any other currently running intervals, represented by the running counter. For each group, we know which endpoints are opening or closing intervals, and which are 1-point (let's call them \emph{singular}) intervals; these are the arrows above. Therefore, when processing a group, given a counter $i$, counts of opening, closing and singular endpoints $o, c, s$ respectively, and a current maximum $m$ of intersecting intervals already seen, we have that
+At the coordinate of each group, some number of intervals meet at an endpoint. These plus any other currently running intervals, represented by the running counter, make up the total number of intervals that intersect at that point. For each group, we know which endpoints are opening or closing intervals, and which are 1-point (let's call them \emph{singular}) intervals; these are the arrows above. Therefore, when processing a group, given a counter $i$, counts of opening, closing and singular endpoints $o, c, s$ respectively, and a current maximum $m$ of intersecting intervals already seen, we have that
 \begin{gather*}
 	i' = i - c + o \\
 	x = c + o + s \\
@@ -983,7 +983,28 @@ Thus after processing these groups in order, we will have a final maximum carryi
 
 The code for this is too long to include here. See \lstinline!ex04_15.hs! in the Haskell directory for a full implementation.
 
+\paragraph{4-16} Sort $S$ by the starting coordinate of each segment in $O(n\log n)$.
 
+Start by finding the segment that covers 0 that extends furthest to the right in $O(n)$. If no segment covers 0 then there is no solution.
+
+Call the selected segment the ``current'' segment. Then, while $m$ hasn't been covered, select among the intervals that intersect the current interval the one that extends furthest to the right ($O(n)$), and make it the current segment. If no segment intersects the current segment whose right coordinate extends further to the right than that of the current segment, then there is no solution (the union of $S$ either has a gap or can't cover all of $(0,m)$).
+
+\vskip 0.5em
+
+This process guarantees that a sequence of intersecting segments will be selected, meaning that there will be no gaps. The selection of each segment in that sequence, the one that reaches furthest to the right, is optimal: any alternative will reach at most the same number of segments to the right, or it will possibly not reach the next optimal choice of segment.
+
+\vskip 0.5em
+
+\begin{proof}[Deniz's reasoning.] Let us take $m=1$ without loss of generality.
+
+Let $I_i = [a_i, b_i],\ i=1,\ldots,m$ be the collection of segments which the algorithm yields, which by construction has the property that $a_{j+1} \leq b_j < b_{j+1}$ for $j=1,\ldots,m-1$. 
+
+Let $J_i = [x_i, y_i],\ i=1,\ldots,n$ be another collection which covers $[0,1]$ with $n < m$. We can assume the collection $\{J_i\}$ has the same property (just apply the algorithm to this collection).
+
+Since $n<m$, we have $b_m < 1 \leq y_m$. Also, by construction, $b_1 \geq y_1$. Let $S$ be the set of indices $i$ such that $b_i < y_i$. Then $m\in S$ and $1\notin S$. Let $k = \min S > 1$. Then, since $k - 1 \notin S$, we have $y_{k-1} \leq b_{k-1}$, as well as $x_k \leq y_{k-1}$ by construction and $b_k < y_k$ because $k\in S$. Thus $x_k \leq y_{k-1} \leq b_{k-1} < b_k < y_k$. 
+
+So, $J_k = [x_k, y_k]$ is a segment which intersects $I_{k-1}$, but again by construction, $b_k$ is the largest right endpoint of all such intervals, implying $b_k \geq y_k$. But that means $k\notin S$, a contradiction. It follows that $m \leq n$.
+\end{proof}
 
 
 
