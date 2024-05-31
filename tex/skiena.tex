@@ -1018,6 +1018,17 @@ Half of the elements in the array are leaves, and can be considered well formed 
 
 Thus we have a way of building a heap in $O(n)$ time. All that is left is to do $k$ queries for the minimum, $O(1)$ each, and $k$ delete operations, $O(\log n)$ each, for a total $O(n + k\log n)$ time.
 
+\paragraph{4-18} To clarify, $n$ elements across all $k$ lists.
+
+Put the $k$ heads of the lists in a heap in $O(k)$ time. Suppose we build this priority queue so that, upon eliminating a minimum that belonged to list $i$, it pulls the new head from list $i$ (if it's not empty yet) into the heap. Effectively, keep a $k$-element heap of the heads of the lists.
+
+Repeatedly take the minimum from the heap until there are no more elements in any of the lists (in other words, when we have processed $n$ elements). We will have produced an ordered sequence that merges all the elements in the lists.
+
+There are $n$ total elements, selected from the lists by the \lstinline!pop()! operation of the heap which is $O(\log k)$, for a total $O(n\log k)$ time.
+
+\vskip 0.5em
+
+The powerup comes from the assistance the heap provides in quickly finding the next element in the output sequence. Without it, we would have to visit each of the $k$ list heads to find the minimum at each step. We'd do this $O(k)$ work for each of the $n$ elements; this is the obvious $O(kn)$ algorithm.
 
 
 
