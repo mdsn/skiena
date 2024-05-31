@@ -830,7 +830,9 @@ The segment tree can be represented as a heap-style, packed implicit tree. We ne
 
 \chapter{Sorting}
 
-\section*{Solutions}
+%\section*{Solutions}
+
+\subsection*{Applications of Sorting: Numbers}
 
 \paragraph{4-1} The Grinch wants the most unbalanced game possible. This is the same as asking to maximize the difference in total skill between the two teams.
 
@@ -941,6 +943,8 @@ return false
 
 \paragraph{4-11} This is cheating, but assume you have a hash table with $O(1)$ insertion and update. Traverse the list, incrementing the count of keys already in the table, or inserting them with an initial value of 1 otherwise. Finally, traverse the hash table filtering the items that fulfill the predicate.
 
+\subsection*{Applications of Sorting: Intervals and Sets}
+
 \paragraph{4-12}
 \begin{enumerate}[label=(\alph*)]
 	\item Sort the two arrays in $O(n\log n)$ then do a linear sweep merging from each array, while skipping duplicates. The linear sweep is, well, linear, while skipping duplicates is constant time because we will insert each unique number the first time we see it, then see it again immediately in the other set. \label{ch4e12a}
@@ -1005,6 +1009,14 @@ Since $n<m$, we have $b_m < 1 \leq y_m$. Also, by construction, $b_1 \geq y_1$. 
 
 So, $J_k = [x_k, y_k]$ is a segment which intersects $I_{k-1}$, but again by construction, $b_k$ is the largest right endpoint of all such intervals, implying $b_k \geq y_k$. But that means $k\notin S$, a contradiction. It follows that $m \leq n$.
 \end{proof}
+
+\subsection*{Heaps}
+
+\paragraph{4-17} Building the complete heap with the regular \lstinline!bubble_up()! method will require $O(n\log n)$ time, so that will not work. The key is the faster heap construction method that uses \lstinline!bubble_down()! instead. Even though this operation is ostensibly $O(\log n)$, a closer look shows that $O(n\log n)$ is a generous upper bound for the cost of building a heap.
+
+Half of the elements in the array are leaves, and can be considered well formed heaps of height 0. A fourth of the elements are heaps of height 1. According to Skiena there are at most $\lceil n/2^{h+1}\rceil$ nodes of height $h$; the bottom line is that this quickly converges to linear behavior.
+
+Thus we have a way of building a heap in $O(n)$ time. All that is left is to do $k$ queries for the minimum, $O(1)$ each, and $k$ delete operations, $O(\log n)$ each, for a total $O(n + k\log n)$ time.
 
 
 

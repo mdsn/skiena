@@ -62,9 +62,9 @@ private:
     int min_ix = i;
     int l = left(i);
     int r = right(i);
-    if (l <= xs.size() and xs[min_ix] > xs[l])
+    if (l < xs.size() and xs[min_ix] > xs[l])
       min_ix = l;
-    if (r <= xs.size() and xs[min_ix] > xs[r])
+    if (r < xs.size() and xs[min_ix] > xs[r])
       min_ix = r;
     return min_ix;
   }
