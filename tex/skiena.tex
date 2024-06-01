@@ -1005,7 +1005,7 @@ Let $I_i = [a_i, b_i],\ i=1,\ldots,m$ be the collection of segments which the al
 
 Let $J_i = [x_i, y_i],\ i=1,\ldots,n$ be another collection which covers $[0,1]$ with $n < m$. We can assume the collection $\{J_i\}$ has the same property (just apply the algorithm to this collection).
 
-Since $n<m$, we have $b_m < 1 \leq y_m$. Also, by construction, $b_1 \geq y_1$. Let $S$ be the set of indices $i$ such that $b_i < y_i$. Then $m\in S$ and $1\notin S$. Let $k = \min S > 1$. Then, since $k - 1 \notin S$, we have $y_{k-1} \leq b_{k-1}$, as well as $x_k \leq y_{k-1}$ by construction and $b_k < y_k$ because $k\in S$. Thus $x_k \leq y_{k-1} \leq b_{k-1} < b_k < y_k$. 
+Since $n<m$, we have $b_n < 1 \leq y_n$. Also, by construction, $b_1 \geq y_1$. Let $S$ be the set of indices $i$ such that $b_i < y_i$. Then $m\in S$ and $1\notin S$. Let $k = \min S > 1$. Then, since $k - 1 \notin S$, we have $y_{k-1} \leq b_{k-1}$, as well as $x_k \leq y_{k-1}$ by construction and $b_k < y_k$ because $k\in S$. Thus $x_k \leq y_{k-1} \leq b_{k-1} < b_k < y_k$. 
 
 So, $J_k = [x_k, y_k]$ is a segment which intersects $I_{k-1}$, but again by construction, $b_k$ is the largest right endpoint of all such intervals, implying $b_k \geq y_k$. But that means $k\notin S$, a contradiction. It follows that $m \leq n$.
 \end{proof}
@@ -1030,11 +1030,72 @@ There are $n$ total elements, selected from the lists by the \lstinline!pop()! o
 
 The powerup comes from the assistance the heap provides in quickly finding the next element in the output sequence. Without it, we would have to visit each of the $k$ list heads to find the minimum at each step. We'd do this $O(k)$ work for each of the $n$ elements; this is the obvious $O(kn)$ algorithm.
 
+\paragraph{4-19}
+\begin{enumerate}[label=(\alph*)]
+	\item A max heap is cheaper to construct if all we want is to query and eliminate the maximum element from a collection.
+	\item Unless we wish to repeatedly delete the maximum or minimum, a heap won't help here. To delete arbitrary elements a fully sorted array does better. (That is, to locate the elements---deleting them from a sequentially allocated structure is another story).
+	\item Constructing a heap is quicker than sorting an array.
+	\item A max heap will not help us find the smallest element, so we have to resort to a sorted array for this.
+\end{enumerate}
 
+% TODO use proper bibliography and collect references
+\paragraph{4-20} From Knuth, vol. 3, section 5.2.3 ``Sorting by selection''. DEK introduces \emph{quadratic selection}. The idea is simple: assume without loss of generality that $n$ is a square, and partition the $n$ elements into $\sqrt{n}$ groups of $\sqrt{n}$ elements each. Then make a new group with the minimum elements from each group. The minimum element across all $n$ can be found in this group.
 
+Note that the second smallest element will also be selected into the leaders group, except when it is in the same partition as the smallest element. Thus, with the minimum removed from the group of leaders, the second smallest can be found by looking at the remaining $\sqrt{n}-1$ leaders as well as the remaining elements in the group whence the minimum element came.
 
+\vskip 0.5em
 
+Finding the minimum in a group takes $\sqrt{n}-1$ comparisons. There are $\sqrt{n}$ groups, so there is a total initialization cost of $\sqrt{n}(\sqrt{n}-1) = n - \sqrt{n}$ comparisons. The minimum is then determined from this group of leaders in $\sqrt{n}-1$ comparisons.
 
+We then look for the second smallest across $\sqrt{n}-1$ remaining leaders and $\sqrt{n}-1$ remaining elements in the original partition of the minimum. Thus, there are $2\sqrt{n}-2$ elements to search, which takes $2\sqrt{n}-3$ comparisons.
+
+So $n-\sqrt{n} + \sqrt{n}-1 + 2\sqrt{n}-3 = n + 2\sqrt{n} - 4$ total comparisons to get the second smallest element. How does this fare against the $2n-3$ comparisons of the obvious algorithm? For $n$ a perfect square, eventually $2 < \sqrt{n}$. Therefore
+\begin{equation*}
+	2 < \sqrt{n} \ \rightarrow\ 2\sqrt{n} < n \ \rightarrow\ n + 2\sqrt{n} < 2n.
+\end{equation*}
+This shows that quadratic selection does fewer comparisons than the obvious algorithm.
+
+\subsection*{Quicksort}
+
+\paragraph{4-21} Given an array of $n$ elements we know the median would belong in position roughly $n/2$ with provisions for odd and even $n$ as well as 0 or 1-based arrays we will conveniently disregard.
+
+Select a pivot and partition the elements. If the pivot belongs in the median position, the pivot is the median. Otherwise recurse into the partition that contains the median position.
+
+\vskip 0.5em
+
+Partitioning in the first level looks at all $n$ elements, but every time we recurse we ditch half the elements so the second partition looks at $n/2$ elements (in the expected case). By halving the number of elements under consideration we zero in on the median in $O(\lg n)$ time; each recursive call does $n/2^h$ partitioning work, for height $h=0,\ldots,\lg n$.
+
+What really is $\sum_{h=0}^{\lg n}$? Remember the situation with the dynamic array (\S\,3.1.1, pp.\,71). Here, the first level looks at all the elements, then each subsequent call looks at half the previous ones.
+
+\begin{center}
+\begin{tikzpicture}[scale=.3]
+	\foreach \x in {0,...,7} {
+		\filldraw[pattern=north west lines] (\x,0) rectangle (\x+1, 1);
+	}
+	\draw[->] (9,0.5) -- (10,0.5);
+	\foreach \x in {0,...,7} {
+		\ifnum \x < 4
+			\filldraw[pattern=north west lines] (\x+11,0) rectangle (\x+12, 1);
+		\else
+			\draw (\x+11,0) rectangle (\x+12,1);
+		\fi
+	}
+	\draw[->] (20,0.5) -- (21,0.5);
+	\foreach \x in {0,...,7} {
+		\ifnum \x < 2
+			\filldraw[pattern=north west lines] (\x+22,0) rectangle (\x+23,1);
+		\else
+			\draw (\x+22,0) rectangle (\x+23,1);
+		\fi
+	}
+	\draw[->] (31,0.5) -- (32,0.5);
+	\filldraw[pattern=north west lines] (33,0) rectangle (34,1);
+	\foreach \x in {1,...,7} {
+		\draw (\x+33,0) rectangle (\x+34,1);
+	}
+\end{tikzpicture}
+\end{center}
+Arranging the last three ``summands'' together, they tend to add up to $n$ but not quite. So we do a total of $2n$ work in partitioning (again, in the expected case) for a total $O(n)$ (expected) time.
 
 
 
