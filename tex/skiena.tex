@@ -56,8 +56,7 @@ The dominance pecking order:
 \begin{enumerate}[label=(\alph*)]
 	\item $f(n) = (n^2 - n)/2,\ g(n) = 6n.$
 
-		Is $f(n) = O(g(n))$? If so, there is $c$ such that $f(n) \le cg(n)$
-		for sufficiently large $n$.
+		Is $f(n) = O(g(n))$? If so, there is $c$ such that $f(n) \le cg(n)$ for sufficiently large $n$.
 		\begin{equation*}
 			\frac{1}{2}\left(n^2 - n\right) \le 6n
 				\ \rightarrow\ n^2 - n \le 12n
@@ -67,11 +66,9 @@ The dominance pecking order:
 		\begin{equation*}
 			n(n-1) \le 12cn\ \rightarrow\ n-1 \le 12c
 		\end{equation*}
-		Clearly we can always find $n$ such that this inequality won't hold,
-		so $f(n) \ne O(g(n))$.
+		Clearly we can always find $n$ such that this inequality won't hold, so $f(n) \ne O(g(n))$.
 
-		Is $g(n) = O(f(n))$? If so, there is $c$ such that $g(n) \le cf(n)$
-		for sufficiently large $n$.
+		Is $g(n) = O(f(n))$? If so, there is $c$ such that $g(n) \le cf(n)$ for sufficiently large $n$.
 		\begin{equation*}
 			6n \le \frac{1}{2}\left(n^2 - n\right)
 			\ \rightarrow\ 12n \le n^2 - n = n(n-1)
@@ -89,32 +86,23 @@ The dominance pecking order:
 			2n \le n^2\ \text{so}\ f(n) = O(g(n)).
 		\end{gather*}
 
-		$g(n) = O(f(n)) \Leftrightarrow g(n) \le cf(n)$ for sufficiently large $n$. But
-		this asks to find $c$ such that $n^2 \le c\left(n + 2\sqrt{n}\right)$; since
-		ultimately $n^2 \gg n$, $g(n) \ne O(f(n))$.
+		$g(n) = O(f(n)) \Leftrightarrow g(n) \le cf(n)$ for sufficiently large $n$. But this asks to find $c$ such that $n^2 \le c\left(n + 2\sqrt{n}\right)$; since ultimately $n^2 \gg n$, $g(n) \ne O(f(n))$.
 
 	\item $f(n) = n\log n,\ g(n) = n\sqrt{n}.$
 		\begin{gather*}
-			f(n) = O(g(n)) \Leftrightarrow n\log n \le cn\sqrt{n},\ \text{with $c=1,$} \\ 
+			f(n) = O(g(n)) \Leftrightarrow n\log n \le cn\sqrt{n},\ \text{with $c=1,$} \\
 			\rightarrow\ \log n \le \sqrt{n/2},
 		\end{gather*}
 		since $\sqrt{n} \gg \log n,\ f(n) = O(g(n)).$
 
 		By the same argument, $g(n) \ne O(f(n)).$
 
-	\item $f(n) = n + \log n,\ g(n) = \sqrt{n}\ \rightarrow\ n + \log n \le c\sqrt{n}$, and
-		since $n \gg \sqrt{n}$, any constant factor will be dominated by the linear term, so
-		$f(n) \ne O(g(n)).$ Conversely and by the same argument, $g(n) = O(f(n)).$
+	\item $f(n) = n + \log n,\ g(n) = \sqrt{n}\ \rightarrow\ n + \log n \le c\sqrt{n}$, and since $n \gg \sqrt{n}$, any constant factor will be dominated by the linear term, so $f(n) \ne O(g(n)).$ Conversely and by the same argument, $g(n) = O(f(n)).$
 
-	\item $f(n) = 2\left(\log n\right)^2,\ g(n) = \log n + 1.$ Note that
-		$2\left(\log n\right)^2 = 2\log^2 n$, and $\log^2 n \gg \log n,$ so $g(n) = O(f(n))$
-		and $f(n) \ne O(g(n)).$
+	\item $f(n) = 2\left(\log n\right)^2,\ g(n) = \log n + 1.$ Note that $2\left(\log n\right)^2 = 2\log^2 n$, and $\log^2 n \gg \log n,$ so $g(n) = O(f(n))$ and $f(n) \ne O(g(n)).$
 
-	\item $f(n) = 4n\log n + n,\ g(n) = \left(n^2 - n\right)/2.$ We know that
-		$n\log n \gg n,$ so we can consider just this term from $f(n).$ But ultimately the
-		quadratic term in $g(n)$ dominates so $f(n) = O(g(n)).$
+	\item $f(n) = 4n\log n + n,\ g(n) = \left(n^2 - n\right)/2.$ We know that $n\log n \gg n,$ so we can consider just this term from $f(n).$ But ultimately the quadratic term in $g(n)$ dominates so $f(n) = O(g(n)).$
 \end{enumerate}
-
 
 \paragraph{2-11}
 \begin{enumerate}[label=(\alph*)]
@@ -122,17 +110,15 @@ The dominance pecking order:
 
 		With $c = 3,\ f(n) \le 3g(n)$ so $f(n) = O(g(n)).$
 
-		$f(n) = \Omega(n) \Leftrightarrow cg(n) \le f(n)$ for sufficiently large $n$. For
-		$c = 1$ the inequality holds, so $f(n) = \Omega(g(n))$ and $f(n) = \Theta(g(n)).$
+		$f(n) = \Omega(n) \Leftrightarrow cg(n) \le f(n)$ for sufficiently large $n$. For $c = 1$ the inequality holds, so $f(n) = \Omega(g(n))$ and $f(n) = \Theta(g(n)).$
 
 	\item $f(n) = 2n^4 - 3n^2 + 7,\ g(n) = n^5.$
-	
+
 		$n^5 \gg n^4$ so $f(n) = O(g(n))$ and $f(n) \ne \Omega(g(n)).$
 
 	\item $f(n) = \log n,\ g(n) = \log n + \frac{1}{n}.$
 
-		$\lim_{n\rightarrow\infty} \frac{1}{n} = 0,$ so as $n\rightarrow\infty$,
-		$f(n) - g(n) = 0$. So no function dominates the other. Thus, $f(n) = \Theta(g(n)).$
+		$\lim_{n\rightarrow\infty} \frac{1}{n} = 0,$ so as $n\rightarrow\infty$, $f(n) - g(n) = 0$. So no function dominates the other. Thus, $f(n) = \Theta(g(n)).$
 
 	\item $f(n) = 2^{k\log n},\ g(n) = n^k.$
 		\begin{gather*}
@@ -149,9 +135,7 @@ The dominance pecking order:
 
 		$2^n \le c2^{2n}$ clearly holds for $c = 1$, so $f(n) = O(g(n)).$
 
-		$c2^{2n} \le 2^n$? Well, $2^{2n} = 2^2\cdot2^n = 4\cdot2^n,$ so
-		$4c2^n \le 2^n$ is satisfied with $c = 1/4.$ So $f(n) = \Omega(g(n))$ and
-		finally, $f(n) = \Theta(g(n)).$
+		$c2^{2n} \le 2^n$? Well, $2^{2n} = 2^2\cdot2^n = 4\cdot2^n,$ so $4c2^n \le 2^n$ is satisfied with $c = 1/4.$ So $f(n) = \Omega(g(n))$ and finally, $f(n) = \Theta(g(n)).$
 \end{enumerate}
 
 \paragraph{2-12}$n^3 - 3n^2 -n + 1 = \Theta(n^3).$
@@ -163,7 +147,7 @@ Now $cn^3 \le n^3 - 3n^2 - n + 1.$ Consider $c = 1/2$, then
 	n^3/2 &\le n^3 - 3n^2 - n + 1 \\
 	-n^3/2 &\le -3n^2 - n + 1 \\
 	-n^3 &\le -6n^2 - 2n + 2 \\
-	n^3 &\ge 6n^2 + 2n - 2. 
+	n^3 &\ge 6n^2 + 2n - 2.
 \end{align*}
 This holds for $n_0 \ge 7$, so $f(n) = \Omega(n^3)$ and finally $f(n) = \Theta(n^3)$.
 
@@ -246,7 +230,7 @@ To prove that $(n+a)^b = \Omega(n^b)$, by the same argument, $c n^b \le (n+a)^b 
 \end{proof}
 
 \paragraph{2-27}
-\begin{enumerate}[label=(\alph*)] 
+\begin{enumerate}[label=(\alph*)]
 	\item $f(n) = o(g(n))$ and $f(n)\ne\Theta(g(n))$. If $f(n) = o(g(n))$ then $g(n)\gg f(n)$---they are on different classes. But $f(n)\ne\Theta(g(n))$ implies that either $f(n)\ne\Omega(g(n))$ or $f(n)\ne O(g(n))$. Take $f(n)=n,\ g(n)=n^2$. Clearly $f(n)\ne\Omega(g(n))$ but $g(n)\gg f(n)$ so $f(n)=o(g(n))$.
 	\item $f(n) = \Theta(g(n)),\ f(n) = o(g(n))$. If $f(n)=\Theta(g(n))$ then $f(n)=O(g(n))$ and $f(n)=\Omega(g(n))$, that is, they are in the same class. So it's not possible for both $f(n)=\Omega(g(n))$ and $f(n)=o(g(n))$ to hold simultaneously.
 	\item $f(n)=\Theta(g(n))$ and $f(n)\ne O(g(n))$. None, by definition.
@@ -280,16 +264,16 @@ To prove that $(n+a)^b = \Omega(n^b)$, by the same argument, $c n^b \le (n+a)^b 
 \paragraph{2-34}
 \begin{enumerate}[label=(\alph*)]
 	\item $\sum_1^n 3^i = \Theta(3^{n-1})$? This would imply both $\Omega(3^{n-1})$ and $O(3^{n-1})$. For the first we need $c$ such that $c 3^{n-1} \le \sum_1^n 3^i = 3^n + \ldots + 3$. Well, for $c=1$ this inequality holds.
-	
+
 	Now for $O(3^{n-1})$ we need $c$ such that $\sum_1^n 3^i \le c 3^{n-1}$. Let $c=9$, then $c 3^{n-1} = 9\cdot 3^{n-1} = 3^{n+1} \ge \sum_1^n 3^i$ for large enough $n$.
-	
+
 	Thus the answer is true.
-	
+
 	\item $\sum_1^n 3^i = \Theta(3^n)$? True.
 	\item $\sum_1^n 3^i = \Theta(3^{n+1})$? True.
-	
+
 	For $\Omega(3^{n+1})$: $c 3^{n+1} \le \sum_1^n 3^i = 3^n + \ldots + 3$. Let $c=1/9$, then $c 3^{n+1} = (1/9)\cdot9\cdot3^{n-1} = 3^{n-1} \le \sum_1^n 3^i$ as stated before.
-	
+
 	For $O(3^{n+1})$: $\sum_1^n 3^i \le c 3^{n+1}$ for $c=1$.
 \end{enumerate}
 
@@ -333,9 +317,9 @@ for i=1 to n/2 do
 \begin{enumerate}[label=\alph*.]
 	\item $T(n) = \sum_{i=1}^{n/2} \sum_{j=i}^{n-i} \sum_{k=1}^j 1$.
 	\item $\sum_{k=1}^j 1 = j \rightarrow T(n) = \sum_{i=1}^{n/2} \sum_{j=i}^{n-1} j$.
-	
+
 	Now consider $\sum_{j=i}^{n-i} j$. When $i = 1$, $j$ goes from 1 to $n-1$; for $i=2$, $j$ goes from 2 to $n-2$. So for some given $i$, this sum has $n-i-i = n-2i$ terms, from $i$ to $n-i$. We can add the numbers from 1 to $n-i$, $\sum_1^{n-i} i = \frac{1}{2}(n-i)(n-i+1)$, and take from that the sum from 1 to $i-1$, $\sum_{k=1}^{i-1} k = \frac{1}{2}(i-1)(i-1+1) = \frac{i(i-1)}{2}$. Then the sum $\sum_{j=i}^{n-i} j = \sum_{k=1}^{n-i} k - \sum_{k=1}^{i-1} k = \frac{n^2+n}{2}$.
-	
+
 	Back to $T(n)$. We now have the outer sum $T(n) = \sum_{i=1}^{n/2} \frac{n^2+n}{2} = (n/2)(\frac{n^2+n}{2}) = \frac{1}{4}(n^3 + n^2)$.
 \end{enumerate}
 
@@ -363,36 +347,28 @@ We could say that $b^{2n-2} xy$ takes $O(1)$ for $xy$, which is then added to it
 
 \paragraph{3-5}
 \begin{enumerate}[label=\alph*)]
-	\item Suppose the array has size $2^n$. This underflow strategy has us release the
-		top half of our allocated memory when we come down to $2^{n-1}$ items.
-		
+	\item Suppose the array has size $2^n$. This underflow strategy has us release the top half of our allocated memory when we come down to $2^{n-1}$ items.
+
         \begin{center}
-        \begin{tikzpicture}[scale=.46]
-        	\foreach \x in {0,...,7} {
-        		\ifnum \x < 4
-        			\filldraw[pattern=north west lines] (\x,0) rectangle (\x+1, 1);
-        		\else
-        			\draw (\x,0) rectangle (\x+1,1);
-        		\fi
-        	}
-        	\draw[->] (9,0.5) -- (10,0.5);
+        \begin{tikzpicture}
+        	[scale=.46,
+			 filled/.style={fill=black!15}]
         	\foreach \x in {0,...,3}
-        			\filldraw[pattern=north west lines] (\x+11,0) rectangle (\x+12, 1);
+				\filldraw[filled] (\x,0) rectangle (\x+1, 1);
+			\foreach \x in {4,...,7}
+				\draw (\x,0) rectangle (\x+1,1);
+
+        	\draw[->] (9,0.5) -- (10,0.5);
+
+        	\foreach \x in {0,...,3}
+        		\filldraw[filled] (\x+11,0) rectangle (\x+12, 1);
         \end{tikzpicture}
         \end{center}
-        
-        If our program now adds an item to the dynamic array the same space needs to be
-        allocated that was just freed, potentially moving all $2^{n-1}$ items. Imagine
-        this delete-one/add-one cycle repeats, such as may happen with a stack backed
-        by this dynamic array. Each append-one operation copies the (now) lower half to
-        a new location, taking linear time on the number of items.
-        
-	\item The problem with that underflow strategy is that both the ``grow'' and
-		``shrink'' events are at the same threshold---when half full, shrink by half thus
-		making it full again, but this guarantees the next append will trigger a ``grow''.
-		If the two thresholds are dissociated, we will avoid this pathological behavior.
-		For this, only shrink the array to half size when it is a fourth full.
-		
+
+        If our program now adds an item to the dynamic array the same space needs to be allocated that was just freed, potentially moving all $2^{n-1}$ items. Imagine this delete-one/add-one cycle repeats, such as may happen with a stack backed by this dynamic array. Each append-one operation copies the (now) lower half to a new location, taking linear time on the number of items.
+
+	\item The problem with that underflow strategy is that both the ``grow'' and ``shrink'' events are at the same threshold---when half full, shrink by half thus making it full again, but this guarantees the next append will trigger a ``grow''. If the two thresholds are dissociated, we will avoid this pathological behavior. For this, only shrink the array to half size when it is a fourth full.
+
         \begin{center}
         \begin{tikzpicture}[scale=.46]
         	\foreach \x in {0,...,7} {
@@ -412,9 +388,8 @@ We could say that $b^{2n-2} xy$ takes $O(1)$ for $xy$, which is then added to it
 			}
         \end{tikzpicture}
         \end{center}
-        
-        We are then at the situation after a grow operation just duplicated the size of
-        the array for us, thus amortizing the cost of grow/shrink operations.
+
+        We are then at the situation after a grow operation just duplicated the size of the array for us, thus amortizing the cost of grow/shrink operations.
 \end{enumerate}
 
 \paragraph{3-6}Skiena's fridge works as a stack, so unless he takes care of unstacking every food item regularly (thus emptying the fridge), that is bad news for the first items inserted.
@@ -441,9 +416,9 @@ The answer is a \emph{priority queue}. Prioritize the item that expires next. Th
     	\draw[->] (P) -- (1);
     }
     \end{center}
-    
+
     \lstinline!list.head == p!, point \lstinline!H! to \lstinline!p->next!, free \lstinline!p!
-    
+
     \begin{center}
     \tikz[] {
     	\node[rectangle,draw] (H) at (0,0) {H};
@@ -475,10 +450,10 @@ The answer is a \emph{priority queue}. Prioritize the item that expires next. Th
     	\draw[->] (P) -- (1);
     }
     \end{center}
-    
+
     \lstinline;list.head != p;, \lstinline;p->next != tail;, overwrite \lstinline!p! with \lstinline!p->next!, then free \lstinline!p->next!.
 
-	\begin{center}    
+	\begin{center}
     \tikz[] {
     	\node[rectangle,draw] (H) at (0,0) {H};
 		\node[circle,draw] (0) at (1,0) {0};
@@ -493,9 +468,9 @@ The answer is a \emph{priority queue}. Prioritize the item that expires next. Th
     	\draw[->] (P) -- (1);
     }
     \end{center}
-    
+
     \item Deleting the last node.
-    
+
     \begin{center}
     \tikz[every rectangle node/.style={draw},
     	  every circle node/.style={draw}] {
@@ -510,10 +485,10 @@ The answer is a \emph{priority queue}. Prioritize the item that expires next. Th
     	\draw[->] (P) -- (2);
     }
     \end{center}
-    
+
     \lstinline!p->next == tail!, free \lstinline!tail! and make \lstinline!p! the new sentinel node.
-    
-	\begin{center}    
+
+	\begin{center}
     \tikz[] {
     	\node[rectangle,draw] (H) at (0,0) {H};
 		\node[circle,draw] (1) at (1,0) {1};
@@ -594,22 +569,13 @@ maxDepth Nil = 0
 maxDepth (Node l r) = 1 + max (maxDepth l) (maxDepth r)
 \end{lstlisting}
 
-\paragraph{3-14} Merging two binary search trees into a doubly linked list. The in order
-traversal of each tree provides ordered lists of their respective elements. A linear
-sweep, choosing the minimum of each head and advancing in the chosen list will merge
-the two structures. The cost of both the traversal and sweep/merge stages is $O(m+n)$,
-where $m$ and $n$ are the number of elements in each binary search tree.
+\paragraph{3-14} Merging two binary search trees into a doubly linked list. The in order traversal of each tree provides ordered lists of their respective elements. A linear sweep, choosing the minimum of each head and advancing in the chosen list will merge the two structures. The cost of both the traversal and sweep/merge stages is $O(m+n)$, where $m$ and $n$ are the number of elements in each binary search tree.
 
 Note that this is fundamentally the idea behind mergesort.
 
-\paragraph{3-15} There is presumably an insertion order that guarantees height balance.
-Knowing all the elements and having them in order is a great advantage. Some thoughts:
-clearly the extremes have to be inserted among the last few elements--their levels have
-to be created for them to land in the right place. Also, the median element of the array
-has to be the root, as it gives the most ``space'' to its sides.
+\paragraph{3-15} There is presumably an insertion order that guarantees height balance. Knowing all the elements and having them in order is a great advantage. Some thoughts: clearly the extremes have to be inserted among the last few elements--their levels have to be created for them to land in the right place. Also, the median element of the array has to be the root, as it gives the most ``space'' to its sides.
 
-That median element determines two halves. Each half has its own median element to which
-the same thinking process applies. Therefore a potential algorithm for building a height balanced tree is:
+That median element determines two halves. Each half has its own median element to which the same thinking process applies. Therefore a potential algorithm for building a height balanced tree is:
 \begin{lstlisting}
 balanced_insertion(lo, hi):
   m <- median(lo, hi)
@@ -617,24 +583,13 @@ balanced_insertion(lo, hi):
   balanced_insertion(lo, m-1)
   balanced_insertion(m+1, hi)
 \end{lstlisting}
-With some provisions for ranges of length 1, in which case the element is a leaf and can
-be inserted with no further recursive calls.
+With some provisions for ranges of length 1, in which case the element is a leaf and can be inserted with no further recursive calls.
 
-Before doing the insertion, the binary search tree has to be traversed in order to build
-an array of all its elements. This takes $O(n)$ time.
+Before doing the insertion, the binary search tree has to be traversed in order to build an array of all its elements. This takes $O(n)$ time.
 
-Consider the call stack of \lstinline!balanced_insertion()! with the full range of $n$
-elements. It makes two recursive calls, so the call stack is shaped like
-a binary tree. The height of the call tree is at most $\lg n$, because the range of
-elements in each recursive call is more than halved with respect to the range of its
-caller. Then this tree can have at most $2^{1+\lg n} = 2\cdot 2^{\lg n} = 2n$ nodes, each
-representing a call to \lstinline!balanced_insertion()!. Since each call does constant time work, this function's running time is $O(n)$ as well.
+Consider the call stack of \lstinline!balanced_insertion()! with the full range of $n$ elements. It makes two recursive calls, so the call stack is shaped like a binary tree. The height of the call tree is at most $\lg n$, because the range of elements in each recursive call is more than halved with respect to the range of its caller. Then this tree can have at most $2^{1+\lg n} = 2\cdot 2^{\lg n} = 2n$ nodes, each representing a call to \lstinline!balanced_insertion()!. Since each call does constant time work, this function's running time is $O(n)$ as well.
 
-\paragraph{3-17} The definition of height balanced tree is recursive, but the recursive
-aspect is implicit in the way it's worded in the book. An explicit way to say it is: a
-binary tree is height balanced if both its children are height balanced and the difference
-between their heights is at most 1. A node with no children is balanced and has height 1
-(or, equivalently, a ``null'' node is balanced and has height 0).
+\paragraph{3-17} The definition of height balanced tree is recursive, but the recursive aspect is implicit in the way it's worded in the book. An explicit way to say it is: a binary tree is height balanced if both its children are height balanced and the difference between their heights is at most 1. A node with no children is balanced and has height 1 (or, equivalently, a ``null'' node is balanced and has height 0).
 
 \begin{lstlisting}
 data Tree = Node Tree Tree
@@ -649,16 +604,9 @@ isBalanced (Node l r) = (balanced, height)
         balanced = lb && rb && abs (lh - rh) <= 1
 \end{lstlisting}
 
-Each call performs constant-time work, and there is only one call for each node in the
-tree. Therefore this is an $O(n)$ time algorithm.
+Each call performs constant-time work, and there is only one call for each node in the tree. Therefore this is an $O(n)$ time algorithm.
 
-\paragraph{3-18} We have a balanced tree where all of \lstinline!search()!,
-\lstinline!insert()!, \lstinline!delete()!, \lstinline!minimum()! and
-\lstinline!maximum()! take $O(\log n)$ time, and we want to ensure it supports
-\lstinline!successor()! and \lstinline!predecessor()! in $O(1)$ time. Each node will
-have pointers to its logical predecessor and successor that will have to be
-maintained during update operations. This would effectively add a doubly linked list
-structure on top of the binary tree.
+\paragraph{3-18} We have a balanced tree where all of \lstinline!search()!, \lstinline!insert()!, \lstinline!delete()!, \lstinline!minimum()! and \lstinline!maximum()! take $O(\log n)$ time, and we want to ensure it supports \lstinline!successor()! and \lstinline!predecessor()! in $O(1)$ time. Each node will have pointers to its logical predecessor and successor that will have to be maintained during update operations. This would effectively add a doubly linked list structure on top of the binary tree.
 
 %\begin{forest}
 %	[5
@@ -666,91 +614,40 @@ structure on top of the binary tree.
 %		[7 [6] [8]]]
 %\end{forest}
 
-\lstinline!successor()!: see pp. 85 in the book. The in order successor can be found, with
-a parent pointer, by considering two different cases: if the node has a right subtree, and
-if it hasn't.
+\lstinline!successor()!: see pp. 85 in the book. The in order successor can be found, with a parent pointer, by considering two different cases: if the node has a right subtree, and if it hasn't.
 
 \lstinline!predecessor()!: finding it is symmetric to the successor.
 \begin{itemize}
-	\item If a node is a leaf, and is the left child of its parent, traverse up until 
-		finding a node that is the right child of its parent. The parent will be the 
-		predecessor.
-	\item If a node is a leaf and is a right child, this is the trivial case of the
-		previous point---the parent is the predecessor.
-	\item If a node has a left subtree, the predecessor is the maximum of that left
-		subtree.
+	\item If a node is a leaf, and is the left child of its parent, traverse up until finding a node that is the right child of its parent. The parent will be the predecessor.
+	\item If a node is a leaf and is a right child, this is the trivial case of the previous point---the parent is the predecessor.
+	\item If a node has a left subtree, the predecessor is the maximum of that left subtree.
 \end{itemize}
 
-When deleting an item from the tree, we can get ahold of its successor and predecessor
-in $O(1)$ time via the pointers, delete the item, then link the pointers as done in a
-doubly linked list.
+When deleting an item from the tree, we can get ahold of its successor and predecessor in $O(1)$ time via the pointers, delete the item, then link the pointers as done in a doubly linked list.
 
-Note that the exercise says the tree is balanced. We can assume there is a balancing
-operation that takes place after each insert and delete, before the successor and
-predecessor pointers are updated.
+Note that the exercise says the tree is balanced. We can assume there is a balancing operation that takes place after each insert and delete, before the successor and predecessor pointers are updated.
 
-\paragraph{3-19} We have a dictionary with $O(\log n)$ \lstinline!search()!,
-\lstinline!insert()!, \lstinline!delete()!, \lstinline!min()!, \lstinline!max()!,
-\lstinline!predecessor()! and \lstinline!successor()!, and we want to make some changes
-to \lstinline!insert()! and \lstinline!delete()! so \lstinline!min()! and \lstinline!max()!
-will take $O(1)$ time while the update operations still take $O(\log n)$ time.
+\paragraph{3-19} We have a dictionary with $O(\log n)$ \lstinline!search()!, \lstinline!insert()!, \lstinline!delete()!, \lstinline!min()!, \lstinline!max()!, \lstinline!predecessor()! and \lstinline!successor()!, and we want to make some changes to \lstinline!insert()! and \lstinline!delete()! so \lstinline!min()! and \lstinline!max()! will take $O(1)$ time while the update operations still take $O(\log n)$ time.
 
-After \lstinline!insert()! we can query for the new element's predecessor in $O(\log n)$
-time---if there isn't one, our new element is the new minimum. Similarly with
-\lstinline!maximum()! and \lstinline!successor()!.
+After \lstinline!insert()! we can query for the new element's predecessor in $O(\log n)$ time---if there isn't one, our new element is the new minimum. Similarly with \lstinline!maximum()! and \lstinline!successor()!.
 
-Before \lstinline!delete()! we can query for the predecessor of the element---if there
-isn't one we can find the new minimum by querying for its successor (although in reality
-we'd know we are trying to delete the minimum because we have a $O(1)$ minimum); likewise
-when deleting the maximum. If before delete we do find a more extreme element, we know
-we are not deleting the minimum or maximum and no adjustment is necessary.
+Before \lstinline!delete()! we can query for the predecessor of the element---if there isn't one we can find the new minimum by querying for its successor (although in reality we'd know we are trying to delete the minimum because we have a $O(1)$ minimum); likewise when deleting the maximum. If before delete we do find a more extreme element, we know we are not deleting the minimum or maximum and no adjustment is necessary.
 
-\paragraph{3-20} The exercise calls this structure a ``set'', and by its operations it
-does look like a set, so we'll assume the elements are unique. Furthermore, we will assume
-we have a balancing operation that keeps the tree height balanced in $O(\log n)$ time.
+\paragraph{3-20} The exercise calls this structure a ``set'', and by its operations it does look like a set, so we'll assume the elements are unique. Furthermore, we will assume we have a balancing operation that keeps the tree height balanced in $O(\log n)$ time.
 
-Our set structure is backed by a balanced binary search tree. The \lstinline!member()!
-query searches for the element, taking $O(\log n)$ time. The \lstinline!insert()!
-operation is the regular BST insert---if the key already exists, it is overwritten; this
-also takes $O(\log n)$ time. Finally, \lstinline!delete()! has to find the $k$-th smallest
-element. Assume our BST has $O(\log n)$ \lstinline!minimum()! and $O(1)$ \lstinline!successor()!,
-as in the previous exercise. Then we need to query for the minimum element and then $k$
-calls to \lstinline!successor()!, then one $O(\log n)$ delete and one $O(\log n)$
-rebalance.
+Our set structure is backed by a balanced binary search tree. The \lstinline!member()! query searches for the element, taking $O(\log n)$ time. The \lstinline!insert()! operation is the regular BST insert---if the key already exists, it is overwritten; this also takes $O(\log n)$ time. Finally, \lstinline!delete()! has to find the $k$-th smallest element. Assume our BST has $O(\log n)$ \lstinline!minimum()! and $O(1)$ \lstinline!successor()!, as in the previous exercise. Then we need to query for the minimum element and then $k$ calls to \lstinline!successor()!, then one $O(\log n)$ delete and one $O(\log n)$ rebalance.
 
-Unfortunately this doesn't work---consider always deleting the last element. After finding
-the minimum, we always do $n$ calls to \lstinline!successor()!, turning this into a $O(n)$
-algorithm in the worst case. \lstinline!:\!
+Unfortunately this doesn't work---consider always deleting the last element. After finding the minimum, we always do $n$ calls to \lstinline!successor()!, turning this into a $O(n)$ algorithm in the worst case. \lstinline!:\!
 
-\paragraph{3-21} This may be cheating somehow, but if the two sets are disjoint and all
-keys in $S_1$ are less than every key in $S_2$, we can concatenate both trees by finding
-the minimum element in $S_2$ and making the root of $S_1$ its left child. It would wreak
-havoc on the balance of the tree, but rebalancing should take at most $O(n+m)$ time, for
-$n$ elements in $S_1$ and $m$ elements in $S_2$. The traversal of $S_2$ to its
-minimum would be $O(log m)$ and the concatenation---a simple matter of pointer
-manipulation---would be constant time.
+\paragraph{3-21} This may be cheating somehow, but if the two sets are disjoint and all keys in $S_1$ are less than every key in $S_2$, we can concatenate both trees by finding the minimum element in $S_2$ and making the root of $S_1$ its left child. It would wreak havoc on the balance of the tree, but rebalancing should take at most $O(n+m)$ time, for $n$ elements in $S_1$ and $m$ elements in $S_2$. The traversal of $S_2$ to its minimum would be $O(log m)$ and the concatenation---a simple matter of pointer manipulation---would be constant time.
 
-\paragraph{3-22} We're to design a data structure that supports \lstinline!insert()!
-and \lstinline!median()! operations, both in $O(\log n)$ time. Inserting is easy enough,
-but the median is an element relative to all other elements in the structure; it depends
-on its logical position within the set of all the elements, so it's not clear that it
-can be determined without somehow keeping track of counts.
+\paragraph{3-22} We're to design a data structure that supports \lstinline!insert()! and \lstinline!median()! operations, both in $O(\log n)$ time. Inserting is easy enough, but the median is an element relative to all other elements in the structure; it depends on its logical position within the set of all the elements, so it's not clear that it can be determined without somehow keeping track of counts.
 
-Suppose the structure keeps two binary search trees, the median, and counters for the
-elements in each tree. The elements in the left tree are less than the median, while
-those on the right tree are greater than the median.
+Suppose the structure keeps two binary search trees, the median, and counters for the elements in each tree. The elements in the left tree are less than the median, while those on the right tree are greater than the median.
 
-When inserting, we compare the element to the median to select which side to insert it
-into. It's then inserted in the correct tree, taking $O(\log n)$ time (actually $\log m$,
-with $m$ the number of elements on that side of the median). We increase the counter on
-this side, and if the difference in elements between both sides is greater than 1, we
-know we need to shift the median.
+When inserting, we compare the element to the median to select which side to insert it into. It's then inserted in the correct tree, taking $O(\log n)$ time (actually $\log m$, with $m$ the number of elements on that side of the median). We increase the counter on this side, and if the difference in elements between both sides is greater than 1, we know we need to shift the median.
 
-To rebalance the structure, suppose the left side has two more elements than the right
-side. We can insert the median in the right tree in $O(\log n)$ time, then find and
-delete the maximum from the left tree, also in $O(\log n)$ time, and set it as the new
-median. The right counter increases by one, the left counter decreases by one, and we are
-balanced again.
+To rebalance the structure, suppose the left side has two more elements than the right side. We can insert the median in the right tree in $O(\log n)$ time, then find and delete the maximum from the left tree, also in $O(\log n)$ time, and set it as the new median. The right counter increases by one, the left counter decreases by one, and we are balanced again.
 
 This actually gives $O(1)$ access to the median, so it is probably wrong for the exercise.
 
@@ -780,12 +677,12 @@ We would insert a weight by querying for the minimum in the binary tree in $O(\l
 \begin{enumerate}[label=\alph*)]
 	\item Make an $n$-by-$n$ array and populate it in $O(n^2)$ time with the minimum value in $x_i,\ldots,x_j$ for $i,j$ in $[1\ldots n]$. Then given $i$ and $j$, just return whatever is in the $i,j$ position of the matrix in $O(1)$.
 	\item Consider an unsorted array and take the minimum, say $x_i$. This element partitions the array into a left side, from $x_1$ to $x_{i-1}$; the minimum itself, $x_i$; the right side, from $x_{i+1}$ to $x_n$.
-	
+
 	Now make the root of a tree by pairing up $(x_i, i)$, the minimum and its position. The left subtree's root node is the minimum in the range $[x_1\ldots x_{i-1}]$ and itself splits this range in two sides (plus itself). Likewise with the right subtree and the range $[x_{i+1}\ldots x_n]$.
-	
+
 	Given a query range, we start on the root of the tree. If $i$ is in the query range, we have our (global) minimum. Otherwise the range is entirely to the left or right of $i$. Traverse accordingly.
 
-	By following this tree until we hit a minimum that is in the input interval we will find the minimum value in $O(\log n)$ steps. Since each node is its value plus its index this takes $O(n)$ space.	
+	By following this tree until we hit a minimum that is in the input interval we will find the minimum value in $O(\log n)$ steps. Since each node is its value plus its index this takes $O(n)$ space.
 \end{enumerate}
 
 \paragraph{3-27} From doing a couple of experiments, it seems that given some $k$, using the oracle to test $f(S, k-x_i)$ for each $x_i\in S$ selects and eliminates the correct elements.
@@ -892,15 +789,15 @@ Starting with the values sorted in descending order, consider the array of diffe
 \paragraph{4-8}
 \begin{enumerate}[label=(\alph*)]
 	\item Assuming customers don't double pay, there will be at most as many checks as there are bills. Let's sort both bills and checks by the customer id. Then treat each list as a queue, and consider each bill. If the check at the front of its queue is for this bill, this customer has paid; pop the front of both queues. If the check doesn't match the bill, this bill hasn't been paid---pop the bill and put it aside in the list of unpaid bills.
-	
+
 	Sorting the bills and checks is $O(n\log n)$, and the linear sweep is $O(n)$ for a total effort of $O(n\log n)$ time.
-	
+
 	\item Sort the list of books by publisher. This is $O(n\log n)$ for $n$ books in the library. Then for each publisher use binary search to find the boundaries of the corresponding block of published books in the sorted list. (See \S\,5.1.1 Counting Occurrences.)
-	
+
 	Each binary search is $O(\lg n)$ time and there are 30 publishers, which is a constant factor so the overall effort is $O(n\log n)$ with the sorting of all the books dominating.
-	
+
 	\item Don't sort anything. Make an empty set, then for each card push the name into the set. The size of the set after going over all the cards is the answer.
-	
+
 	If the set is implemented as a binary tree, each insert is $O(\log n)$ for $n$ total cards, meaning $n$ insertions, so $O(n\log n)$ total effort. If the set is implemented as a hash table instead, each insertion is $O(1)$ so the overall complexity is $O(n)$.
 \end{enumerate}
 
@@ -925,23 +822,23 @@ return false
 \paragraph{4-10}
 \begin{enumerate}[label=(\alph*)]
 	\item If $S$ is unsorted, we can sort it in $O(n\log n)$ time, then for each of the $n$ elements do a binary search for the difference with $x$. At most we do a binary search for all $n$ elements, each being $O(\log n)$, for a total $O(n\log n)$ effort.
-	
+
 	\item If the array is sorted, consider two pointers $l$ and $r$, pointing to the first and last elements of the array respectively. While they haven't crossed each other, compare the sum of the pointed elements to $x$---if the sum is greater than $x$, point $r$ to the next smaller element; if the sum is less than $x$, point $l$ to the next largest element. If the two pointers cross each other, then no two elements in the array add up to $x$.
-	
+
 	\begin{proof}Let us call $l, r$ the left and right pointers respectively. Suppose a given array and real number $x$ have a solution at indices $i, j$---that is, $x = x_i + x_j,\ i<j$.
-	
+
 	The pointers $l$ and $r$ only ever go in one direction, so we would fail to find a solution if $l>i$ or $r<j$ (taking some notational license).
-	
+
 	Suppose there is a solution, yet $l = i+1$. Then $l$ was incremented because $x_i + x_j < x$, which contradicts the assumption that our solution was the pair $(x_i, x_j)$. Note that $r>j$, since the array is ordered, would mean that $x_i+x_{j+1} > x$ since $x_j < x_{j+1}$. But this contradicts the fact that $l$ was incremented to $i+1$.
-	
+
 	By a similar argument, we can see that $r$ can't be less than $j$.
-	
+
 	\vskip 1em
-	
+
 	To drive the point home, consider the moment where $l=i-1$ and $r=j+1$. Either $x < x_{i-1} + x_{j+1}$ or $x > x_{i-1} + x_{j+1}$.
-	
+
 	If $x < x_{i-1} + x_{j+1}$, we will increment $l$ and have a pair $(x_i,x_{j+1})$ which must be greater than $x$, for $x = x_i + x_j$ and $x_j < x_{j+1}$. At this point the algorithm will bring $r$ in to find pair $(x_i, x_j)$.
-	
+
 	If $x > x_{i-1} + x_{j+1}$, conversely, we will see $r$ be brought in first to find pair $(x_{i-1}, x_j)$. By the same argument, $x_{i-1} + x_j < x$, so $l$ will be advanced to point to $x_i$, and again find the solution $(x_i,x_j)$.
 	\end{proof}
 \end{enumerate}
@@ -1006,11 +903,11 @@ This process guarantees that a sequence of intersecting segments will be selecte
 
 \begin{proof}[Deniz's reasoning.] Let us take $m=1$ without loss of generality.
 
-Let $I_i = [a_i, b_i],\ i=1,\ldots,m$ be the collection of segments which the algorithm yields, which by construction has the property that $a_{j+1} \leq b_j < b_{j+1}$ for $j=1,\ldots,m-1$. 
+Let $I_i = [a_i, b_i],\ i=1,\ldots,m$ be the collection of segments which the algorithm yields, which by construction has the property that $a_{j+1} \leq b_j < b_{j+1}$ for $j=1,\ldots,m-1$.
 
 Let $J_i = [x_i, y_i],\ i=1,\ldots,n$ be another collection which covers $[0,1]$ with $n < m$. We can assume the collection $\{J_i\}$ has the same property (just apply the algorithm to this collection).
 
-Since $n<m$, we have $b_n < 1 \leq y_n$. Also, by construction, $b_1 \geq y_1$. Let $S$ be the set of indices $i$ such that $b_i < y_i$. Then $m\in S$ and $1\notin S$. Let $k = \min S > 1$. Then, since $k - 1 \notin S$, we have $y_{k-1} \leq b_{k-1}$, as well as $x_k \leq y_{k-1}$ by construction and $b_k < y_k$ because $k\in S$. Thus $x_k \leq y_{k-1} \leq b_{k-1} < b_k < y_k$. 
+Since $n<m$, we have $b_n < 1 \leq y_n$. Also, by construction, $b_1 \geq y_1$. Let $S$ be the set of indices $i$ such that $b_i < y_i$. Then $m\in S$ and $1\notin S$. Let $k = \min S > 1$. Then, since $k - 1 \notin S$, we have $y_{k-1} \leq b_{k-1}$, as well as $x_k \leq y_{k-1}$ by construction and $b_k < y_k$ because $k\in S$. Thus $x_k \leq y_{k-1} \leq b_{k-1} < b_k < y_k$.
 
 So, $J_k = [x_k, y_k]$ is a segment which intersects $I_{k-1}$, but again by construction, $b_k$ is the largest right endpoint of all such intervals, implying $b_k \geq y_k$. But that means $k\notin S$, a contradiction. It follows that $m \leq n$.
 \end{proof}
@@ -1097,16 +994,15 @@ Select a pivot and partition the elements. If the pivot belongs in the median po
 Partitioning in the first level looks at all $n$ elements, but every time we recurse we ditch half the elements so the second partition looks at $n/2$ elements (in the expected case). By halving the number of elements under consideration we zero in on the median in $O(\lg n)$ time; each recursive call does $n/2^h$ partitioning work, for height $h\in [0\ldotsTwo\lg n]$.
 
 What really is $\sum_{h=0}^{\lg n} n/2^h$? Remember the situation with the dynamic array (\S\,3.1.1, pp.\,71). Here, the first level looks at all the elements, then each subsequent call looks at half the previous ones.
-
 \begin{center}
-\begin{tikzpicture}[scale=.3]
+\begin{tikzpicture}[scale=.3,filled/.style={fill=black!15}]
 	\foreach \x in {0,...,7} {
-		\filldraw[pattern=north west lines] (\x,0) rectangle (\x+1, 1);
+		\filldraw[filled] (\x,0) rectangle (\x+1, 1);
 	}
 	\draw[->] (9,0.5) -- (10,0.5);
 	\foreach \x in {0,...,7} {
 		\ifnum \x < 4
-			\filldraw[pattern=north west lines] (\x+11,0) rectangle (\x+12, 1);
+			\filldraw[filled] (\x+11,0) rectangle (\x+12, 1);
 		\else
 			\draw (\x+11,0) rectangle (\x+12,1);
 		\fi
@@ -1114,13 +1010,13 @@ What really is $\sum_{h=0}^{\lg n} n/2^h$? Remember the situation with the dynam
 	\draw[->] (20,0.5) -- (21,0.5);
 	\foreach \x in {0,...,7} {
 		\ifnum \x < 2
-			\filldraw[pattern=north west lines] (\x+22,0) rectangle (\x+23,1);
+			\filldraw[filled] (\x+22,0) rectangle (\x+23,1);
 		\else
 			\draw (\x+22,0) rectangle (\x+23,1);
 		\fi
 	}
 	\draw[->] (31,0.5) -- (32,0.5);
-	\filldraw[pattern=north west lines] (33,0) rectangle (34,1);
+	\filldraw[filled] (33,0) rectangle (34,1);
 	\foreach \x in {1,...,7} {
 		\draw (\x+33,0) rectangle (\x+34,1);
 	}
