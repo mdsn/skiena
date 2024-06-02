@@ -31,6 +31,11 @@
 \newcommand{\Z}{\mathbb{Z}}
 \newcommand{\C}{\mathbb{C}}
 
+% https://tex.stackexchange.com/a/668327
+\newcommand{\ldotsTwo}{%
+  \mathinner{{\ldotp}{\ldotp}}%
+}
+
 \begin{document}
 
 \chapter{Introduction to algorithm design}
@@ -890,7 +895,7 @@ Starting with the values sorted in descending order, consider the array of diffe
 	
 	Sorting the bills and checks is $O(n\log n)$, and the linear sweep is $O(n)$ for a total effort of $O(n\log n)$ time.
 	
-	\item Sort the list of books by publisher. This is $O(n\log n)$ for $n$ books in the library. Then for each publisher use binary search to find the boundaries of the corresponding block of published books in the sorted list. (See section 5.1.1 Counting Occurrences.)
+	\item Sort the list of books by publisher. This is $O(n\log n)$ for $n$ books in the library. Then for each publisher use binary search to find the boundaries of the corresponding block of published books in the sorted list. (See \S\,5.1.1 Counting Occurrences.)
 	
 	Each binary search is $O(\lg n)$ time and there are 30 publishers, which is a constant factor so the overall effort is $O(n\log n)$ with the sorting of all the books dominating.
 	
@@ -1018,6 +1023,32 @@ Half of the elements in the array are leaves, and can be considered well formed 
 
 Thus we have a way of building a heap in $O(n)$ time. All that is left is to do $k$ queries for the minimum, $O(1)$ each, and $k$ delete operations, $O(\log n)$ each, for a total $O(n + k\log n)$ time.
 
+\begin{lstlisting}
+int left(int i) { return 2 * i + 1; }
+int right(int i) { return left(i) + 1; }
+
+int min3(vec &xs, int i) {
+  int ix = i;
+  int l = left(i), r = right(i);
+  if (l < xs.size() and xs[l] < xs[ix]) ix = l;
+  if (r < xs.size() and xs[r] < xs[ix]) ix = r;
+  return ix;
+}
+
+void sift(vec &xs, int i) {
+  int min = min3(xs, i);
+  if (min != i) {
+    std::swap(xs[i], xs[min]);
+    sift(xs, min);
+  }
+}
+
+void heapify(vec &xs) {
+  for (int i = xs.size() / 2; i >= 0; i--)
+    sift(xs, i);
+}
+\end{lstlisting}
+
 \paragraph{4-18} To clarify, $n$ elements across all $k$ lists.
 
 Put the $k$ heads of the lists in a heap in $O(k)$ time. Suppose we build this priority queue so that, upon eliminating a minimum that belonged to list $i$, it pulls the new head from list $i$ (if it's not empty yet) into the heap. Effectively, keep a $k$-element heap of the heads of the lists.
@@ -1039,7 +1070,7 @@ The powerup comes from the assistance the heap provides in quickly finding the n
 \end{enumerate}
 
 % TODO use proper bibliography and collect references
-\paragraph{4-20} From Knuth, vol. 3, section 5.2.3 ``Sorting by selection''. DEK introduces \emph{quadratic selection}. The idea is simple: assume without loss of generality that $n$ is a square, and partition the $n$ elements into $\sqrt{n}$ groups of $\sqrt{n}$ elements each. Then make a new group with the minimum elements from each group. The minimum element across all $n$ can be found in this group.
+\paragraph{4-20} From Knuth, vol.\ 3, \S\,5.2.3 ``Sorting by selection''. DEK introduces \emph{quadratic selection}. The idea is simple: assume without loss of generality that $n$ is a square, and partition the $n$ elements into $\sqrt{n}$ groups of $\sqrt{n}$ elements each. Then make a new group with the minimum elements from each group. The minimum element across all $n$ can be found in this group.
 
 Note that the second smallest element will also be selected into the leaders group, except when it is in the same partition as the smallest element. Thus, with the minimum removed from the group of leaders, the second smallest can be found by looking at the remaining $\sqrt{n}-1$ leaders as well as the remaining elements in the group whence the minimum element came.
 
@@ -1063,9 +1094,9 @@ Select a pivot and partition the elements. If the pivot belongs in the median po
 
 \vskip 0.5em
 
-Partitioning in the first level looks at all $n$ elements, but every time we recurse we ditch half the elements so the second partition looks at $n/2$ elements (in the expected case). By halving the number of elements under consideration we zero in on the median in $O(\lg n)$ time; each recursive call does $n/2^h$ partitioning work, for height $h=0,\ldots,\lg n$.
+Partitioning in the first level looks at all $n$ elements, but every time we recurse we ditch half the elements so the second partition looks at $n/2$ elements (in the expected case). By halving the number of elements under consideration we zero in on the median in $O(\lg n)$ time; each recursive call does $n/2^h$ partitioning work, for height $h\in [0\ldotsTwo\lg n]$.
 
-What really is $\sum_{h=0}^{\lg n}$? Remember the situation with the dynamic array (\S\,3.1.1, pp.\,71). Here, the first level looks at all the elements, then each subsequent call looks at half the previous ones.
+What really is $\sum_{h=0}^{\lg n} n/2^h$? Remember the situation with the dynamic array (\S\,3.1.1, pp.\,71). Here, the first level looks at all the elements, then each subsequent call looks at half the previous ones.
 
 \begin{center}
 \begin{tikzpicture}[scale=.3]
@@ -1096,6 +1127,44 @@ What really is $\sum_{h=0}^{\lg n}$? Remember the situation with the dynamic arr
 \end{tikzpicture}
 \end{center}
 Arranging the last three ``summands'' together, they tend to add up to $n$ but not quite. So we do a total of $2n$ work in partitioning (again, in the expected case) for a total $O(n)$ (expected) time.
+
+\subsubsection*{Lomuto partition scheme}
+Given an arbitrary pivot, this method does a linear selection over the entire range, pushing the $k$ elements smaller than the pivot to the first $k$ positions of the array. As a consequence of these swaps, elements larger than the pivot are carried to positions $[k+1 \ldotsTwo r]$. The final step is to place the pivot in position $k+1$.
+
+\begin{lstlisting}
+int lomuto(vec &xs, int l, int r) {
+  for (int i = l; i < r; i++) {
+    if (xs[i] < xs[r]) {
+      std::swap(xs[i], xs[l]);
+      l++;
+    }
+  }
+  std::swap(xs[r], xs[l]);
+  return l;
+}
+\end{lstlisting}
+
+\subsubsection*{Sedgewick's partitioning scheme}
+As explained by Knuth in \S\,5.2.2 ``Sorting by exchanging''.
+
+Given an array $A$ of $n$ elements, and integers $l, r$ the boundaries of the interval to partition (e.g. \lstinline!sedgewick(A,0,n-1)! would partition the entire array). Take an arbitrary element as pivot; DEK takes the first element in the interval, $l$. Increase $l$ until it points to an element that does not belong in the left partition; likewise, decrease $r$ until it points to an element that does not belong in the right partition. If $l<r$, exchange $A_l$ with $A_r$, then continue processing the elements until $l\geq r$. If $l$ and $r$ did cross, swap the pivot into its final position at $A_r$ and return.
+
+\begin{lstlisting}
+int sedgewick(vec &xs, int l, int r) {
+  int p = l;
+  l--; r++;
+  while (1) {
+    do { l++; } while (xs[l] < xs[p]);
+    do { r--; } while (xs[p] < xs[r]);
+    if (l >= r) {
+      std::swap(xs[p], xs[r]);
+      return r;
+    }
+    std::swap(xs[l], xs[r]);
+  }
+}
+\end{lstlisting}
+
 
 
 
