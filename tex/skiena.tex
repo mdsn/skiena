@@ -36,6 +36,8 @@
   \mathinner{{\ldotp}{\ldotp}}%
 }
 
+\newcommand{\li}{\lstinline}
+
 \begin{document}
 
 \chapter{Introduction to algorithm design}
@@ -171,7 +173,7 @@ Now we want to show that $f(n) = \Omega(n^2+1)$, that is, $c\left(n^2 + 1\right)
 \end{equation*}
 But note that $n^2 + 1 \le (n+1)^2$, so for $n_0 = n_1 + 1$ above, we have that $c_1\left(n^2 + 1\right) \le c_1 (n+1)^2 \le f(n)$ for $n > n_0$. So $f(n) = \Omega(n^2+1)$ and thus $f(n) = \Theta(n^2 + 1)$.
 
-\vskip 1em
+\medskip
 
 Now we need to show that $f(n) = \Theta(n^2+1) \Rightarrow f(n) = \Theta(n^2)$.
 
@@ -179,7 +181,7 @@ $f(n) = \Omega(n^2) \Leftrightarrow c n^2 \le f(n)$ for $n > n_0$. We know that 
 
 $f(n) = O(n^2) \Leftrightarrow f(n) \le c n^2$ for $n > n_0$. Since $f(n) = O(n^2 + 1)$ we know there are $c_1$ and $n_1$ such that $f(n) \le c_1\left(n^2+1\right)$ for $n \ge n_1$; in particular, $f(n) \le c_1\left(n_1^2+1\right)$. Then let $c = c_1\left(n_1^2+1\right)$, then $c n^2 > c_1\left(n_1^2+1\right) \ge f(n)$, for $n > n_1$. Thus $f(n) = O(n^2)$ and $f(n) = \Theta(n^2)$.
 
-\vskip 1em
+\medskip
 
 This shows that if a function is $\Theta(n^2)$ then it must be $\Theta(n^2+1)$ and viceversa---that is, both classes are the same.
 
@@ -224,7 +226,7 @@ If $a>0$ we need to see that $\left(1 + \frac{a}{n}\right)^b$ is bounded. (To se
 
 Note that $\frac{a}{n}$ can get arbitrarily close to 0 for large enough $n$, so the entire expression tends to 1 as $n\to\infty$. Thus for, say, $c=2$ it is possible to find $n_0$ large enough such that $(n+a)^b \le 2n^b$. So $(n+a)^b = O(n^b)$.
 
-\vskip 0.5em
+\medskip
 
 To prove that $(n+a)^b = \Omega(n^b)$, by the same argument, $c n^b \le (n+a)^b \rightarrow c \le (n+a/n)^b = (1 + a/n)^b$. For $a\ne0$ the expression $1+a/n$ tends to 1, either ``from below'' or ``from above''---at any rate, by taking some $c<1$, say, $1/2$, it will be possible to find $n$ large enough that the inequality will hold. Thus $(n+a)^b = \Omega(n^b)$, and finally $(n+a)^b = \Theta(n^b)$.
 \end{proof}
@@ -354,38 +356,44 @@ We could say that $b^{2n-2} xy$ takes $O(1)$ for $xy$, which is then added to it
         	[scale=.46,
 			 filled/.style={fill=black!15}]
         	\foreach \x in {0,...,3}
-				\filldraw[filled] (\x,0) rectangle (\x+1, 1);
+				\filldraw[filled] (\x,0) rectangle ++(1,1);
 			\foreach \x in {4,...,7}
-				\draw (\x,0) rectangle (\x+1,1);
+				\draw (\x,0) rectangle ++(1,1);
 
-        	\draw[->] (9,0.5) -- (10,0.5);
+        	\draw[->] (9,0.5) -- ++(1,0);
 
         	\foreach \x in {0,...,3}
-        		\filldraw[filled] (\x+11,0) rectangle (\x+12, 1);
+        		\filldraw[filled] (\x+11,0) rectangle ++(1, 1);
         \end{tikzpicture}
         \end{center}
+        
+        \begin{tikzpicture}
+        	[every node/.style={rectangle,draw,minimum size=.4cm},
+			 mem/.style={fill=black!15}]
+			\foreach \x in {0,...,3}
+				\node[mem] (\x) at (\x,0) {\x};
+			\foreach \x in {4,...,7}
+				\node (\x) at (\x,0) {\x};
+        \end{tikzpicture}
 
         If our program now adds an item to the dynamic array the same space needs to be allocated that was just freed, potentially moving all $2^{n-1}$ items. Imagine this delete-one/add-one cycle repeats, such as may happen with a stack backed by this dynamic array. Each append-one operation copies the (now) lower half to a new location, taking linear time on the number of items.
 
 	\item The problem with that underflow strategy is that both the ``grow'' and ``shrink'' events are at the same threshold---when half full, shrink by half thus making it full again, but this guarantees the next append will trigger a ``grow''. If the two thresholds are dissociated, we will avoid this pathological behavior. For this, only shrink the array to half size when it is a fourth full.
 
         \begin{center}
-        \begin{tikzpicture}[scale=.46]
-        	\foreach \x in {0,...,7} {
-        		\ifnum \x < 2
-        			\filldraw[pattern=north west lines] (\x,0) rectangle (\x+1, 1);
-        		\else
-        			\draw (\x,0) rectangle (\x+1,1);
-        		\fi
-        	}
-        	\draw[->] (9,0.5) -- (10,0.5);
-        	\foreach \x in {0,...,3} {
-        		\ifnum \x < 2
-        			\filldraw[pattern=north west lines] (\x+11,0) rectangle (\x+12, 1);
-        		\else
-        			\draw (\x+11,0) rectangle (\x+12,1);
-        		\fi
-			}
+        \begin{tikzpicture}[scale=.46,filled/.style={fill=black!15}]
+        	\foreach \x in {0,...,3}
+        		\filldraw[filled] (\x,0) rectangle ++(1, 1);
+        	\foreach \x in {4,...,7}
+        		\draw (\x,0) rectangle ++(1,1);
+
+        	\draw[->] (9,0.5) -- ++(1,0);
+	
+        	\def\offset{11}
+        	\foreach \x in {0,...,1}
+        		\filldraw[filled] (\x+\offset,0) rectangle ++(1, 1);
+        	\foreach \x in {2,...,3}
+        		\draw (\x+\offset,0) rectangle ++(1,1);
         \end{tikzpicture}
         \end{center}
 
@@ -833,7 +841,7 @@ return false
 
 	By a similar argument, we can see that $r$ can't be less than $j$.
 
-	\vskip 1em
+	\bigskip
 
 	To drive the point home, consider the moment where $l=i-1$ and $r=j+1$. Either $x < x_{i-1} + x_{j+1}$ or $x > x_{i-1} + x_{j+1}$.
 
@@ -895,11 +903,9 @@ Start by finding the segment that covers 0 that extends furthest to the right in
 
 Call the selected segment the ``current'' segment. Then, while $m$ hasn't been covered, select among the intervals that intersect the current interval the one that extends furthest to the right ($O(n)$), and make it the current segment. If no segment intersects the current segment whose right coordinate extends further to the right than that of the current segment, then there is no solution (the union of $S$ either has a gap or can't cover all of $(0,m)$).
 
-\vskip 0.5em
+\medskip
 
 This process guarantees that a sequence of intersecting segments will be selected, meaning that there will be no gaps. The selection of each segment in that sequence, the one that reaches furthest to the right, is optimal: any alternative will reach at most the same number of segments to the right, or it will possibly not reach the next optimal choice of segment.
-
-\vskip 0.5em
 
 \begin{proof}[Deniz's reasoning.] Let us take $m=1$ without loss of generality.
 
@@ -954,7 +960,7 @@ Repeatedly take the minimum from the heap until there are no more elements in an
 
 There are $n$ total elements, selected from the lists by the \lstinline!pop()! operation of the heap which is $O(\log k)$, for a total $O(n\log k)$ time.
 
-\vskip 0.5em
+\medskip
 
 The powerup comes from the assistance the heap provides in quickly finding the next element in the output sequence. Without it, we would have to visit each of the $k$ list heads to find the minimum at each step. We'd do this $O(k)$ work for each of the $n$ elements; this is the obvious $O(kn)$ algorithm.
 
@@ -971,7 +977,7 @@ The powerup comes from the assistance the heap provides in quickly finding the n
 
 Note that the second smallest element will also be selected into the leaders group, except when it is in the same partition as the smallest element. Thus, with the minimum removed from the group of leaders, the second smallest can be found by looking at the remaining $\sqrt{n}-1$ leaders as well as the remaining elements in the group whence the minimum element came.
 
-\vskip 0.5em
+\medskip
 
 Finding the minimum in a group takes $\sqrt{n}-1$ comparisons. There are $\sqrt{n}$ groups, so there is a total initialization cost of $\sqrt{n}(\sqrt{n}-1) = n - \sqrt{n}$ comparisons. The minimum is then determined from this group of leaders in $\sqrt{n}-1$ comparisons.
 
@@ -989,7 +995,7 @@ This shows that quadratic selection does fewer comparisons than the obvious algo
 
 Select a pivot and partition the elements. If the pivot belongs in the median position, the pivot is the median. Otherwise recurse into the partition that contains the median position.
 
-\vskip 0.5em
+\medskip
 
 Partitioning in the first level looks at all $n$ elements, but every time we recurse we ditch half the elements so the second partition looks at $n/2$ elements (in the expected case). By halving the number of elements under consideration we zero in on the median in $O(\lg n)$ time; each recursive call does $n/2^h$ partitioning work, for height $h\in [0\ldotsTwo\lg n]$.
 
@@ -1060,6 +1066,22 @@ int sedgewick(vec &xs, int l, int r) {
   }
 }
 \end{lstlisting}
+
+\paragraph{4-23} We have an array $A$ of $n$ elements of three kinds: \li!R!, \li!W! and \li!B!. We want them sorted like so: \li!R! < \li!W! < \li!B!, using only the operations \li!examine(A,i)! and \li!swap(A,i,j)!, in linear time.
+
+The first thing that comes to mind is some algorithm inspired in the partitioning step of quicksort. Partitioning algorithms are linear, so that's a good start. We don't know how many of each kind of element there are, so we don't know exactly where to place the middle chunk. We could, however, temporarily consider \li!W! = \li!B!, and distribute the \li!R! to the left, and all the \li!W!/\li!B! to the right. Once done, we'd know how many \li!R! we sorted, and therefore how much space the rest of the elements will take. A second linear pass on this subarray would sort the \li!W! first and the \li!B! second.
+
+\smallskip
+
+How would this look? Keep a pointer $i$ initially at position 0, and a pointer $j$ at position $n-1$. While they haven't crossed, if $i$ points at a \li!R!, advance it until it doesn't; inspect $j$, if it points to a \li!R!, this element belongs on the first part of the array so \li!swap(A,i,j)!, increment $i$ and decrement $j$. At the end of this process all \li!R! will be on the left side of the array. The same method can then be used on the remaining subarray to put all \li!W! in place. The \li!B! will end up accumulated on the right as expected.
+
+
+
+
+
+
+
+
 
 
 
