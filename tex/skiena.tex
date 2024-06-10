@@ -11,6 +11,7 @@
 \usetikzlibrary{patterns}
 \usetikzlibrary{positioning}
 \usetikzlibrary{graphs,graphdrawing}
+\usetikzlibrary{shapes.geometric}
 \usegdlibrary{trees}
 
 \lstset{
@@ -35,6 +36,8 @@
 \newcommand{\ldotsTwo}{%
   \mathinner{{\ldotp}{\ldotp}}%
 }
+% bootleg DEK's qed symbol
+\newcommand{\okthen}{\rule[-1.4pt]{0.3em}{0.77em}}
 
 \newcommand{\li}{\lstinline}
 
@@ -1074,6 +1077,64 @@ The first thing that comes to mind is some algorithm inspired in the partitionin
 \smallskip
 
 How would this look? Keep a pointer $i$ initially at position 0, and a pointer $j$ at position $n-1$. While they haven't crossed, if $i$ points at a \li!R!, advance it until it doesn't; inspect $j$, if it points to a \li!R!, this element belongs on the first part of the array so \li!swap(A,i,j)!, increment $i$ and decrement $j$. At the end of this process all \li!R! will be on the left side of the array. The same method can then be used on the remaining subarray to put all \li!W! in place. The \li!B! will end up accumulated on the right as expected.
+
+\paragraph{4-24} The same procedure from 4-23 solves this exercise in $O(n)$ time.
+
+\paragraph{4-25} If $z_i$ and $z_j$ are compared then one of them has been selected as a pivot and will end up in its final position at the end of the partition step. Furthermore, the pivot will not be a part of any subsequent recursive calls, so it won't be compared again with this or any other element. Therefore the answer is 1.
+
+\paragraph{4-26} The minimum recursion depth happens when the median is selected as a pivot at every partition step---the work is split most evenly. In this scenario, we repeatedly halve the problem size until we get down to 1. For $n$ elements, this recursion depth is $h=\lceil\lg n\rceil$.
+
+The maximum recursion depth happens, as expected, when the worst possible pivot is selected at every turn. There are two of these: the minimum and the maximum elements in the input. In this scenario we split the work most unevenly---since the pivot is frozen in place and it is one of the extremes, all the remaining work goes to a single recursive call! Since every recursion level advances by freezing only one element, we end up with a recursion depth $h=n$.
+
+\paragraph{4-27} Suppose we have a permutation $p$ of the integers $[1\ldotsTwo n]$ and an operation \li!reverse(i,j)! that reverts elements $p_i,\ldots,p_j$. We want to sort the permutation in increasing order using only the \li!reverse()! operation.
+
+In particular the first thing we are asked to do is show that $O(n)$ reversals are enough to sort $p$. But first we can explore this operation a bit and see what it can do for us. One readily apparent fact is that it is possible to implement \li!swap(i,j)! in terms of \li!reverse(i,j)!. To swap elements $i$ and $j$, call \li!reverse(i,j)! then call \li!reverse(i+1,j-1)!.
+
+% TODO draw this
+An example. Let $p=[a,b,c,d,e,f,g]$ and swap elements $b$ and $f$.
+\begin{lstlisting}
+                [a,b,c,d,e,f,g]
+reverse(1,5) -> [a,f,e,d,c,b,g]
+reverse(2,4) -> [a,f,c,d,e,b,g]
+\end{lstlisting}
+
+Note that \li!swap()! makes a constant number of calls to \li!reverse()!. In other words, \li!swap()! costs whatever \li!reverse()! costs.
+
+\smallskip
+
+Skiena didn't mention operations \li!inspect(i)! or \li!compare(i,j)!, which he did in 4-23, but we'd be hard pressed to sort any permutation without looking at the elements or being able to assert if a range is in order. Therefore we will assume these operations are legal.
+
+\smallskip
+
+Now, on to the task at hand.
+\begin{enumerate}[label=(\alph*)]
+\item With \li!swap()! at our disposal we may implement a selection sort: find the smallest item and swap it with the element at index 0. Find the second smallest and swap it with the element at index 1, and so on. It should be clear that $O(n)$ swaps are done, for each element---once found---is placed in its final position and not moved again. Each swap takes a constant number of \li!reverse()! operations (at most two), for the desired $O(n)$ reversals.\,\okthen
+\item (?)
+\end{enumerate}
+
+\paragraph{4-28} The recursion tree in the canonical ``split at the half'' version of merge sort has height $\lg n$, namely how many times $n$ elements can be split until we reach 1 element per part. If we were to split three ways we'd end up with a tree of height $\log_3 n$---but the merging is still linear, so we are left again with a $\Theta(n\log n)$ algorithm. The insight by Skiena: a change of base does not affect the class of a logarithmic function.
+
+One interesting consideration is how the merge operation is affected by this change. Whereas before we merged from two subarrays, picking each element at the cost of one comparison, merging three ways requires two comparisons. The process is still linear but it takes twice as much work now.
+
+\paragraph{4-29} Each time a new array is merged we do a linear pass over all the partial work already done. This partial work does not remain constant however---it is $n$ elements larger every time we merge a new array, so that on the last merge we are making a pass over an array of $(k-1)n$ elements.
+
+So the first pass merges $2n$ elements, the next $3n$ and so on:
+\begin{equation*}\sum_{i=1}^k in = n\sum_{i=1}^k i = n\frac{k(k+1)}{2} = O(nk^2)\end{equation*}
+
+\paragraph{4-30} We have $k$ arrays, $n$ elements each, sorted. The proposed algorithm divides them into $k/2$ pairs of arrays. Then it merges each pair to get $k/2$ arrays of length $2n$. These arrays are in turn paired up to form $k/4$ pairs, which are then merged, and so on and so forth, until there are two arrays of length $(k-1)n$ merged into a single array of length $kn$.
+
+First note that we can pair up arrays $\lg k$ times until we end up with a single one. What is the cost of each merge? Well, the first looks at $2n$ elements $k/2$ times. The second pairing/merging looks at $4n$ elements $k/4$ times.
+\begin{equation*}
+	2n \frac{k}{2} + 4n \frac{k}{4} + \cdots + (k-1)n \frac{k}{2^{k-1}} 
+	= \sum_{i=1}^{\lg k} 2^i n \frac{k}{2^i}
+	= \sum_{i=1}^{\lg k} kn = O(kn\lg k).
+\end{equation*}
+
+
+
+
+
+
 
 
 
