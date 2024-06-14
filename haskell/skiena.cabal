@@ -44,3 +44,8 @@ executable ex04_15
 executable ex04_16
     import: skiena
     main-is: ex04_16.hs
+
+executable ex04_32
+    import: skiena
+    main-is: ex04_32.hs
+

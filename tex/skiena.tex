@@ -1124,13 +1124,49 @@ So the first pass merges $2n$ elements, the next $3n$ and so on:
 \paragraph{4-30} We have $k$ arrays, $n$ elements each, sorted. The proposed algorithm divides them into $k/2$ pairs of arrays. Then it merges each pair to get $k/2$ arrays of length $2n$. These arrays are in turn paired up to form $k/4$ pairs, which are then merged, and so on and so forth, until there are two arrays of length $(k-1)n$ merged into a single array of length $kn$.
 
 First note that we can pair up arrays $\lg k$ times until we end up with a single one. What is the cost of each merge? Well, the first looks at $2n$ elements $k/2$ times. The second pairing/merging looks at $4n$ elements $k/4$ times.
-\begin{equation*}
+\[
 	2n \frac{k}{2} + 4n \frac{k}{4} + \cdots + (k-1)n \frac{k}{2^{k-1}} 
 	= \sum_{i=1}^{\lg k} 2^i n \frac{k}{2^i}
 	= \sum_{i=1}^{\lg k} kn = O(kn\lg k).
-\end{equation*}
+\]
 
+\paragraph{4-31} To make sure merge sort is stable, the items on the partition with the lowest index must be selected first during the merge process. These items appear first in the original array, and must therefore be placed first in the sorted array to maintain the relative order of equal keys. (Realistically speaking, you would have to go out of your way to make an unstable merge sort.)
 
+\paragraph{4-32} Let's consider the example permutation of $[1\ldotsTwo6]$ from the book, and the relation between each consecutive element: $[3 > 1 < 4 > 2 < 6 > 5]$. These would be correct insofar as they are alternating, but it is not because it starts with an element that is larger than the next.
+
+To correct this situation in $O(n)$ time it's worth observing what constitutes an incorrect placement. For this we have to consider triples of consecutive numbers: a relation is wrong (meaning the related elements are in an incorrect position) if two consecutive relations are the same. If $a < b$ is correct, then $a < b < c$ means $b$ and $c$ are placed incorrectly. Likewise for $a > b > c$.
+
+Now, if $a < b < c$ then naturally $a < c$. Therefore if $a < b$ is correct, then so is $a < c$, and we may swap $b$ and $c$ without affecting the correct relation between $a$ and its consecutive element. This is the key to the algorithm.
+
+\smallskip
+
+The wiggle sort algorithm will look at each pair of elements and consider their ordering, taking into account what the ordering was between the last pair visited. To begin let $l\gets(>)$. Look at elements $x_0$ and $x_1$ at the front of the array; if $x_0 > x_1$ then we have two consecutive pairs under the same relation (in this case, the previous pair is $x_0$ and a hypothetical element. We want the relation between the first two elements to be $<$, therefore we start with $l$ set to $(>)$.) Otherwise if $x_0 < x_1$ then these elements are in the right order and we may move on. Set $l\gets(<)$ and look at elements $x_1$ and $x_2$. Once again, if the relation between $x_1$ and $x_2$ is the same as $l$, we are in front of a pair that repeats the relation of the last visited pair, and we must swap them. Repeat this process until visiting the last pair.
+
+Here is an example run with the example from the book. The pair under observation is signaled by the presence of the relation. The value of $l$ while considering each pair is on the right; whenever it is the same as the relation between the elements under consideration, the elements are swapped.
+\begin{gather*}
+	[3 > 1,4,2,6,5] \to [1,3,4,2,6,5] \qquad (>)\\
+	[1,3 < 4,2,6,5] \to [1,4,3,2,6,5] \qquad (<)\\
+	[1,4,3 > 2,6,5] \to [1,4,2,3,6,5] \qquad (>)\\
+	[1,4,2,3 < 6,5] \to [1,4,2,6,3,5] \qquad (<)\\
+	[1,4,2,6,3 < 5] \to [1,4,2,6,3,5] \qquad (>)
+\end{gather*}
+
+It's clear this algorithm takes $O(n)$ time as each index is visited at most twice and swaps are constant time. It takes $O(1)$ space to keep track of the last relation (1 bit?). An argument for its correctness goes somewhat as follows: as we saw before, if $a < b < c$ and $a < b$ is correct, then $a < c$ is also correct, and what's more important $a < c > b$ is correct. Thus we can correct each pair without breaking previously correct relations. In particular, if the last pair is incorrect, then it can be safely swapped without disturbing the rest of the array.
+
+\smallskip
+
+Wiggle sort is very easy to implement recursively (in which case we must look the other way with respect to the $O(n)$ space usage of the call stack or a potential accumulated list):
+\begin{lstlisting}
+wiggle :: [Int] -> [Int]
+wiggle xs = go GT xs
+  where
+    go :: Ordering -> [Int] -> [Int]
+    go _  (a:[])               = [a]
+    go LT (a:b:xs) | a < b     = b : (go GT (a:xs))
+                   | otherwise = a : (go GT (b:xs))
+    go GT (a:b:xs) | a > b     = b : (go LT (a:xs))
+                   | otherwise = a : (go LT (b:xs))
+\end{lstlisting}
 
 
 
