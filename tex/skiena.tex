@@ -62,47 +62,47 @@ The dominance pecking order:
 	\item $f(n) = (n^2 - n)/2,\ g(n) = 6n.$
 
 		Is $f(n) = O(g(n))$? If so, there is $c$ such that $f(n) \le cg(n)$ for sufficiently large $n$.
-		\begin{equation*}
+		\[
 			\frac{1}{2}\left(n^2 - n\right) \le 6n
-				\ \rightarrow\ n^2 - n \le 12n
-				\ \rightarrow\ n(n-1) \le 12n
-		\end{equation*}
+				\ \to\ n^2 - n \le 12n
+				\ \to\ n(n-1) \le 12n
+		\]
 		Suppose there is such a $c$, then
-		\begin{equation*}
-			n(n-1) \le 12cn\ \rightarrow\ n-1 \le 12c
-		\end{equation*}
+		\[
+			n(n-1) \le 12cn\ \to\ n-1 \le 12c
+		\]
 		Clearly we can always find $n$ such that this inequality won't hold, so $f(n) \ne O(g(n))$.
 
 		Is $g(n) = O(f(n))$? If so, there is $c$ such that $g(n) \le cf(n)$ for sufficiently large $n$.
-		\begin{equation*}
+		\[
 			6n \le \frac{1}{2}\left(n^2 - n\right)
-			\ \rightarrow\ 12n \le n^2 - n = n(n-1)
-			\ \rightarrow\ 12 \le n - 1
-			\ \rightarrow\ 13 \le n.
-		\end{equation*}
+			\ \to\ 12n \le n^2 - n = n(n-1)
+			\ \to\ 12 \le n - 1
+			\ \to\ 13 \le n.
+		\]
 		So with $c = 1$ the inequality will hold for $n_0 \ge 13$, and $g(n) = O(f(n))$.
 
 	\item $f(n) = n + 2\sqrt{n},\ g(n) = n^2.$
 
-		$f(n) = O(g(n)) \Leftrightarrow f(n) \le cg(n)$ for sufficiently large $n$.
+		$f(n) = O(g(n)) \iff f(n) \le cg(n)$ for sufficiently large $n$.
 		\begin{gather*}
 			n + 2\sqrt{n} \le cn^2,\ \text{with}\ c = 1, \\
 			n + 2\sqrt{n} \le 2n\ \text{for $n > 4$}, \\
 			2n \le n^2\ \text{so}\ f(n) = O(g(n)).
 		\end{gather*}
 
-		$g(n) = O(f(n)) \Leftrightarrow g(n) \le cf(n)$ for sufficiently large $n$. But this asks to find $c$ such that $n^2 \le c\left(n + 2\sqrt{n}\right)$; since ultimately $n^2 \gg n$, $g(n) \ne O(f(n))$.
+		$g(n) = O(f(n)) \iff g(n) \le cf(n)$ for sufficiently large $n$. But this asks to find $c$ such that $n^2 \le c\left(n + 2\sqrt{n}\right)$; since ultimately $n^2 \gg n$, $g(n) \ne O(f(n))$.
 
 	\item $f(n) = n\log n,\ g(n) = n\sqrt{n}.$
 		\begin{gather*}
-			f(n) = O(g(n)) \Leftrightarrow n\log n \le cn\sqrt{n},\ \text{with $c=1,$} \\
-			\rightarrow\ \log n \le \sqrt{n/2},
+			f(n) = O(g(n)) \iff n\log n \le cn\sqrt{n},\ \text{with $c=1,$} \\
+			\to\ \log n \le \sqrt{n/2},
 		\end{gather*}
 		since $\sqrt{n} \gg \log n,\ f(n) = O(g(n)).$
 
 		By the same argument, $g(n) \ne O(f(n)).$
 
-	\item $f(n) = n + \log n,\ g(n) = \sqrt{n}\ \rightarrow\ n + \log n \le c\sqrt{n}$, and since $n \gg \sqrt{n}$, any constant factor will be dominated by the linear term, so $f(n) \ne O(g(n)).$ Conversely and by the same argument, $g(n) = O(f(n)).$
+	\item $f(n) = n + \log n,\ g(n) = \sqrt{n}\ \to\ n + \log n \le c\sqrt{n}$, and since $n \gg \sqrt{n}$, any constant factor will be dominated by the linear term, so $f(n) \ne O(g(n)).$ Conversely and by the same argument, $g(n) = O(f(n)).$
 
 	\item $f(n) = 2\left(\log n\right)^2,\ g(n) = \log n + 1.$ Note that $2\left(\log n\right)^2 = 2\log^2 n$, and $\log^2 n \gg \log n,$ so $g(n) = O(f(n))$ and $f(n) \ne O(g(n)).$
 
@@ -115,7 +115,7 @@ The dominance pecking order:
 
 		With $c = 3,\ f(n) \le 3g(n)$ so $f(n) = O(g(n)).$
 
-		$f(n) = \Omega(n) \Leftrightarrow cg(n) \le f(n)$ for sufficiently large $n$. For $c = 1$ the inequality holds, so $f(n) = \Omega(g(n))$ and $f(n) = \Theta(g(n)).$
+		$f(n) = \Omega(n) \iff cg(n) \le f(n)$ for sufficiently large $n$. For $c = 1$ the inequality holds, so $f(n) = \Omega(g(n))$ and $f(n) = \Theta(g(n)).$
 
 	\item $f(n) = 2n^4 - 3n^2 + 7,\ g(n) = n^5.$
 
@@ -123,15 +123,15 @@ The dominance pecking order:
 
 	\item $f(n) = \log n,\ g(n) = \log n + \frac{1}{n}.$
 
-		$\lim_{n\rightarrow\infty} \frac{1}{n} = 0,$ so as $n\rightarrow\infty$, $f(n) - g(n) = 0$. So no function dominates the other. Thus, $f(n) = \Theta(g(n)).$
+		$\lim_{n\to\infty} \frac{1}{n} = 0,$ so as $n\to\infty$, $f(n) - g(n) = 0$. So no function dominates the other. Thus, $f(n) = \Theta(g(n)).$
 
 	\item $f(n) = 2^{k\log n},\ g(n) = n^k.$
 		\begin{gather*}
-			f(n) = O(g(n)) \Leftrightarrow f(n) \le cg(n) \\
-			\rightarrow\ 2^{k\log n} \le cn^k;\ \text{taking logarithms,} \\
-			\rightarrow\ \log\left(2^{k\log n}\right) \le \log\left(cn^k\right)
+			f(n) = O(g(n)) \iff f(n) \le cg(n) \\
+			\to\ 2^{k\log n} \le cn^k;\ \text{taking logarithms,} \\
+			\to\ \log\left(2^{k\log n}\right) \le \log\left(cn^k\right)
 				= \log c + \log n^k \\
-			\rightarrow\ k\log n\log 2 \le \log c + k\log n.
+			\to\ k\log n\log 2 \le \log c + k\log n.
 		\end{gather*}
 		Ignoring constant terms and multiplicative constants, we are left with
 		$\log n \le \log n$, so $f(n) = \Theta(g(n)).$
@@ -145,7 +145,7 @@ The dominance pecking order:
 
 \paragraph{2-12}$n^3 - 3n^2 -n + 1 = \Theta(n^3).$
 
-Note that $0 \le 3n^2 + n \rightarrow n^3 \le n^3 + 3n^2 + n \rightarrow n^3 - 3n^2 - n \le n^3$. Thus $f(n) = O(n^3)$.
+Note that $0 \le 3n^2 + n \to n^3 \le n^3 + 3n^2 + n \to n^3 - 3n^2 - n \le n^3$. Thus $f(n) = O(n^3)$.
 
 Now $cn^3 \le n^3 - 3n^2 - n + 1.$ Consider $c = 1/2$, then
 \begin{align*}
@@ -156,7 +156,7 @@ Now $cn^3 \le n^3 - 3n^2 - n + 1.$ Consider $c = 1/2$, then
 \end{align*}
 This holds for $n_0 \ge 7$, so $f(n) = \Omega(n^3)$ and finally $f(n) = \Theta(n^3)$.
 
-\paragraph{2-13}$f(n) = n^2 = O\left(2^n\right) \Leftrightarrow f(n) \le c2^n,$ after some $n_0$. For $c = 1$,
+\paragraph{2-13}$f(n) = n^2 = O\left(2^n\right) \iff f(n) \le c2^n,$ after some $n_0$. For $c = 1$,
 \begin{align*}
 	n^2 &\le 2^n \\
 	\log(n^2) &\le \log(2^n) \\
@@ -168,21 +168,21 @@ Since $\log n \ll n$ this inequality holds for large enough $n$, and $n^2 = O(2^
 
 \paragraph{2-14} $\Theta(n^2) = \Theta(n^2+1)$? This is to say whether both classes are the same. We can show this by assuming we have $f(n) = \Theta(n^2)$, and proving that $f(n) = \Theta(n^2+1)$, and likewise with the other assumption.
 
-First, $f(n) = \Theta(n^2) \Rightarrow f(n) = O(n^2)$ and $f(n) = \Omega(n^2)$. Is $f(n) = O(n^2+1)$? This would mean $f(n) \le c\left(n^2+1\right)$, for $n > n_0$. Since $f(n) = O(n^2)$ there is $c_0$ such that $f(n) \le c_0 n^2$, but $c_0 n^2 \le c_0\left(n^2 + 1\right)$ so with the same $c_0$ we see that $f(n) = O(n^2+1)$.
+First, $f(n) = \Theta(n^2) \to f(n) = O(n^2)$ and $f(n) = \Omega(n^2)$. Is $f(n) = O(n^2+1)$? This would mean $f(n) \le c\left(n^2+1\right)$, for $n > n_0$. Since $f(n) = O(n^2)$ there is $c_0$ such that $f(n) \le c_0 n^2$, but $c_0 n^2 \le c_0\left(n^2 + 1\right)$ so with the same $c_0$ we see that $f(n) = O(n^2+1)$.
 
 Now we want to show that $f(n) = \Omega(n^2+1)$, that is, $c\left(n^2 + 1\right) \le f(n)$ for $n > n_0$. Since $f(n) = \Omega(n^2)$ there are $c_1, n_1$ such that $c_1 n^2 \le f(n)$, for $n > n_1$. In particular this holds for $n+1 > n_1$, so
-\begin{equation*}
+\[
 	c_1 n^2 < c_1 (n+1)^2 \le f(n), \quad n > n_1.
-\end{equation*}
+\]
 But note that $n^2 + 1 \le (n+1)^2$, so for $n_0 = n_1 + 1$ above, we have that $c_1\left(n^2 + 1\right) \le c_1 (n+1)^2 \le f(n)$ for $n > n_0$. So $f(n) = \Omega(n^2+1)$ and thus $f(n) = \Theta(n^2 + 1)$.
 
 \medskip
 
-Now we need to show that $f(n) = \Theta(n^2+1) \Rightarrow f(n) = \Theta(n^2)$.
+Now we need to show that $f(n) = \Theta(n^2+1) \to f(n) = \Theta(n^2)$.
 
-$f(n) = \Omega(n^2) \Leftrightarrow c n^2 \le f(n)$ for $n > n_0$. We know that $f(n) = \Omega(n^2+1)$ so there is a $c_1$ such that $c_1\left(n^2+1\right) \le f(n)$ for $n > n_1$; since $n^2 < n^2 + 1$, by letting $c = c_1$ we see that $c_1 n^2 < c_1 \left(n^2+1\right) \le f(n)$, so $f(n) = \Omega(n^2)$.
+$f(n) = \Omega(n^2) \iff c n^2 \le f(n)$ for $n > n_0$. We know that $f(n) = \Omega(n^2+1)$ so there is a $c_1$ such that $c_1\left(n^2+1\right) \le f(n)$ for $n > n_1$; since $n^2 < n^2 + 1$, by letting $c = c_1$ we see that $c_1 n^2 < c_1 \left(n^2+1\right) \le f(n)$, so $f(n) = \Omega(n^2)$.
 
-$f(n) = O(n^2) \Leftrightarrow f(n) \le c n^2$ for $n > n_0$. Since $f(n) = O(n^2 + 1)$ we know there are $c_1$ and $n_1$ such that $f(n) \le c_1\left(n^2+1\right)$ for $n \ge n_1$; in particular, $f(n) \le c_1\left(n_1^2+1\right)$. Then let $c = c_1\left(n_1^2+1\right)$, then $c n^2 > c_1\left(n_1^2+1\right) \ge f(n)$, for $n > n_1$. Thus $f(n) = O(n^2)$ and $f(n) = \Theta(n^2)$.
+$f(n) = O(n^2) \iff f(n) \le c n^2$ for $n > n_0$. Since $f(n) = O(n^2 + 1)$ we know there are $c_1$ and $n_1$ such that $f(n) \le c_1\left(n^2+1\right)$ for $n \ge n_1$; in particular, $f(n) \le c_1\left(n_1^2+1\right)$. Then let $c = c_1\left(n_1^2+1\right)$, then $c n^2 > c_1\left(n_1^2+1\right) \ge f(n)$, for $n > n_1$. Thus $f(n) = O(n^2)$ and $f(n) = \Theta(n^2)$.
 
 \medskip
 
@@ -190,9 +190,9 @@ This shows that if a function is $\Theta(n^2)$ then it must be $\Theta(n^2+1)$ a
 
 \paragraph{2-17}
 \begin{enumerate}[label=\alph*)]
-	\item $f(n) = n^2 + n + 1,\ g(n) = 2n^3$. We want to find $c > 0$ such that $f(n) \le c g(n)$ for $n > 1$. $f(2) = 7;\ g(2) = 16 \rightarrow c = 1$.
-	\item $f(n) = n\sqrt{n},\ g(n) = n^2$. $n\sqrt{n} < n^2 \rightarrow 2n^2 > n\sqrt{n} + n^2 \rightarrow c = 2$.
-	\item $f(n) = n^2 - n + 1,\ g(n) = n^2/2$. $n^2 - n + 1 < \frac{c}{2}n^2 \rightarrow$ if $n = 2,\ f(2) = 3$, and $g(2) = 2$. For $c=2,\ n^2 - n + 1 < n^2. (f(2) = 3, 2g(2) = 4)$.
+	\item $f(n) = n^2 + n + 1,\ g(n) = 2n^3$. We want to find $c > 0$ such that $f(n) \le c g(n)$ for $n > 1$. $f(2) = 7;\ g(2) = 16 \to c = 1$.
+	\item $f(n) = n\sqrt{n},\ g(n) = n^2$. $n\sqrt{n} < n^2 \to 2n^2 > n\sqrt{n} + n^2 \to c = 2$.
+	\item $f(n) = n^2 - n + 1,\ g(n) = n^2/2$. $n^2 - n + 1 < \frac{c}{2}n^2 \to$ if $n = 2,\ f(2) = 3$, and $g(2) = 2$. For $c=2,\ n^2 - n + 1 < n^2. (f(2) = 3, 2g(2) = 4)$.
 \end{enumerate}
 
 \paragraph{2-18} Let $f_1(n) = O(g_1(n)),\ f_2(n) = O(g_2(n))$. Show that $f_1(n) + f_2(n) = O(g_1(n) + g_2(n))$.
@@ -212,7 +212,7 @@ Thus $c(g_1(n) + g_2(n)) \le f_1(n) + f_2(n),\ n > n_0$, and $f_1(n) + f_2(n) = 
 \paragraph{2-21} We are to prove that $p(n) = a_k n^k + \ldots + a_0 = O(n^k)$, for $k \ge 0$ and arbitrary real coefficients $a_i$. This is to say that we can find a $c > 0$ and $n_0$ such that $p(n) \le c n^k$, for all $n > n_0$.
 
 \begin{proof}We know that after some $n$, $a_k n^k > p(n) - a_k n^k$, that is to say, the leading order term will come to dominate. To see this, note that
-\begin{equation*}\lim_{n\to\infty}\frac{n^m}{n^q} = 0 \Leftrightarrow q > m,\end{equation*}
+\[ \lim_{n\to\infty}\frac{n^m}{n^q} = 0 \iff q > m, \]
 is to say that $n^q \gg n^m$.
 
 Now take $c = \max(a_0,\ldots, a_k)$. Then clearly $c n^k + \ldots + c \ge a_k n^k + \ldots + a_0 = p(n)$. But because of the same argument as above, there is some $n_0$ after which $c n^k > c n^{k-1} + \ldots + c$. Then it follows that $p(n) \le c n^k$ for $n > n_0$, which means $p(n) = O(n^k)$.
@@ -222,16 +222,14 @@ Now take $c = \max(a_0,\ldots, a_k)$. Then clearly $c n^k + \ldots + c \ge a_k n
 
 \begin{proof}
 To prove that $(n+a)^b = O(n^b)$ we need to find $c_0$ such that $c_0 n^b \ge (n+a)^b$ for sufficiently large $n$. If $a=0,\ (n+a)^b = n^b$ and with $c=1$ the inequality holds. If $a<0, (n+a)^b \le n^b$, so
-\begin{equation*}
-	\frac{(n+a)^b}{n^b} = \left(\frac{n+a}{n}\right)^b < 1.
-\end{equation*}
-If $a>0$ we need to see that $\left(1 + \frac{a}{n}\right)^b$ is bounded. (To see why, $(n+a)^b \le c n^b \rightarrow (n+a/n)^b \le c \rightarrow (1 + a/n)^b \le c$).
+\[ \frac{(n+a)^b}{n^b} = \left(\frac{n+a}{n}\right)^b < 1. \]
+If $a>0$ we need to see that $\left(1 + \frac{a}{n}\right)^b$ is bounded. (To see why, $(n+a)^b \le c n^b \to (n+a/n)^b \le c \to (1 + a/n)^b \le c$).
 
 Note that $\frac{a}{n}$ can get arbitrarily close to 0 for large enough $n$, so the entire expression tends to 1 as $n\to\infty$. Thus for, say, $c=2$ it is possible to find $n_0$ large enough such that $(n+a)^b \le 2n^b$. So $(n+a)^b = O(n^b)$.
 
 \medskip
 
-To prove that $(n+a)^b = \Omega(n^b)$, by the same argument, $c n^b \le (n+a)^b \rightarrow c \le (n+a/n)^b = (1 + a/n)^b$. For $a\ne0$ the expression $1+a/n$ tends to 1, either ``from below'' or ``from above''---at any rate, by taking some $c<1$, say, $1/2$, it will be possible to find $n$ large enough that the inequality will hold. Thus $(n+a)^b = \Omega(n^b)$, and finally $(n+a)^b = \Theta(n^b)$.
+To prove that $(n+a)^b = \Omega(n^b)$, by the same argument, $c n^b \le (n+a)^b \to c \le (n+a/n)^b = (1 + a/n)^b$. For $a\ne0$ the expression $1+a/n$ tends to 1, either ``from below'' or ``from above''---at any rate, by taking some $c<1$, say, $1/2$, it will be possible to find $n$ large enough that the inequality will hold. Thus $(n+a)^b = \Omega(n^b)$, and finally $(n+a)^b = \Theta(n^b)$.
 \end{proof}
 
 \paragraph{2-27}
@@ -244,9 +242,9 @@ To prove that $(n+a)^b = \Omega(n^b)$, by the same argument, $c n^b \le (n+a)^b 
 
 \paragraph{2-29}
 \begin{enumerate}[label=(\alph*)]
-	\item $f(n) = n^2 + 3n + 4,\ g(n) = 6n + 7 \rightarrow f(n) = \Omega(g(n))$.
-	\item $f(n) = n\sqrt{n},\ g(n)=n^2-n \rightarrow f(n) = \Omega(g(n))$.
-	\item $f(n) = 2^n-n^2,\ g(n)=n^4+n^2 \rightarrow f(n) = \Omega(g(n))$.
+	\item $f(n) = n^2 + 3n + 4,\ g(n) = 6n + 7 \to f(n) = \Omega(g(n))$.
+	\item $f(n) = n\sqrt{n},\ g(n)=n^2-n \to f(n) = \Omega(g(n))$.
+	\item $f(n) = 2^n-n^2,\ g(n)=n^4+n^2 \to f(n) = \Omega(g(n))$.
 \end{enumerate}
 
 \paragraph{2-30}
@@ -261,7 +259,7 @@ To prove that $(n+a)^b = \Omega(n^b)$, by the same argument, $c n^b \le (n+a)^b 
 \paragraph{2-31}
 \begin{enumerate}[label=(\alph*)]
 	\item Is $3^n = O(2^n)$? Only if there is $c$ such that $3^n \le c 2^n$ for sufficiently large $n$. But if there was such $c$, then $(3/2)^n \le c$, and since $3/2 > 1,\ (3/2)^n\to\infty$ as $n\to\infty$, thus $3^n \ne O(2^n)$.
-	\item Is $\log 3^n = O(\log 2^n)$? Only if there is $c$ such that $\log 3^n \le c\log 2^n$ for sufficiently large $n$. Note that $\log 3^n = n\log 3$, and $c\log 2^n = cn\log 2$. So we want $c$ such that $n\log 3 \le cn\log2 \rightarrow \log 3 \le c\log2 \rightarrow \frac{\log 3}{\log 2} \le c$. The answer is yes, $\log 3^n = O(\log 2^n)$.
+	\item Is $\log 3^n = O(\log 2^n)$? Only if there is $c$ such that $\log 3^n \le c\log 2^n$ for sufficiently large $n$. Note that $\log 3^n = n\log 3$, and $c\log 2^n = cn\log 2$. So we want $c$ such that $n\log 3 \le cn\log2 \to \log 3 \le c\log2 \to \frac{\log 3}{\log 2} \le c$. The answer is yes, $\log 3^n = O(\log 2^n)$.
 	\item Is $3^n = \Omega(2^n)$? Only if there is $c$ such that $c 2^n \le 3^n$ for large enough $n$. Trivially visible for $c=1$.
 	\item Is $\log 3^n = \Omega(\log 2^n)$? Only if there exists $c$ such that $c\log 2^n \le \log 3^n$. Since $\log$ is monotonically increasing and $2^n \le 3^n$, also trivially visible for $c=1$.
 \end{enumerate}
@@ -321,7 +319,7 @@ for i=1 to n/2 do
 \end{lstlisting}
 \begin{enumerate}[label=\alph*.]
 	\item $T(n) = \sum_{i=1}^{n/2} \sum_{j=i}^{n-i} \sum_{k=1}^j 1$.
-	\item $\sum_{k=1}^j 1 = j \rightarrow T(n) = \sum_{i=1}^{n/2} \sum_{j=i}^{n-1} j$.
+	\item $\sum_{k=1}^j 1 = j \to T(n) = \sum_{i=1}^{n/2} \sum_{j=i}^{n-1} j$.
 
 	Now consider $\sum_{j=i}^{n-i} j$. When $i = 1$, $j$ goes from 1 to $n-1$; for $i=2$, $j$ goes from 2 to $n-2$. So for some given $i$, this sum has $n-i-i = n-2i$ terms, from $i$ to $n-i$. We can add the numbers from 1 to $n-i$, $\sum_1^{n-i} i = \frac{1}{2}(n-i)(n-i+1)$, and take from that the sum from 1 to $i-1$, $\sum_{k=1}^{i-1} k = \frac{1}{2}(i-1)(i-1+1) = \frac{i(i-1)}{2}$. Then the sum $\sum_{j=i}^{n-i} j = \sum_{k=1}^{n-i} k - \sum_{k=1}^{i-1} k = \frac{n^2+n}{2}$.
 
@@ -341,8 +339,8 @@ We could say that $b^{2n-2} xy$ takes $O(1)$ for $xy$, which is then added to it
 \begin{enumerate}[label=(\alph*)]
 	\item By definition $a^{\log_a x} = x$. So $xy = a^{\log_a x} a^{\log_a y} = a^{\log_a x + \log_a y}$. Taking logarithms, $\log_a xy = \log_a a^{\log_a x + \log_a y} = \log_a x + \log_a y.$
 	\item Consider $a^{y\log_a x} = \left(a^{\log_a x}\right)^y = x^y.$ Then taking logarithms, $\log_a x^y = \log_a a^{y\log_a x} = y\log_a x$.
-	\item Consider $\log_a x\, \log_b a \rightarrow b^{\log_a x \log_b a} = \left(b^{\log_b a}\right)^{\log_a x} = a^{\log_a x} = x$. Taking logarithms, $\log_b x = \log_b b^{\log_a x \log_b a} = \log_a x\,\log_b a$. Equivalently, $\log_a x = \frac{\log_b x}{\log_b a}$.
-	\item $\log_b y = w \rightarrow y = b^w$, so $y^{\log_b x} = \left(b^w\right)^{\log_b x} = \left(b^{\log_b x}\right)^w = x^w = x^{\log_b y}$.
+	\item Consider $\log_a x\, \log_b a \to b^{\log_a x \log_b a} = \left(b^{\log_b a}\right)^{\log_a x} = a^{\log_a x} = x$. Taking logarithms, $\log_b x = \log_b b^{\log_a x \log_b a} = \log_a x\,\log_b a$. Equivalently, $\log_a x = \frac{\log_b x}{\log_b a}$.
+	\item $\log_b y = w \to y = b^w$, so $y^{\log_b x} = \left(b^w\right)^{\log_b x} = \left(b^{\log_b x}\right)^w = x^w = x^{\log_b y}$.
 \end{enumerate}
 
 
@@ -721,7 +719,7 @@ Out of this $O(n)$ verification we are left with $T=\{1,8,9,10\}$ but $\sum_T t_
 \end{align*}
 From this, in a second $O(n)$ run, we have determined that the subset $\{1,8,9\}$ adds up to $k=18$.
 
-Why does step two work? We know for sure a solution will include any element of $T$, let's say, $x_i$. Then the task is finding $x_j\in T$ such that $k = x_i + \sum_j x_j \rightarrow k-x_i = \sum_j x_j$. We can use our oracle to find a subset of $T-\{x_i\}$ that adds up to $k-x_i$, thus completing a solution.
+Why does step two work? We know for sure a solution will include any element of $T$, let's say, $x_i$. Then the task is finding $x_j\in T$ such that $k = x_i + \sum_j x_j \to k-x_i = \sum_j x_j$. We can use our oracle to find a subset of $T-\{x_i\}$ that adds up to $k-x_i$, thus completing a solution.
 
 \paragraph{3-28} We can use a \emph{segment tree} to solve this. They support more general range queries than prefix sums, but we can treat those as range queries with $l=0$.
 
@@ -760,9 +758,7 @@ In $O(n\log n)$, sort the player pool by skill and make each half of the result 
 \end{enumerate}
 
 \paragraph{4-3} What we want to do here is first sort the array in $O(n\log n)$ time. Then we want to pair up the biggest offender with the least problematic number, so the largest with the smallest, the second largest with the second smallest, and so on.
-\begin{equation*}
-	x_1 < x_2 < \ldots < x_{2n-1} < x_{2n} \quad\rightarrow\quad (x_1, x_{2n}), (x_2, x_{2n-1}), \ldots
-\end{equation*}
+\[ x_1 < x_2 < \ldots < x_{2n-1} < x_{2n} \quad\to\quad (x_1, x_{2n}), (x_2, x_{2n-1}), \ldots \]
 
 Why does this work? Suppose in my pairing I find that $(x,y)$ are my maximum pair. By way of contradiction, I claim that there is a different partition of the $2n$ numbers whose maximum pair is less than $(x,y)$.
 
@@ -792,9 +788,9 @@ int h(std::vector<int>& papers) {
 
 Starting with the values sorted in descending order, consider the array of differences between each value and its index. Then an alternative view of the algorithm above is that the $h$-index of an array $A$ is the count of elements in the difference array that are greater than 0.
 \begin{align*}
-	\langle 6,5,4,3,3 \rangle &\rightarrow \langle 6,4,2,0,-1 \rangle \\
-	\langle 5,4,4,2,1,1,0 \rangle &\rightarrow \langle 5,3,2,-1,-3,-4,-6 \rangle \\
-	\langle 0,0,0,0 \rangle &\rightarrow \langle 0,-1,-2,-3 \rangle
+	\langle 6,5,4,3,3 \rangle &\to \langle 6,4,2,0,-1 \rangle \\
+	\langle 5,4,4,2,1,1,0 \rangle &\to \langle 5,3,2,-1,-3,-4,-6 \rangle \\
+	\langle 0,0,0,0 \rangle &\to \langle 0,-1,-2,-3 \rangle
 \end{align*}
 
 \paragraph{4-8}
@@ -987,9 +983,7 @@ Finding the minimum in a group takes $\sqrt{n}-1$ comparisons. There are $\sqrt{
 We then look for the second smallest across $\sqrt{n}-1$ remaining leaders and $\sqrt{n}-1$ remaining elements in the original partition of the minimum. Thus, there are $2\sqrt{n}-2$ elements to search, which takes $2\sqrt{n}-3$ comparisons.
 
 So $n-\sqrt{n} + \sqrt{n}-1 + 2\sqrt{n}-3 = n + 2\sqrt{n} - 4$ total comparisons to get the second smallest element. How does this fare against the $2n-3$ comparisons of the obvious algorithm? For $n$ a perfect square, eventually $2 < \sqrt{n}$. Therefore
-\begin{equation*}
-	2 < \sqrt{n} \ \rightarrow\ 2\sqrt{n} < n \ \rightarrow\ n + 2\sqrt{n} < 2n.
-\end{equation*}
+\[ 2 < \sqrt{n} \ \to\ 2\sqrt{n} < n \ \to\ n + 2\sqrt{n} < 2n. \]
 This shows that quadratic selection does fewer comparisons than the obvious algorithm.
 
 \subsection*{Quicksort}
@@ -1003,7 +997,7 @@ Select a pivot and partition the elements. If the pivot belongs in the median po
 Partitioning in the first level looks at all $n$ elements, but every time we recurse we ditch half the elements so the second partition looks at $n/2$ elements (in the expected case). By halving the number of elements under consideration we zero in on the median in $O(\lg n)$ time; each recursive call does $n/2^h$ partitioning work, for height $h\in [0\ldotsTwo\lg n]$.
 
 What really is $\sum_{h=0}^{\lg n} n/2^h$? Remember the situation with the dynamic array (\S\,3.1.1, pp.\,71). Here, the first level looks at all the elements, then each subsequent call looks at half the previous ones.
-\begin{center}
+\begin{center} % TODO fix spacing here
 \begin{tikzpicture}[scale=.3,filled/.style={fill=black!15}]
 	\foreach \x in {0,...,7} {
 		\filldraw[filled] (\x,0) rectangle (\x+1, 1);
@@ -1112,6 +1106,8 @@ Now, on to the task at hand.
 \item (?)
 \end{enumerate}
 
+\subsection*{Mergesort}
+
 \paragraph{4-28} The recursion tree in the canonical ``split at the half'' version of merge sort has height $\lg n$, namely how many times $n$ elements can be split until we reach 1 element per part. If we were to split three ways we'd end up with a tree of height $\log_3 n$---but the merging is still linear, so we are left again with a $\Theta(n\log n)$ algorithm. The insight by Skiena: a change of base does not affect the class of a logarithmic function.
 
 One interesting consideration is how the merge operation is affected by this change. Whereas before we merged from two subarrays, picking each element at the cost of one comparison, merging three ways requires two comparisons. The process is still linear but it takes twice as much work now.
@@ -1119,16 +1115,16 @@ One interesting consideration is how the merge operation is affected by this cha
 \paragraph{4-29} Each time a new array is merged we do a linear pass over all the partial work already done. This partial work does not remain constant however---it is $n$ elements larger every time we merge a new array, so that on the last merge we are making a pass over an array of $(k-1)n$ elements.
 
 So the first pass merges $2n$ elements, the next $3n$ and so on:
-\begin{equation*}\sum_{i=1}^k in = n\sum_{i=1}^k i = n\frac{k(k+1)}{2} = O(nk^2)\end{equation*}
+\[ \sum_{i=1}^k in = n\sum_{i=1}^k i = n\frac{k(k+1)}{2} = O(nk^2). \]
 
 \paragraph{4-30} We have $k$ arrays, $n$ elements each, sorted. The proposed algorithm divides them into $k/2$ pairs of arrays. Then it merges each pair to get $k/2$ arrays of length $2n$. These arrays are in turn paired up to form $k/4$ pairs, which are then merged, and so on and so forth, until there are two arrays of length $(k-1)n$ merged into a single array of length $kn$.
 
 First note that we can pair up arrays $\lg k$ times until we end up with a single one. What is the cost of each merge? Well, the first looks at $2n$ elements $k/2$ times. The second pairing/merging looks at $4n$ elements $k/4$ times.
-\[
-	2n \frac{k}{2} + 4n \frac{k}{4} + \cdots + (k-1)n \frac{k}{2^{k-1}} 
+\[ 2n \frac{k}{2} + 4n \frac{k}{4} + \cdots + (k-1)n \frac{k}{2^{k-1}} 
 	= \sum_{i=1}^{\lg k} 2^i n \frac{k}{2^i}
-	= \sum_{i=1}^{\lg k} kn = O(kn\lg k).
-\]
+	= \sum_{i=1}^{\lg k} kn = O(kn\lg k). \]
+
+\subsection*{Other sorting algorithms}
 
 \paragraph{4-31} To make sure merge sort is stable, the items on the partition with the lowest index must be selected first during the merge process. These items appear first in the original array, and must therefore be placed first in the sorted array to maintain the relative order of equal keys. (Realistically speaking, you would have to go out of your way to make an unstable merge sort.)
 
@@ -1167,6 +1163,10 @@ wiggle xs = go GT xs
     go GT (a:b:xs) | a > b     = b : (go LT (a:xs))
                    | otherwise = a : (go LT (b:xs))
 \end{lstlisting}
+
+\paragraph{4-33} We have $n$ positive integers in the range $[1\ldotsTwo k]$, and want to show they can be sorted in $O(n\log k)$ time.
+
+Traverse the array and build a binary tree of lists of each of the $k$ keys. The tree will have at most $k$ elements, meaning each insertion is an $O(\log k)$ operation in the worst case; there are $n$ of those insertions, each of which can be done in $O(1)$ time, for a total effort of $O(n\log k)$ to build the tree. An in-order traversal of the tree that outputs every element in each list will visit all $n$ elements across the $k$ nodes. In the worst case, each node will have a single element and cause $n$ \li!successor()! calls, each of which is $O(\log k)$. Therefore the traversal is also $O(n\log k)$.
 
 
 
