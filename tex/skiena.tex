@@ -1168,6 +1168,16 @@ wiggle xs = go GT xs
 
 Traverse the array and build a binary tree of lists of each of the $k$ keys. The tree will have at most $k$ elements, meaning each insertion is an $O(\log k)$ operation in the worst case; there are $n$ of those insertions, each of which can be done in $O(1)$ time, for a total effort of $O(n\log k)$ to build the tree. An in-order traversal of the tree that outputs every element in each list will visit all $n$ elements across the $k$ nodes. In the worst case, each node will have a single element and cause $n$ \li!successor()! calls, each of which is $O(\log k)$. Therefore the traversal is also $O(n\log k)$.
 
+\paragraph{4-34} We have a sequence of $n$ integers such that there are $O(\log n)$ \emph{distinct} integers among them, and seek an $O(n\log\log n)$ algorithm to sort them.
+
+The principle here may be somewhat similar to that of 4-33---instead of $k$ distinct elements and a total effort of $O(n\log k)$ we have $O(\log n)$ distinct elements, so it stands to reason that the same process may be used to sort the sequence in $O(n\log\log n)$ time.
+
+The binary search tree would have $O(\log n)$ nodes---therefore it would have $O(n\log\log n)$ levels, making the cost of individual \li!insert()!, \li!minimum()! and \li!successor()! operations $O(\log\log n)$. For $n$ total elements in the sequence, building the tree and traversing it in order would be $O(n\log\log n)$ total time.
+
+\paragraph{4-35} Out of $n$ elements the first $n-\sqrt{n}$ are already sorted, meaning the last $\sqrt{n}$ elements are potentially not sorted. We are therefore excused in being lavish and extravagant and sorting those last $\sqrt{n}$ elements using a quadratic algorithm. With $\sqrt{n}$ elements that will be $O(\sqrt{n}^2) = O(n)$ total time. ``Substantially'' better is in the eye of the beholder, but that is certainly better than $O(n\log n)$.
+
+If we were short on computing time, we may still use an optimal sorting algorithm for a total effort of $O(\sqrt{n}\log\sqrt{n})$. Note that $\sqrt{n}\log\sqrt{n} \le \sqrt{n}^2 = n$, so we may call this an even more substantially better approach.
+
 
 
 
