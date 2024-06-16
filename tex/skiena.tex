@@ -1174,12 +1174,23 @@ The principle here may be somewhat similar to that of 4-33---instead of $k$ dist
 
 The binary search tree would have $O(\log n)$ nodes---therefore it would have $O(n\log\log n)$ levels, making the cost of individual \li!insert()!, \li!minimum()! and \li!successor()! operations $O(\log\log n)$. For $n$ total elements in the sequence, building the tree and traversing it in order would be $O(n\log\log n)$ total time.
 
-% THIS IS WRONG--the unsorted elements may not all be bigger than the sorted ones!! this requires
-% a merge step afterwards in O(n)
 \paragraph{4-35} Out of $n$ elements the first $n-\sqrt{n}$ are already sorted, meaning the last $\sqrt{n}$ elements are potentially not sorted. We are therefore excused in being lavish and extravagant and sorting those last $\sqrt{n}$ elements using a quadratic algorithm. With $\sqrt{n}$ elements that will be $O(\sqrt{n}^2) = O(n)$ total time. ``Substantially'' better is in the eye of the beholder, but that is certainly better than $O(n\log n)$. If we were short on computing time, we may still use an optimal sorting algorithm for a total effort of $O(\sqrt{n}\log\sqrt{n})$. Note that $\sqrt{n}\log\sqrt{n} \le \sqrt{n}^2 = n$, so we may call this an even more substantially better approach.
 
 We now have two separate partitions: the elements that were initially sorted, and the $\sqrt{n}$ elements just sorted. There is no guarantee that these are all larger than the first group, so it's necessary to do the \li!merge()! step of merge sort between the two partitions. This takes $O(n)$ time for an overall $O(n)$ time algorithm.
 
+\paragraph{4-36} We could use bucket sort for this, but would need an extra twist due to the $n^2$ elements in the key space. If we were to just count how many of each key are in $A$ directly in an array of length $n^2$ we would then have to pay the $O(n^2)$ price to traverse it to output all $n$ elements. Since we are willing to trade space for time, we could still use this much space (and then some) but do better than that. (Unfortunately this approach will not work, but let's entertain the idea for fun.)
+
+Let $B$ and $C$ be integer arrays of length $n^2$ and $\log\log n$ respectively. Start by traversing $A$. For each $a\in A$, look at $B_a$---if it is 0, or \li!null!, this is the first time we see $a$; push a pair $(a,1)$ to the end of $C$, and record its index in $B_a$. We now have a way to index into $C$ to increase this count every time we see another $a$.
+
+Once we finish traversing $A$ and counting each element we can discard $B$ and concentrate on $C$, which can be sorted on the first element of each pair. Since $C$ has length $\log\log n$ it can be sorted in $O((\log\log n)\log(\log\log n))$ time. A traversal over $C$, now sorted, to output as many copies of each key as were counted in the first stage, completes the task in $O(n)$ time, as there are $n$ elements to output.\ \okthen
+
+\medskip
+
+What is faulty about this algorithm? We first stated that it would be no good to count directly on $B$ for we would then have to traverse it in $O(n^2)$ time. The issue is in verifying if we have already seen an element $a$ when looking up the index to its counter: in order to be able to distinguish a new element from one previously seen we must zero out $B$. There is no way around it; this takes $O(n^2)$ time, so we are back where we started.
+
+\medskip
+
+Therefore it seems our best bet is once again to build a binary search tree that holds a count along with each key. The tree will have at most $\log\log n$ elements, and therefore $\log\log\log n$ levels, so building it and traversing it will be $O(n\log\log\log n)$ time---not too bad, but still more than the $O(n)$ time it will take to output all the original $n$ elements.
 
 
 
