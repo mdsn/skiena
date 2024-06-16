@@ -1174,9 +1174,11 @@ The principle here may be somewhat similar to that of 4-33---instead of $k$ dist
 
 The binary search tree would have $O(\log n)$ nodes---therefore it would have $O(n\log\log n)$ levels, making the cost of individual \li!insert()!, \li!minimum()! and \li!successor()! operations $O(\log\log n)$. For $n$ total elements in the sequence, building the tree and traversing it in order would be $O(n\log\log n)$ total time.
 
-\paragraph{4-35} Out of $n$ elements the first $n-\sqrt{n}$ are already sorted, meaning the last $\sqrt{n}$ elements are potentially not sorted. We are therefore excused in being lavish and extravagant and sorting those last $\sqrt{n}$ elements using a quadratic algorithm. With $\sqrt{n}$ elements that will be $O(\sqrt{n}^2) = O(n)$ total time. ``Substantially'' better is in the eye of the beholder, but that is certainly better than $O(n\log n)$.
+% THIS IS WRONG--the unsorted elements may not all be bigger than the sorted ones!! this requires
+% a merge step afterwards in O(n)
+\paragraph{4-35} Out of $n$ elements the first $n-\sqrt{n}$ are already sorted, meaning the last $\sqrt{n}$ elements are potentially not sorted. We are therefore excused in being lavish and extravagant and sorting those last $\sqrt{n}$ elements using a quadratic algorithm. With $\sqrt{n}$ elements that will be $O(\sqrt{n}^2) = O(n)$ total time. ``Substantially'' better is in the eye of the beholder, but that is certainly better than $O(n\log n)$. If we were short on computing time, we may still use an optimal sorting algorithm for a total effort of $O(\sqrt{n}\log\sqrt{n})$. Note that $\sqrt{n}\log\sqrt{n} \le \sqrt{n}^2 = n$, so we may call this an even more substantially better approach.
 
-If we were short on computing time, we may still use an optimal sorting algorithm for a total effort of $O(\sqrt{n}\log\sqrt{n})$. Note that $\sqrt{n}\log\sqrt{n} \le \sqrt{n}^2 = n$, so we may call this an even more substantially better approach.
+We now have two separate partitions: the elements that were initially sorted, and the $\sqrt{n}$ elements just sorted. There is no guarantee that these are all larger than the first group, so it's necessary to do the \li!merge()! step of merge sort between the two partitions. This takes $O(n)$ time for an overall $O(n)$ time algorithm.
 
 
 
