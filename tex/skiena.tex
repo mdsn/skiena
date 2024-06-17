@@ -1186,13 +1186,19 @@ Once we finish traversing $A$ and counting each element we can discard $B$ and c
 
 \medskip
 
-What is faulty about this algorithm? We first stated that it would be no good to count directly on $B$ for we would then have to traverse it in $O(n^2)$ time. The issue is in verifying if we have already seen an element $a$ when looking up the index to its counter: in order to be able to distinguish a new element from one previously seen we must zero out $B$. There is no way around it; this takes $O(n^2)$ time, so we are back where we started.
+What is faulty about this algorithm? We first stated that it would be no good to count directly on $B$ for we would then have to traverse it in $O(n^2)$ time. The issue is in verifying if we have already seen an element $a$ when looking up the index to its counter: in order to be able to distinguish a new element from one previously seen we must zero out $B$. There is no way around it; this takes $O(n^2)$ time, so we are back where we started. Therefore it seems our best bet is once again to build a binary search tree that holds a count along with each key. The tree will have at most $\log\log n$ elements and $\log\log\log n$ levels, so building it and traversing it will be $O(n\log\log\log n)$ time---not too bad, but still more than the $O(n)$ time it will take to output all the original $n$ elements.
 
-\medskip
+\paragraph{4-37}
+\begin{enumerate}[label=(\alph*)]
+\item As in exercise 4-23, the limited key space is very strong. In this case, partitioning sort all elements in linear time using $n-1$ comparisons. It is optimal insofar as every element needs to be visited and compared to the pivot to know if it has to be moved.
+\item (??)
+\end{enumerate}
 
-Therefore it seems our best bet is once again to build a binary search tree that holds a count along with each key. The tree will have at most $\log\log n$ elements, and therefore $\log\log\log n$ levels, so building it and traversing it will be $O(n\log\log\log n)$ time---not too bad, but still more than the $O(n)$ time it will take to output all the original $n$ elements.
+\subsection*{Lower bounds}
 
+\paragraph{4-39} Note that $\log\sqrt{n} = \log n^{1/2} = \frac{1}{2}\log n$, therefore $n\log\sqrt{n} = \frac{n}{2}\log n = O(n\log n)$.
 
+\paragraph{4-40} If such a priority queue existed we would be able to sort $n$ elements in $O(n)$ time by populating the priority queue with $n$ insertions and getting them in order with $n$ calls to \li!extract()!, in clear violation of the lower bound for sorting.
 
 
 
