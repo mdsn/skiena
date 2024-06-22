@@ -1200,7 +1200,22 @@ What is faulty about this algorithm? We first stated that it would be no good to
 
 \paragraph{4-40} If such a priority queue existed we would be able to sort $n$ elements in $O(n)$ time by populating the priority queue with $n$ insertions and getting them in order with $n$ calls to \li!extract()!, in clear violation of the lower bound for sorting.
 
+\subsection*{Searching}
 
+\paragraph{4-41} At ten thousand names, sorted, a binary search will do $\lg 10000 = 4$ hops in the worst case to land on an individual name. If we put the 40\% good customers in their own array that's 4000 names, so 60\% of the searches will resolve in $\lg4000\approx3.6$ hops, while now the other 40\% of not-so-good customers must first pay those 3.6 searches and then a further $\lg6000\approx3.7$ hops in the worst case to land on a name in the second level array. The benefit for good customers is negligible, while the cost for the other 60\% of customers almost doubles.
+
+\paragraph{4-42} We can generate a sorted array with the cubes of successive integers up to $\lceil\sqrt[3]{n}\,\rceil$ and no further, because any subsequent cube cannot be a part of a sum of two integers that add up to $n$. This gives us a cost of $O(\sqrt[3]{n})$ for generating the cubes to search.
+
+We can then apply the method from 4-9 and use binary search to find out, for each of those cubes, if another one exists such that the two add up to $n$. After a second search, with provisions to prevent double counting due to commutativity, if two pairs are found, it's easy to determine their cube roots based on their indices in the array. In the worst case there will be two entire passes over the array, performing a binary search for each element. The total effort then will be $O(\sqrt[3]{n}\log\sqrt[3]{n})$.
+
+\smallskip
+
+Now we seek an efficient way to generate all Ramanujan numbers between 1 and $n$. This algorithm can produce a list of 4-tuples $(a,b,c,d)$ such that $a^3+b^3=c^3+d^3=i$ for each $i\in[1\ldotsTwo n]$, unique up to commutativity.
+
+By the same argument as before, the integers $a,b,c,d$ are bounded by $\lceil\sqrt[3]{n}\,\rceil$, meaning we can select from the same ordered array as in the first part of the problem. A brute force approach would inspect all $\sqrt[3]{n}^2$ pairs $(a^3,b^3)$ and try to find a second pair that adds up to $a^3+b^3$. Using the same method as before to search for that second pair will perform $\sqrt[3]{n}$ binary searches at most, so the total complexity will be
+\[ \sqrt[3]{n}^2\sqrt[3]{n}\log\sqrt[3]{n} = n^{2/3} n^{1/3} \log\sqrt[3]{n} = O(n\log\sqrt[3]{n}). \]
+
+As it is, this algorithm does at least double the amount of work necessary---more if there is more than one way of writing some $i$ as the sum of two cubes. It keeps no record of already verified Ramanujan numbers, so when the second pair found is visited later another search is done.
 
 
 
