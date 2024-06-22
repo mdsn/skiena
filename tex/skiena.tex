@@ -1227,7 +1227,7 @@ In reality, if we were searching row by row and did not find zeros in, say, the 
 
 \smallskip
 
-The total number of zeros can be counted like so: start on row 0, with the search space being the horizontal range $[0\ldotsTwo n-1]$, the full row. Do a binary search on the current row. If no zero is found, move on to the next row and repeat. If a zero is found, say, at column $j$, then assuming we are on row $i$, make two recursive calls to search the subarrays $A=\{(y,x)\,|\,0\le x<j,\, i<y<n\}$ and $B=\{(y,x)\,|\,j<x<n,\, i<y<n\}$ using the same process. Then the total number of zeros in the array is 1 plus the total number of zeros in $A$ and $B$.\ \okthen
+The total number of zeros can be counted like so: start on row 0, with the search space being the horizontal range $[0\ldotsTwo n-1]$, the full row. Do a binary search on the current row. If no zero is found, move on to the next row and repeat. If a zero is found, say, at column $j$, then assuming we are on row $i$ and the current search space is the range $[s\ldotsTwo t]$, make two recursive calls to search the subarrays $A=\{(y,x)\,|\,s\le x<j,\, i<y<n\}$ and $B=\{(y,x)\,|\,j<x<t,\, i<y<n\}$ using the same process. Then the total number of zeros in the array is 1 plus the total number of zeros in $A$ and $B$.\ \okthen
 
 \smallskip
 
