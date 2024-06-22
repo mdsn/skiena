@@ -1217,10 +1217,21 @@ By the same argument as before, the integers $a,b,c,d$ are bounded by $\lceil\sq
 
 As it is, this algorithm does at least double the amount of work necessary---more if there is more than one way of writing some $i$ as the sum of two cubes. It keeps no record of already verified Ramanujan numbers, so when the second pair found is visited later another search is done.
 
+\subsection*{Implementation challenges}
 
+\paragraph{4-43} We have an $n\times n$ array such that the elements are strictly increasing along a row, and strictly decreasing along a column. Skiena gives the hint that with these constraints there can't be two zeros in the same row or column. (Further than that, there can't be any repeating number.)
 
+Given that each row is ordered, it's possible to find a zero in it in $O(\lg n)$ time with a binary search. Suppose a zero is found in position $(i,j)$---it logically deletes the entire row $i$ and column $j$ from the search space, bomberman style. It's clear that this splits the array in up to four disjoint subarrays, each of which can be recursively searched.
 
+In reality, if we were searching row by row and did not find zeros in, say, the first two rows, those would be out of the search space. Therefore we need only ever partition a subarray vertically in two pieces. Put another way, we are always searching in the topmost row of the search space.
 
+\smallskip
+
+The total number of zeros can be counted like so: start on row 0, with the search space being the horizontal range $[0\ldotsTwo n-1]$, the full row. Do a binary search on the current row. If no zero is found, move on to the next row and repeat. If a zero is found, say, at column $j$, then assuming we are on row $i$, make two recursive calls to search the subarrays $A=\{(y,x)\,|\,0\le x<j,\, i<y<n\}$ and $B=\{(y,x)\,|\,j<x<n,\, i<y<n\}$ using the same process. Then the total number of zeros in the array is 1 plus the total number of zeros in $A$ and $B$.\ \okthen
+
+\smallskip
+
+In the worst case, there are no zeros in the array and the algorithm performs $n$ unsuccessful binary searches; therefore the running time is $O(n\lg n)$.
 
 
 
