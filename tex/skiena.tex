@@ -1223,7 +1223,7 @@ As it is, this algorithm does at least double the amount of work necessary---mor
 
 Given that each row is ordered, it's possible to find a zero in it in $O(\lg n)$ time with a binary search. Suppose a zero is found in position $(i,j)$---it logically deletes the entire row $i$ and column $j$ from the search space, bomberman style. It's clear that this splits the array in up to four disjoint subarrays, each of which can be recursively searched.
 
-In reality, if we were searching row by row and did not find zeros in, say, the first two rows, those would be out of the search space. Therefore we need only ever partition a subarray vertically in two pieces. Put another way, we are always searching in the topmost row of the search space.
+In reality, if we were searching row by row and did not find zeros in, say, the first two rows, those would be out of the search space. Therefore we need only ever partition a subarray vertically in two pieces. Put another way, we are always searching in the topmost row of the search space, and splitting the array in groups of consecutive columns spanning down to the $n$th row.
 
 \smallskip
 
