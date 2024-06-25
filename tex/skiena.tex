@@ -289,7 +289,6 @@ To prove that $(n+a)^b = \Omega(n^b)$, by the same argument, $c n^b \le (n+a)^b 
 	\item $g(n) = n^{100}$
 \end{enumerate}
 
-% TODO draw the triangle here
 \paragraph{2-37} Each number in row $n-1$ is added exactly three times into row $n$. So if the value of the sum of row $n-1$ is $T$, then the sum of the values of row $n$ is $3T$. This suggests a recurrence
 \begin{align*}
 	T_1 &= 1 = 3^0, \\
@@ -866,7 +865,6 @@ If the intervals did not overlap, we finished merging a group of intersecting in
 Finally, once we reach the end of the list, push the last interval under consideration into the list.
 
 \paragraph{4-15} Consider a scenario in which two intervals intersect but don't intersect at their extremes. Then we see that in a sequential ordering of extremes, two intervals starts before one ends. The serialization of the endpoints of the example in the book would be $10\uparrow,15\uparrow,20\uparrow,40\downarrow,50\uparrow,60\downarrow,70\downarrow,90\downarrow$, where a $\uparrow$ means an interval opens at that point and $\downarrow$ means that an interval closes at that point.
-%TODO image here
 
 Now consider a scenario where two endpoints meet, for example for $S=\{(10,20),(20,30)\}$. The serialization of endpoints of this set would be $10\uparrow,20\uparrow\downarrow,30\downarrow$, meaning that at point 20 an endpoint ends and another one begins.
 
@@ -875,7 +873,6 @@ There is one final case to consider, that of intervals that start and end at the
 It's not hard to see that with an ordering of endpoints like this it's possible to sweep from left to right, maintaining a counter of simultaneously running intervals that changes at the points where intervals start or end. The counter increases when an interval is opened, and decreases when one is closed. This requires a little extra thought for scenarios where intervals intersect at their endpoints, as well as when 1-point intervals are involved, but the general idea is simple.
 
 We set things up so as to process ``groups of endpoints'', each group being a collection of all endpoints that meet at a specific coordinate.
-%TODO image here
 
 At the coordinate of each group, some number of intervals meet at an endpoint. These plus any other currently running intervals, represented by the running counter, make up the total number of intervals that intersect at that point. For each group, we know which endpoints are opening or closing intervals, and which are 1-point (let's call them \emph{singular}) intervals; these are the arrows above. Therefore, when processing a group, given a counter $i$, counts of opening, closing and singular endpoints $o, c, s$ respectively, and a current maximum $m$ of intersecting intervals already seen, we have that
 \begin{gather*}
@@ -1079,7 +1076,6 @@ The maximum recursion depth happens, as expected, when the worst possible pivot 
 
 In particular the first thing we are asked to do is show that $O(n)$ reversals are enough to sort $p$. But first we can explore this operation a bit and see what it can do for us. One readily apparent fact is that it is possible to implement \li!swap(i,j)! in terms of \li!reverse(i,j)!. To swap elements $i$ and $j$, call \li!reverse(i,j)! then call \li!reverse(i+1,j-1)!.
 
-% TODO draw this
 An example. Let $p=[a,b,c,d,e,f,g]$ and swap elements $b$ and $f$.
 \begin{lstlisting}
                 [a,b,c,d,e,f,g]
@@ -1366,7 +1362,7 @@ In the printed representation, the DFS path makes it evident that the processing
 
 \paragraph{7-3} Suppose there is more than one path between vertices $v$ and $u$. Then at some point before or at vertex $u$ there must have been more than one incident edge, for otherwise the path would be unique. This means that some vertex must have more than one parent, in contradiction of the definition of a tree.\ \okthen
 
-\paragraph{7-4} Consider a BFS tree of an undirected graph. There can't be any forward edges because the descendant would have been discovered and processed as a child of the ancestor, making it a tree edge. There also can't be a back edge for the same reason: the edge would have been traversed---in the opposite direction---while processing $v$.
+\paragraph{7-4} Consider the BFS tree of an undirected graph. There can't be any forward edges because the descendant would have been discovered and processed as a child of the ancestor, making it a tree edge. There also can't be a back edge for the same reason: the edge would have been traversed---in the opposite direction---while processing $v$.
 \begin{center}
 \tikz[>={Stealth[round]}]
 \graph [layered layout, components go right top aligned] {
@@ -1388,6 +1384,21 @@ In the left example, node 3 is already processed when the cross edge $4\to3$ is 
 \smallskip
 
 The four cases of tree, forward, back and cross edges exhaustively categorize all possible edges that can be seen during traversals.\ \okthen
+
+\paragraph{7-5} Skiena says in \S\,19.7 Vertex coloring (pp.\,604) that finding the chromatic number of a graph is NP-complete---a general exact solution can be found using backtracking. We can expect that the restriction on the degree of the vertices is what will save us here.
+
+First let's get something out of the way. Here is a graph that fulfills the conditions and is not bipartite:
+\begin{center}
+\tikz[>={Stealth[round]},sibling distance=6mm, level distance=6mm]
+\graph [tree layout, nodes={circle,inner sep=0pt, minimum size=2mm, fill, as=}] {
+ 1 -- 2 -- 3 -- 1;
+};
+\end{center}
+It is clear that this graph is tripartite. More generally, no vertex can have three neighbors that may force the use of a fourth color, so a graph with this property can be at most tripartite.\ \okthen
+
+\smallskip
+
+An algorithm to color a graph of this kind could go as follows. Suppose we identify colors as increasing natural numbers. Color the initial vertex `1'. Do a DFS. Whenever a new node is visited, one of its edges must be the parent, therefore we will need a different color. If this new vertex has degree 1, it can be colored to the lowest available different color because it has no other neighbors. Otherwise it has a second neighbor. In this case, either both neighbors share the same color, in which case we take the lowest different color, or each neighbor is of a different color, in which case we take the third available color.
 
 
 
