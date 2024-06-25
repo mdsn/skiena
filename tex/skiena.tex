@@ -12,7 +12,8 @@
 \usetikzlibrary{positioning}
 \usetikzlibrary{graphs,graphdrawing}
 \usetikzlibrary{shapes.geometric}
-\usegdlibrary{trees}
+\usetikzlibrary{arrows.meta}
+\usegdlibrary{trees,layered}
 
 \lstset{
 	basicstyle=\ttfamily,
@@ -367,15 +368,6 @@ We could say that $b^{2n-2} xy$ takes $O(1)$ for $xy$, which is then added to it
         		\filldraw[filled] (\x+11,0) rectangle ++(1, 1);
         \end{tikzpicture}
         \end{center}
-        
-        \begin{tikzpicture}
-        	[every node/.style={rectangle,draw,minimum size=.4cm},
-			 mem/.style={fill=black!15}]
-			\foreach \x in {0,...,3}
-				\node[mem] (\x) at (\x,0) {\x};
-			\foreach \x in {4,...,7}
-				\node (\x) at (\x,0) {\x};
-        \end{tikzpicture}
 
         If our program now adds an item to the dynamic array the same space needs to be allocated that was just freed, potentially moving all $2^{n-1}$ items. Imagine this delete-one/add-one cycle repeats, such as may happen with a stack backed by this dynamic array. Each append-one operation copies the (now) lower half to a new location, taking linear time on the number of items.
 
@@ -412,7 +404,8 @@ The answer is a \emph{priority queue}. Prioritize the item that expires next. Th
 \begin{enumerate}[label=\arabic*)]
 	\item Deleting the head.
     \begin{center}
-    \tikz[every rectangle node/.style={draw},
+    \tikz[>={Stealth[round]},
+    	  every rectangle node/.style={draw},
     	  every circle node/.style={draw}] {
     	\node[rectangle] (H) at (0,0) {H};
     	\node[circle] (1) at (1,0) {1};
@@ -429,7 +422,7 @@ The answer is a \emph{priority queue}. Prioritize the item that expires next. Th
     \lstinline!list.head == p!, point \lstinline!H! to \lstinline!p->next!, free \lstinline!p!
 
     \begin{center}
-    \tikz[] {
+    \tikz[>={Stealth[round]}] {
     	\node[rectangle,draw] (H) at (0,0) {H};
     	\node[circle,draw=gray,dashed,gray] (1) at (1,0) {1};
     	\node[circle,draw] (2) at (2,0) {2};
@@ -444,7 +437,8 @@ The answer is a \emph{priority queue}. Prioritize the item that expires next. Th
 
 	\item Deleting a node in the middle of the list.
     \begin{center}
-    \tikz[every rectangle node/.style={draw},
+    \tikz[>={Stealth[round]},
+    	  every rectangle node/.style={draw},
     	  every circle node/.style={draw}] {
     	\node[rectangle] (H) at (0,0) {H};
     	\node[circle] (0) at (1,0) {0};
@@ -463,7 +457,7 @@ The answer is a \emph{priority queue}. Prioritize the item that expires next. Th
     \lstinline;list.head != p;, \lstinline;p->next != tail;, overwrite \lstinline!p! with \lstinline!p->next!, then free \lstinline!p->next!.
 
 	\begin{center}
-    \tikz[] {
+    \tikz[>={Stealth[round]}] {
     	\node[rectangle,draw] (H) at (0,0) {H};
 		\node[circle,draw] (0) at (1,0) {0};
     	\node[circle,draw] (1) at (2,0) {2};
@@ -481,7 +475,8 @@ The answer is a \emph{priority queue}. Prioritize the item that expires next. Th
     \item Deleting the last node.
 
     \begin{center}
-    \tikz[every rectangle node/.style={draw},
+    \tikz[>={Stealth[round]},
+    	  every rectangle node/.style={draw},
     	  every circle node/.style={draw}] {
     	\node[rectangle] (H) at (0,0) {H};
     	\node[circle] (1) at (1,0) {1};
@@ -498,7 +493,7 @@ The answer is a \emph{priority queue}. Prioritize the item that expires next. Th
     \lstinline!p->next == tail!, free \lstinline!tail! and make \lstinline!p! the new sentinel node.
 
 	\begin{center}
-    \tikz[] {
+    \tikz[>={Stealth[round]}] {
     	\node[rectangle,draw] (H) at (0,0) {H};
 		\node[circle,draw] (1) at (1,0) {1};
     	\node[rectangle,draw] (2) at (2,0) {T};
@@ -1232,6 +1227,170 @@ The total number of zeros can be counted like so: start on row 0, with the searc
 \smallskip
 
 In the worst case, there are no zeros in the array and the algorithm performs $n$ unsuccessful binary searches; therefore the running time is $O(n\lg n)$.
+
+
+\setcounter{chapter}{6}
+\chapter{Graph traversal}
+
+\section*{Solutions}
+
+\paragraph{7-1} With BFS, the first graph's edges are processed in the following order:
+\[ A \to B \to D \to I \to C \to E \to G \to J \to F \to H. \]
+The traversal tree makes it easy to see that BFS processes each level in sequence
+\begin{center}
+\tikz[>={Stealth[round]}] \graph [tree layout] {
+	A -> {
+		B -> {
+			C -> F,
+			E -> H
+		},
+		D -> G,
+		I -> J
+	}
+};
+\end{center}
+
+The second graph is processed in the following order:
+\begin{align*}
+	A &\to B \to E \to C \to F \to I \to D \to G \\
+	  &\to J \to M \to H \to K \to N \to L \to O \to P.
+\end{align*}
+And this is the corresponding traversal tree:
+\begin{center} % TODO fix layout/page breaks, maybe make trees float on the right
+\tikz[>={Stealth[round]}] \graph [tree layout] {
+	A -> {
+		B -> {
+			C -> {
+				D -> H -> L -> P,
+				G -> K -> O
+			},
+			F -> J -> N
+		},
+		E -> I -> M
+	}
+};
+\end{center}
+
+In the representation of this graph as it is printed, the BFS path looks like this:
+\begin{center}
+\begin{tikzpicture}[on grid,>={Stealth[round]}]
+	\node (A) {A};
+	\node (B) [right=of A] {B};
+	\node (C) [right=of B] {C};
+	\node (D) [right=of C] {D};
+	
+	\node (E) [below=of A] {E};
+	\node (F) [right=of E] {F};
+	\node (G) [right=of F] {G};
+	\node (H) [right=of G] {H};
+
+	\node (I) [below=of E] {I};
+	\node (J) [right=of I] {J};
+	\node (K) [right=of J] {K};
+	\node (L) [right=of K] {L};
+
+	\node (M) [below=of I] {M};
+	\node (N) [right=of M] {N};
+	\node (O) [right=of N] {O};
+	\node (P) [right=of O] {P};
+	
+	\draw[->] (A) to (B);
+	\draw[->] (B) to (E);
+	\draw[->] (E) to (C);
+	\draw[->] (C) to (F);
+	\draw[->] (F) to (I);
+	\draw[->] (I) to (D);
+	\draw[->] (D) to (G);
+	\draw[->] (G) to (J);
+	\draw[->] (J) to (M);
+	\draw[->] (M) to (H);
+	\draw[->] (H) to (K);
+	\draw[->] (K) to (N);
+	\draw[->] (N) to (L);
+	\draw[->] (L) to (O);
+	\draw[->] (O) to (P);
+\end{tikzpicture}
+\end{center}
+
+With DFS the first graph is traversed in the following order:
+\[ F \to I \to J \to H \to G \to D \to E \to C \to B \to A. \]
+
+And the second one:
+\begin{align*}
+	M &\to N \to O \to P \to L \to K \to J \to I \\
+	  &\to E \to F \to G \to H \to D \to C \to B \to A.
+\end{align*}
+
+In the printed representation, the DFS path makes it evident that the processing order is the reverse of the discovery order:
+\begin{center}
+\begin{tikzpicture}[on grid,>={Stealth[round]}]
+	\node (A) {A};
+	\node (B) [right=of A] {B};
+	\node (C) [right=of B] {C};
+	\node (D) [right=of C] {D};
+	
+	\node (E) [below=of A] {E};
+	\node (F) [right=of E] {F};
+	\node (G) [right=of F] {G};
+	\node (H) [right=of G] {H};
+
+	\node (I) [below=of E] {I};
+	\node (J) [right=of I] {J};
+	\node (K) [right=of J] {K};
+	\node (L) [right=of K] {L};
+
+	\node (M) [below=of I] {M};
+	\node (N) [right=of M] {N};
+	\node (O) [right=of N] {O};
+	\node (P) [right=of O] {P};
+	
+	\draw[->] (M) to (N);
+	\draw[->] (N) to (O);
+	\draw[->] (O) to (P);
+	\draw[->] (P) to (L);
+	\draw[->] (L) to (K);
+	\draw[->] (K) to (J);
+	\draw[->] (J) to (I);
+	\draw[->] (I) to (E);
+	\draw[->] (E) to (F);
+	\draw[->] (F) to (G);
+	\draw[->] (G) to (H);
+	\draw[->] (H) to (D);
+	\draw[->] (D) to (C);
+	\draw[->] (C) to (B);
+	\draw[->] (B) to (A);
+\end{tikzpicture}
+\end{center}
+
+\paragraph{7-2} Topological sort yields $H \to A \to B \to D \to E \to G \to I \to J \to C \to F$.
+
+\paragraph{7-3} Suppose there is more than one path between vertices $v$ and $u$. Then at some point before or at vertex $u$ there must have been more than one incident edge, for otherwise the path would be unique. This means that some vertex must have more than one parent, in contradiction of the definition of a tree.\ \okthen
+
+\paragraph{7-4} Consider a BFS tree of an undirected graph. There can't be any forward edges because the descendant would have been discovered and processed as a child of the ancestor, making it a tree edge. There also can't be a back edge for the same reason: the edge would have been traversed---in the opposite direction---while processing $v$.
+\begin{center}
+\tikz[>={Stealth[round]}]
+\graph [layered layout, components go right top aligned] {
+ 1 -> { 2 -> 3 }, 1 -> 3;
+ u -> { v -> w }, w -> u;
+};
+\end{center}
+
+There can obviously be tree edges, and there can also be cross edges. Consider the following two examples.
+\begin{center}
+\tikz[>={Stealth[round]}]
+\graph [binary tree layout, components go right top aligned] {
+ 1 -> { 2 -> 4 -> 3, 3 };
+ u -> { v -> w, w };
+};
+\end{center}
+In the left example, node 3 is already processed when the cross edge $4\to3$ is visited. In the right example, node $w$ is discovered but not yet processed.
+
+\smallskip
+
+The four cases of tree, forward, back and cross edges exhaustively categorize all possible edges that can be seen during traversals.\ \okthen
+
+
+
 
 
 
