@@ -1271,9 +1271,7 @@ In the worst case, there are no zeros in the array and the algorithm performs $n
 \subsection*{Simulating graph algorithms}
 \subsectionmark{Simulating graph algorithms}
 
-\paragraph{7-1} With BFS, the first graph's edges are processed in the following order:
-\[ A \to B \to D \to I \to C \to E \to G \to J \to F \to H. \]
-The traversal tree makes it easy to see that BFS processes each level in sequence
+\paragraph{7-1} With BFS, the first graph's edges are processed in the following order: $A \to B \to D \to I \to C \to E \to G \to J \to F \to H.$ The traversal tree makes it easy to see that BFS processes each level in sequence
 \begin{center}
 \tikz[>={Stealth[round]}] \graph [tree layout] {
 	A -> {
@@ -1287,12 +1285,7 @@ The traversal tree makes it easy to see that BFS processes each level in sequenc
 };
 \end{center}
 
-The second graph is processed in the following order:
-\begin{align*}
-	A &\to B \to E \to C \to F \to I \to D \to G \\
-	  &\to J \to M \to H \to K \to N \to L \to O \to P.
-\end{align*}
-And this is the corresponding traversal tree:
+The second graph is processed in the following order: $A \to B \to E \to C \to F \to I \to D \to G \to J \to M \to H \to K \to N \to L \to O \to P.$ And this is the corresponding traversal tree:
 \begin{center} % TODO fix layout/page breaks, maybe make trees float on the right
 \tikz[>={Stealth[round]}] \graph [tree layout] {
 	A -> {
@@ -1349,14 +1342,10 @@ In the representation of this graph as it is printed, the BFS path looks like th
 \end{tikzpicture}
 \end{center}
 
-With DFS the first graph is traversed in the following order:
-\[ F \to I \to J \to H \to G \to D \to E \to C \to B \to A. \]
+With DFS the first graph is traversed in the following order: $F \to I \to J \to H \to G \to D \to E \to C \to B \to A.$
 
 And the second one:
-\begin{align*}
-	M &\to N \to O \to P \to L \to K \to J \to I \\
-	  &\to E \to F \to G \to H \to D \to C \to B \to A.
-\end{align*}
+$M \to N \to O \to P \to L \to K \to J \to I \to E \to F \to G \to H \to D \to C \to B \to A.$
 
 In the printed representation, the DFS path makes it evident that the processing order is the reverse of the discovery order:
 \begin{center}
@@ -1432,17 +1421,14 @@ The four cases of tree, forward, back and cross edges exhaustively categorize al
 \paragraph{7-5} Skiena says in \S\,19.7 {\sl Vertex coloring} (pp.\,604) that finding the chromatic number of a graph is NP-complete---a general exact solution can be found using backtracking. We can expect that the restriction on the degree of the vertices is what will save us here.
 
 First let's get something out of the way. Here is a graph that fulfills the conditions and is not bipartite:
-\begin{center}
-\tikz[>={Stealth[round]},sibling distance=6mm, level distance=6mm]
-\graph [tree layout, nodes={circle,inner sep=0pt, minimum size=2mm, fill, as=}] {
+\tikz[>={Stealth[round]},baseline=-3mm, sibling distance=3mm, level distance=3mm]
+\graph [tree layout, nodes={circle,inner sep=0pt, minimum size=1.3mm, fill, as=}] {
  1 -- 2 -- 3 -- 1;
-};
-\end{center}
-It is clear that this graph is tripartite. More generally, no vertex can have three neighbors that may force the use of a fourth color, so a graph with this property can be at most tripartite.\ \okthen
+};. It is clear that this graph is tripartite. More generally, no vertex can have three neighbors that may force the use of a fourth color, so a graph with this property can be at most tripartite.\ \okthen
 
 \smallskip
 
-An algorithm to color a graph of this kind could go as follows. Suppose we identify colors as increasing natural numbers. Color the initial vertex `1'. Do a DFS. Whenever a new node is visited, one of its edges must be the parent, therefore we will need a different color. If this new vertex has degree 1, it can be colored to the lowest available different color because it has no other neighbors. Otherwise it has a second neighbor. In this case, either both neighbors share the same color, in which case we take the lowest different color, or each neighbor is of a different color, in which case we take the third available color.
+An algorithm to color a graph of this kind could go as follows. Let us identify colors as increasing natural numbers. Color the initial vertex `1'. Do a BFS. Whenever a new node is visited, one of its edges must be the parent, therefore we will need a different color. If this new vertex has degree 1, it can be colored to the lowest available different color because it has no other neighbors. Otherwise it has a second neighbor, and either both neighbors share the same color, in which case we take the lowest different color, or each neighbor is of a different color, in which case we take the third available color. This algorithm is $O(n+m)$, the cost of doing the BFS.
 
 
 
