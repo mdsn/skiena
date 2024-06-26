@@ -1421,8 +1421,8 @@ The four cases of tree, forward, back and cross edges exhaustively categorize al
 \paragraph{7-5} Skiena says in \S\,19.7 {\sl Vertex coloring} (pp.\,604) that finding the chromatic number of a graph is NP-complete---a general exact solution can be found using backtracking. We can expect that the restriction on the degree of the vertices is what will save us here.
 
 First let's get something out of the way. Here is a graph that fulfills the conditions and is not bipartite:
-\tikz[>={Stealth[round]},baseline=-3mm, sibling distance=3mm, level distance=3mm]
-\graph [tree layout, nodes={circle,inner sep=0pt, minimum size=1.3mm, fill, as=}] {
+\tikz[baseline=-3mm, sibling distance=3mm, level distance=3mm]
+\graph [tree layout, nodes={circle,inner sep=0pt, minimum size=1.3mm, draw, as=}] {
  1 -- 2 -- 3 -- 1;
 };. It is clear that this graph is tripartite. More generally, no vertex can have three neighbors that may force the use of a fourth color, so a graph with this property can be at most tripartite.\ \okthen
 
