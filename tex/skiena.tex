@@ -7,6 +7,8 @@
 %
 % 45~50 lines to a page
 
+% TODO add \label to tikz pictures (\begin{figure}) and \ref in the text
+
 \usepackage[
 paper=letterpaper,
 twoside=true,
@@ -32,14 +34,17 @@ bottom=0.75in % 3/4 inch
 \usepackage[inline]{enumitem}  % enumerate
 \usepackage{listings}
 \usepackage{tikz}
-%\usepackage{forest}
+\usepackage{wrapfig}
+\usepackage{multicol}
 
 \usetikzlibrary{patterns}
 \usetikzlibrary{positioning}
 \usetikzlibrary{graphs,graphdrawing}
+\usetikzlibrary {graphs.standard}
 \usetikzlibrary{shapes.geometric}
 \usetikzlibrary{arrows.meta}
 \usegdlibrary{trees,layered}
+\usegdlibrary{force}
 
 \lstset{
 	basicstyle=\ttfamily,
@@ -1301,6 +1306,11 @@ The second graph is processed in the following order: $A \to B \to E \to C \to F
 };
 \end{center}
 
+%\usetikzlibrary {graphs}
+%\tikz \graph [grid placement] {
+%  [n=6, wrap after=3]
+%  a -- b -- c -- d -- e -- f
+%};
 In the representation of this graph as it is printed, the BFS path looks like this:
 \begin{center}
 \begin{tikzpicture}[on grid,>={Stealth[round]}]
@@ -1429,6 +1439,36 @@ First let's get something out of the way. Here is a graph that fulfills the cond
 \smallskip
 
 An algorithm to color a graph of this kind could go as follows. Let us identify colors as increasing natural numbers. Color the initial vertex `1'. Do a BFS. Whenever a new node is visited, one of its edges must be the parent, therefore we will need a different color. If this new vertex has degree 1, it can be colored to the lowest available different color because it has no other neighbors. Otherwise it has a second neighbor, and either both neighbors share the same color, in which case we take the lowest different color, or each neighbor is of a different color, in which case we take the third available color. This algorithm is $O(n+m)$, the cost of doing the BFS.
+
+\paragraph{7-6} An $O(n+m)$ algorithm is to do a DFS, which partitions the edges in tree and back edges. Back edges link to ancestor nodes and provide an alternative path to them. Any one of these edges will do.
+
+More precisely, we seek an edge that is not a bridge. A \emph{bridge} is a tree edge $(u,v)$ where no back edge connects from $v$ or a descendant to $u$ or an ancestor. By that definition, an edge $(u,v)$ that is not a tree edge, or such that there is an edge from $v$ or a descendant to $u$ or an ancestor is a safe node to delete. Any edge found by DFS that is not a tree edge is a back edge and fits that description.
+
+\paragraph{7-7}
+\begin{enumerate}[label=\alph*)]
+\item Consider a star graph where $v$ is the center node:\,%
+\tikz[baseline=-1.4mm]
+\graph[spring layout,
+	   node distance=2.7mm,
+	   nodes={circle,inner sep=0pt, minimum size=1.3mm, draw, as=}]
+{ 0[fill] -- { 1, 2, 3 } };. In processing $v$ during a BFS, $n-1$ nodes will be discovered before marking $v$ processed and stepping out of it.
+
+\item A linked list where $v$ is the leftmost node:\,%
+\tikz[baseline=-.8mm]
+\graph[
+  grow right=3mm,
+  nodes={circle,inner sep=0pt, minimum size=1.3mm, draw, as=}]
+{ 0[fill] -- 1 -- 2 -- 3 };. DFS will walk to the last node of the list, marking all $n$ nodes discovered before marking the last node processed and walking back the stack.
+
+\item Consider a linked list with $2n+1$ nodes, and make $v$ the center node:\,%
+\tikz[baseline=-1mm, sibling distance=3mm, level distance=3mm]
+\graph[tree layout, grow=east,
+  nodes={circle,inner sep=0pt, minimum size=1.3mm, draw, as=}]
+{ 0[fill] -- { 1 -- 2 -- 3 };
+  0 -- { 4 -- 5 -- 6 }; };. This vertex has two neighbors, each the first of an $n$ node sublist. By running DFS on $v$, one of the two sublists will be traversed first to the end, and marked processed on the way back to $v$. At this point, $n$ vertices are marked processed while another $n$ are not yet discovered, namely those on the second sublist.
+\end{enumerate}
+
+
 
 
 
