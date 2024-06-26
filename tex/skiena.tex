@@ -432,7 +432,7 @@ The answer is a \emph{priority queue}. Prioritize the item that expires next. Th
 \paragraph{3-7} The book says to keep a sentinel for the end of the list. There are three cases for deleting a node \li!p!: \begin{enumerate*}[label=\arabic*)]\item delete the first node; \item delete a node in the middle; \item delete the last node.\end{enumerate*}
 
 \begin{enumerate}[label=\arabic*)]
-	\item Deleting the head:\,%
+	\item Deleting the head:\ %
 	\tikz[>={Stealth[round]},
     	  every node/.style={inner sep=0pt, minimum size=1.7mm,draw}] {
     	\node[rectangle] (H) at (0,0) {};
@@ -454,7 +454,7 @@ The answer is a \emph{priority queue}. Prioritize the item that expires next. Th
     	\draw[->] (2) -- (T);
     }\,.
 
-	\item Deleting a node in the middle of the list:\,%
+	\item Deleting a node in the middle of the list:\ %
 	\tikz[>={Stealth[round]},
     	  every node/.style={inner sep=0pt, minimum size=1.7mm,draw}] {
     	\node[rectangle] (H) at (0,0) {};
@@ -480,7 +480,7 @@ The answer is a \emph{priority queue}. Prioritize the item that expires next. Th
     	\draw[->] (3) -- (T);
     }\,.
 
-    \item Deleting the last node:\,%
+    \item Deleting the last node:\ %
     \tikz[>={Stealth[round]},
     	  every node/.style={inner sep=0pt, minimum size=1.7mm,draw}] {
     	\node[rectangle] (H) at (0,0) {};
@@ -499,7 +499,7 @@ The answer is a \emph{priority queue}. Prioritize the item that expires next. Th
     	\node[rectangle,draw=gray] (T) [right=5mm of 2] {};
     	\draw[->] (H) -- (1);
     	\draw[->] (1) -- (2);
-    }
+    }\,.
 \end{enumerate}
 
 \paragraph{3-8} The winning condition is for $n$ \lstinline!X! or \lstinline!O! to be placed in a row, column or diagonal. We can keep \lstinline!X! and \lstinline!O! counters for every row, column and diagonal. There are $n$ rows, $n$ columns and 2 diagonals, so we need $2n+2$ counters to keep state, which is $O(n)$ space as requested.
