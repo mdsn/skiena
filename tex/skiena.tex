@@ -1,5 +1,31 @@
 \documentclass{report}
 
+% left  (outside)
+% right  (inside)
+% top 5/8 inch to page number, 1in to text
+% bottom 3/4 inch
+%
+% 45~50 lines to a page
+
+\usepackage[
+paper=letterpaper,
+twoside=true,
+top=1in,
+inner=0.625in, % 5/8 of an inch
+outer=0.875in, % 7/8 of an inch
+bottom=0.75in % 3/4 inch
+]{geometry}
+
+\usepackage[twoside]{fancyhdr}
+\pagestyle{fancy}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\chaptermark}[1]{\uppercase{\markboth{#1}{}}}
+\renewcommand{\subsectionmark}[1]{\uppercase{\markright{#1}}}
+\fancyhead{}
+\fancyhead[RE]{\rightmark\quad\thepage}
+\fancyhead[LO]{\thepage\quad\leftmark}
+\fancyfoot{}
+
 \usepackage{amsmath}
 \usepackage{amsthm}
 \usepackage{amsfonts}
@@ -144,9 +170,7 @@ The dominance pecking order:
 		$c2^{2n} \le 2^n$? Well, $2^{2n} = 2^2\cdot2^n = 4\cdot2^n,$ so $4c2^n \le 2^n$ is satisfied with $c = 1/4.$ So $f(n) = \Omega(g(n))$ and finally, $f(n) = \Theta(g(n)).$
 \end{enumerate}
 
-\paragraph{2-12}$n^3 - 3n^2 -n + 1 = \Theta(n^3).$
-
-Note that $0 \le 3n^2 + n \to n^3 \le n^3 + 3n^2 + n \to n^3 - 3n^2 - n \le n^3$. Thus $f(n) = O(n^3)$.
+\paragraph{2-12}$n^3 - 3n^2 -n + 1 = \Theta(n^3).$ Note that $0 \le 3n^2 + n \to n^3 \le n^3 + 3n^2 + n \to n^3 - 3n^2 - n \le n^3$. Thus $f(n) = O(n^3)$.
 
 Now $cn^3 \le n^3 - 3n^2 - n + 1.$ Consider $c = 1/2$, then
 \begin{align*}
@@ -198,8 +222,9 @@ This shows that if a function is $\Theta(n^2)$ then it must be $\Theta(n^2+1)$ a
 
 \paragraph{2-18} Let $f_1(n) = O(g_1(n)),\ f_2(n) = O(g_2(n))$. Show that $f_1(n) + f_2(n) = O(g_1(n) + g_2(n))$.
 
-\begin{proof}There are $c_1,\ n_1$ such that $f_1(n) \le c_1 g_1(n)$ for $n > n_1$, and $c_2,\ n_2$ such that $f_2(n) \le c_2 g_2(n)$ for $n > n_2$. Let $c = \max(c_1, c_2),\ n_0 = \max(n_1, n_2)$. Then $f_1(n) < c g_1(n)$, and $f_2(n) < c g_2(n)$, which implies that $f_1(n) + f_2(n) < c g_1(n) + c g_2(n) = c(g_1(n) + g_2(n))$ for $n > n_0$.
-\end{proof}
+\medskip
+
+There are $c_1,\ n_1$ such that $f_1(n) \le c_1 g_1(n)$ for $n > n_1$, and $c_2,\ n_2$ such that $f_2(n) \le c_2 g_2(n)$ for $n > n_2$. Let $c = \max(c_1, c_2),\ n_0 = \max(n_1, n_2)$. Then $f_1(n) < c g_1(n)$, and $f_2(n) < c g_2(n)$, which implies that $f_1(n) + f_2(n) < c g_1(n) + c g_2(n) = c(g_1(n) + g_2(n))$ for $n > n_0$.\ \okthen
 
 \paragraph{2-19} Let $f_1(n) = \Omega(g_1(n)),\ f_2(n) = \Omega(g_2(n))$. Then there are $c_1, n_1$ such that $f_1(n) \ge c_1 g_1(n)$ for $n > n_1$, and $c_2, n_2$ such that $f_2(n) \ge c_2 g_2(n)$ for $n > n_2$. Let $n_0 = \max(n_1, n_2)$ and let $c_0 = \min(c_1, c_2)$. Then $c g_1(n) \le c_1 g_1(n)$ and also $c g_2(n) \le c_2 g_2(n)$. These inequalities imply that
 \begin{gather*}
@@ -212,16 +237,18 @@ Thus $c(g_1(n) + g_2(n)) \le f_1(n) + f_2(n),\ n > n_0$, and $f_1(n) + f_2(n) = 
 
 \paragraph{2-21} We are to prove that $p(n) = a_k n^k + \ldots + a_0 = O(n^k)$, for $k \ge 0$ and arbitrary real coefficients $a_i$. This is to say that we can find a $c > 0$ and $n_0$ such that $p(n) \le c n^k$, for all $n > n_0$.
 
-\begin{proof}We know that after some $n$, $a_k n^k > p(n) - a_k n^k$, that is to say, the leading order term will come to dominate. To see this, note that
+\medskip
+
+We know that after some $n$, $a_k n^k > p(n) - a_k n^k$, that is to say, the leading order term will come to dominate. To see this, note that
 \[ \lim_{n\to\infty}\frac{n^m}{n^q} = 0 \iff q > m, \]
 is to say that $n^q \gg n^m$.
 
-Now take $c = \max(a_0,\ldots, a_k)$. Then clearly $c n^k + \ldots + c \ge a_k n^k + \ldots + a_0 = p(n)$. But because of the same argument as above, there is some $n_0$ after which $c n^k > c n^{k-1} + \ldots + c$. Then it follows that $p(n) \le c n^k$ for $n > n_0$, which means $p(n) = O(n^k)$.
-\end{proof}
+Now take $c = \max(a_0,\ldots, a_k)$. Then clearly $c n^k + \ldots + c \ge a_k n^k + \ldots + a_0 = p(n)$. But because of the same argument as above, there is some $n_0$ after which $c n^k > c n^{k-1} + \ldots + c$. Then it follows that $p(n) \le c n^k$ for $n > n_0$, which means $p(n) = O(n^k)$.\ \okthen
 
 \paragraph{2-22} Let $a, b \in \R$, with $b > 0$. Show that $(n+a)^b = \Theta(n^b)$.
 
-\begin{proof}
+\medskip
+
 To prove that $(n+a)^b = O(n^b)$ we need to find $c_0$ such that $c_0 n^b \ge (n+a)^b$ for sufficiently large $n$. If $a=0,\ (n+a)^b = n^b$ and with $c=1$ the inequality holds. If $a<0, (n+a)^b \le n^b$, so
 \[ \frac{(n+a)^b}{n^b} = \left(\frac{n+a}{n}\right)^b < 1. \]
 If $a>0$ we need to see that $\left(1 + \frac{a}{n}\right)^b$ is bounded. (To see why, $(n+a)^b \le c n^b \to (n+a/n)^b \le c \to (1 + a/n)^b \le c$).
@@ -230,8 +257,7 @@ Note that $\frac{a}{n}$ can get arbitrarily close to 0 for large enough $n$, so 
 
 \medskip
 
-To prove that $(n+a)^b = \Omega(n^b)$, by the same argument, $c n^b \le (n+a)^b \to c \le (n+a/n)^b = (1 + a/n)^b$. For $a\ne0$ the expression $1+a/n$ tends to 1, either ``from below'' or ``from above''---at any rate, by taking some $c<1$, say, $1/2$, it will be possible to find $n$ large enough that the inequality will hold. Thus $(n+a)^b = \Omega(n^b)$, and finally $(n+a)^b = \Theta(n^b)$.
-\end{proof}
+To prove that $(n+a)^b = \Omega(n^b)$, by the same argument, $c n^b \le (n+a)^b \to c \le (n+a/n)^b = (1 + a/n)^b$. For $a\ne0$ the expression $1+a/n$ tends to 1, either ``from below'' or ``from above''---at any rate, by taking some $c<1$, say, $1/2$, it will be possible to find $n$ large enough that the inequality will hold. Thus $(n+a)^b = \Omega(n^b)$, and finally $(n+a)^b = \Theta(n^b)$.\ \okthen
 
 \paragraph{2-27}
 \begin{enumerate}[label=(\alph*)]
@@ -738,6 +764,7 @@ The segment tree can be represented as a heap-style, packed implicit tree. We ne
 %\section*{Solutions}
 
 \subsection*{Applications of Sorting: Numbers}
+\subsectionmark{Applications of Sorting: Numbers}
 
 \paragraph{4-1} The Grinch wants the most unbalanced game possible. This is the same as asking to maximize the difference in total skill between the two teams.
 
@@ -793,7 +820,7 @@ Starting with the values sorted in descending order, consider the array of diffe
 
 	Sorting the bills and checks is $O(n\log n)$, and the linear sweep is $O(n)$ for a total effort of $O(n\log n)$ time.
 
-	\item Sort the list of books by publisher. This is $O(n\log n)$ for $n$ books in the library. Then for each publisher use binary search to find the boundaries of the corresponding block of published books in the sorted list. (See \S\,5.1.1 Counting Occurrences.)
+	\item Sort the list of books by publisher. This is $O(n\log n)$ for $n$ books in the library. Then for each publisher use binary search to find the boundaries of the corresponding block of published books in the sorted list. (See \S\,5.1.1 {\sl Counting Occurrences\/}.)
 
 	Each binary search is $O(\lg n)$ time and there are 30 publishers, which is a constant factor so the overall effort is $O(n\log n)$ with the sorting of all the books dominating.
 
@@ -826,7 +853,9 @@ return false
 
 	\item If the array is sorted, consider two pointers $l$ and $r$, pointing to the first and last elements of the array respectively. While they haven't crossed each other, compare the sum of the pointed elements to $x$---if the sum is greater than $x$, point $r$ to the next smaller element; if the sum is less than $x$, point $l$ to the next largest element. If the two pointers cross each other, then no two elements in the array add up to $x$.
 
-	\begin{proof}Let us call $l, r$ the left and right pointers respectively. Suppose a given array and real number $x$ have a solution at indices $i, j$---that is, $x = x_i + x_j,\ i<j$.
+	\medskip
+
+	Let us call $l, r$ the left and right pointers respectively. Suppose a given array and real number $x$ have a solution at indices $i, j$---that is, $x = x_i + x_j,\ i<j$.
 
 	The pointers $l$ and $r$ only ever go in one direction, so we would fail to find a solution if $l>i$ or $r<j$ (taking some notational license).
 
@@ -834,19 +863,19 @@ return false
 
 	By a similar argument, we can see that $r$ can't be less than $j$.
 
-	\bigskip
+	\medskip
 
 	To drive the point home, consider the moment where $l=i-1$ and $r=j+1$. Either $x < x_{i-1} + x_{j+1}$ or $x > x_{i-1} + x_{j+1}$.
 
 	If $x < x_{i-1} + x_{j+1}$, we will increment $l$ and have a pair $(x_i,x_{j+1})$ which must be greater than $x$, for $x = x_i + x_j$ and $x_j < x_{j+1}$. At this point the algorithm will bring $r$ in to find pair $(x_i, x_j)$.
 
-	If $x > x_{i-1} + x_{j+1}$, conversely, we will see $r$ be brought in first to find pair $(x_{i-1}, x_j)$. By the same argument, $x_{i-1} + x_j < x$, so $l$ will be advanced to point to $x_i$, and again find the solution $(x_i,x_j)$.
-	\end{proof}
+	If $x > x_{i-1} + x_{j+1}$, conversely, we will see $r$ be brought in first to find pair $(x_{i-1}, x_j)$. By the same argument, $x_{i-1} + x_j < x$, so $l$ will be advanced to point to $x_i$, and again find the solution $(x_i,x_j)$.\ \okthen
 \end{enumerate}
 
 \paragraph{4-11} This is cheating, but assume you have a hash table with $O(1)$ insertion and update. Traverse the list, incrementing the count of keys already in the table, or inserting them with an initial value of 1 otherwise. Finally, traverse the hash table filtering the items that fulfill the predicate.
 
 \subsection*{Applications of Sorting: Intervals and Sets}
+\subsectionmark{Applications of Sorting: Intervals and Sets}
 
 \paragraph{4-12}
 \begin{enumerate}[label=(\alph*)]
@@ -910,6 +939,7 @@ So, $J_k = [x_k, y_k]$ is a segment which intersects $I_{k-1}$, but again by con
 \end{proof}
 
 \subsection*{Heaps}
+\subsectionmark{Heaps}
 
 \paragraph{4-17} Building the complete heap with the regular \lstinline!bubble_up()! method will require $O(n\log n)$ time, so that will not work. The key is the faster heap construction method that uses \lstinline!bubble_down()! instead. Even though this operation is ostensibly $O(\log n)$, a closer look shows that $O(n\log n)$ is a generous upper bound for the cost of building a heap.
 
@@ -964,7 +994,7 @@ The powerup comes from the assistance the heap provides in quickly finding the n
 \end{enumerate}
 
 % TODO use proper bibliography and collect references
-\paragraph{4-20} From Knuth, vol.\ 3, \S\,5.2.3 ``Sorting by selection''. DEK introduces \emph{quadratic selection}. The idea is simple: assume without loss of generality that $n$ is a square, and partition the $n$ elements into $\sqrt{n}$ groups of $\sqrt{n}$ elements each. Then make a new group with the minimum elements from each group. The minimum element across all $n$ can be found in this group.
+\paragraph{4-20} From Knuth, vol.\ 3, \S\,5.2.3 {\sl Sorting by selection\/}. DEK introduces \emph{quadratic selection}. The idea is simple: assume without loss of generality that $n$ is a square, and partition the $n$ elements into $\sqrt{n}$ groups of $\sqrt{n}$ elements each. Then make a new group with the minimum elements from each group. The minimum element across all $n$ can be found in this group.
 
 Note that the second smallest element will also be selected into the leaders group, except when it is in the same partition as the smallest element. Thus, with the minimum removed from the group of leaders, the second smallest can be found by looking at the remaining $\sqrt{n}-1$ leaders as well as the remaining elements in the group whence the minimum element came.
 
@@ -979,6 +1009,7 @@ So $n-\sqrt{n} + \sqrt{n}-1 + 2\sqrt{n}-3 = n + 2\sqrt{n} - 4$ total comparisons
 This shows that quadratic selection does fewer comparisons than the obvious algorithm.
 
 \subsection*{Quicksort}
+\subsectionmark{Quicksort}
 
 \paragraph{4-21} Given an array of $n$ elements we know the median would belong in position roughly $n/2$ with provisions for odd and even $n$ as well as 0 or 1-based arrays we will conveniently disregard.
 
@@ -1036,7 +1067,7 @@ int lomuto(vec &xs, int l, int r) {
 \end{lstlisting}
 
 \subsubsection*{Sedgewick's partitioning scheme}
-As explained by Knuth in \S\,5.2.2 ``Sorting by exchanging''.
+As explained by Knuth in \S\,5.2.2 {\sl Sorting by exchanging\/}.
 
 Given an array $A$ of $n$ elements, and integers $l, r$ the boundaries of the interval to partition (e.g. \lstinline!sedgewick(A,0,n-1)! would partition the entire array). Take an arbitrary element as pivot; DEK takes the first element in the interval, $l$. Increase $l$ until it points to an element that does not belong in the left partition; likewise, decrease $r$ until it points to an element that does not belong in the right partition. If $l<r$, exchange $A_l$ with $A_r$, then continue processing the elements until $l\geq r$. If $l$ and $r$ did cross, swap the pivot into its final position at $A_r$ and return.
 
@@ -1098,6 +1129,7 @@ Now, on to the task at hand.
 \end{enumerate}
 
 \subsection*{Mergesort}
+\subsectionmark{Mergesort}
 
 \paragraph{4-28} The recursion tree in the canonical ``split at the half'' version of merge sort has height $\lg n$, namely how many times $n$ elements can be split until we reach 1 element per part. If we were to split three ways we'd end up with a tree of height $\log_3 n$---but the merging is still linear, so we are left again with a $\Theta(n\log n)$ algorithm. The insight by Skiena: a change of base does not affect the class of a logarithmic function.
 
@@ -1116,6 +1148,7 @@ First note that we can pair up arrays $\lg k$ times until we end up with a singl
 	= \sum_{i=1}^{\lg k} kn = O(kn\lg k). \]
 
 \subsection*{Other sorting algorithms}
+\subsectionmark{Other sorting algorithms}
 
 \paragraph{4-31} To make sure merge sort is stable, the items on the partition with the lowest index must be selected first during the merge process. These items appear first in the original array, and must therefore be placed first in the sorted array to maintain the relative order of equal keys. (Realistically speaking, you would have to go out of your way to make an unstable merge sort.)
 
@@ -1171,6 +1204,8 @@ We now have two separate partitions: the elements that were initially sorted, an
 
 \paragraph{4-36} We could use bucket sort for this, but would need an extra twist due to the $n^2$ elements in the key space. If we were to just count how many of each key are in $A$ directly in an array of length $n^2$ we would then have to pay the $O(n^2)$ price to traverse it to output all $n$ elements. Since we are willing to trade space for time, we could still use this much space (and then some) but do better than that. (Unfortunately this approach will not work, but let's entertain the idea for fun.)
 
+\smallskip
+
 Let $B$ and $C$ be integer arrays of length $n^2$ and $\log\log n$ respectively. Start by traversing $A$. For each $a\in A$, look at $B_a$---if it is 0, or \li!null!, this is the first time we see $a$; push a pair $(a,1)$ to the end of $C$, and record its index in $B_a$. We now have a way to index into $C$ to increase this count every time we see another $a$.
 
 Once we finish traversing $A$ and counting each element we can discard $B$ and concentrate on $C$, which can be sorted on the first element of each pair. Since $C$ has length $\log\log n$ it can be sorted in $O((\log\log n)\log(\log\log n))$ time. A traversal over $C$, now sorted, to output as many copies of each key as were counted in the first stage, completes the task in $O(n)$ time, as there are $n$ elements to output.\ \okthen
@@ -1186,12 +1221,14 @@ What is faulty about this algorithm? We first stated that it would be no good to
 \end{enumerate}
 
 \subsection*{Lower bounds}
+\subsectionmark{Lower bounds}
 
 \paragraph{4-39} Note that $\log\sqrt{n} = \log n^{1/2} = \frac{1}{2}\log n$, therefore $n\log\sqrt{n} = \frac{n}{2}\log n = O(n\log n)$.
 
 \paragraph{4-40} If such a priority queue existed we would be able to sort $n$ elements in $O(n)$ time by populating the priority queue with $n$ insertions and getting them in order with $n$ calls to \li!extract()!, in clear violation of the lower bound for sorting.
 
 \subsection*{Searching}
+\subsectionmark{Searching}
 
 \paragraph{4-41} At ten thousand names, sorted, a binary search will do $\lg 10000 = 4$ hops in the worst case to land on an individual name. If we put the 40\% good customers in their own array that's 4000 names, so 60\% of the searches will resolve in $\lg4000\approx3.6$ hops, while now the other 40\% of not-so-good customers must first pay those 3.6 searches and then a further $\lg6000\approx3.7$ hops in the worst case to land on a name in the second level array. The benefit for good customers is negligible, while the cost for the other 60\% of customers almost doubles.
 
@@ -1209,6 +1246,7 @@ By the same argument as before, the integers $a,b,c,d$ are bounded by $\lceil\sq
 As it is, this algorithm does at least double the amount of work necessary---more if there is more than one way of writing some $i$ as the sum of two cubes. It keeps no record of already verified Ramanujan numbers, so when the second pair found is visited later another search is done.
 
 \subsection*{Implementation challenges}
+\subsectionmark{Implementation challenges}
 
 \paragraph{4-43} We have an $n\times n$ array such that the elements are strictly increasing along a row, and strictly decreasing along a column. Skiena gives the hint that with these constraints there can't be two zeros in the same row or column. (Further than that, there can't be any repeating number.)
 
@@ -1229,6 +1267,9 @@ In the worst case, there are no zeros in the array and the algorithm performs $n
 \chapter{Graph traversal}
 
 \section*{Solutions}
+
+\subsection*{Simulating graph algorithms}
+\subsectionmark{Simulating graph algorithms}
 
 \paragraph{7-1} With BFS, the first graph's edges are processed in the following order:
 \[ A \to B \to D \to I \to C \to E \to G \to J \to F \to H. \]
@@ -1358,7 +1399,10 @@ In the printed representation, the DFS path makes it evident that the processing
 \end{tikzpicture}
 \end{center}
 
-\paragraph{7-2} Topological sort yields $H \to A \to B \to D \to E \to G \to I \to J \to C \to F$.
+\paragraph{7-2} $H \to A \to B \to D \to E \to G \to I \to J \to C \to F$.
+
+\subsection*{Traversal}
+\subsectionmark{Traversal}
 
 \paragraph{7-3} Suppose there is more than one path between vertices $v$ and $u$. Then at some point before or at vertex $u$ there must have been more than one incident edge, for otherwise the path would be unique. This means that some vertex must have more than one parent, in contradiction of the definition of a tree.\ \okthen
 
@@ -1385,7 +1429,7 @@ In the left example, node 3 is already processed when the cross edge $4\to3$ is 
 
 The four cases of tree, forward, back and cross edges exhaustively categorize all possible edges that can be seen during traversals.\ \okthen
 
-\paragraph{7-5} Skiena says in \S\,19.7 Vertex coloring (pp.\,604) that finding the chromatic number of a graph is NP-complete---a general exact solution can be found using backtracking. We can expect that the restriction on the degree of the vertices is what will save us here.
+\paragraph{7-5} Skiena says in \S\,19.7 {\sl Vertex coloring} (pp.\,604) that finding the chromatic number of a graph is NP-complete---a general exact solution can be found using backtracking. We can expect that the restriction on the degree of the vertices is what will save us here.
 
 First let's get something out of the way. Here is a graph that fulfills the conditions and is not bipartite:
 \begin{center}
