@@ -429,111 +429,77 @@ One improvement might be to use a queue, whatever has been in there the longest 
 
 The answer is a \emph{priority queue}. Prioritize the item that expires next. This ensures that items that have longer expiration dates wait the most.
 
-\paragraph{3-7} The book says to keep a sentinel for the end of the list. There are three cases for delete: \begin{enumerate*}[label=\arabic*)]\item delete the first node; \item delete a node in the middle; \item delete the last node.\end{enumerate*}
+\paragraph{3-7} The book says to keep a sentinel for the end of the list. There are three cases for deleting a node \li!p!: \begin{enumerate*}[label=\arabic*)]\item delete the first node; \item delete a node in the middle; \item delete the last node.\end{enumerate*}
 
 \begin{enumerate}[label=\arabic*)]
-	\item Deleting the head.
-    \begin{center}
-    \tikz[>={Stealth[round]},
-    	  every rectangle node/.style={draw},
-    	  every circle node/.style={draw}] {
-    	\node[rectangle] (H) at (0,0) {H};
-    	\node[circle] (1) at (1,0) {1};
-    	\node[circle] (2) at (2,0) {2};
-    	\node[rectangle] (T) at (3,0) {T};
-    	\node[draw=white,scale=.7] (P) at (1,-0.7) {p};
+	\item Deleting the head:\,%
+	\tikz[>={Stealth[round]},
+    	  every node/.style={inner sep=0pt, minimum size=1.7mm,draw}] {
+    	\node[rectangle] (H) at (0,0) {};
+    	\node[circle,fill] (1) [right=5mm of H] {};
+    	\node[circle] (2) [right=5mm of 1] {};
+    	\node[rectangle] (T) [right=5mm of 2] {};
     	\draw[->] (H) -- (1);
     	\draw[->] (1) -- (2);
     	\draw[->] (2) -- (T);
-    	\draw[->] (P) -- (1);
-    }
-    \end{center}
-
-    \lstinline!list.head == p!, point \lstinline!H! to \lstinline!p->next!, free \lstinline!p!
-
-    \begin{center}
-    \tikz[>={Stealth[round]}] {
-    	\node[rectangle,draw] (H) at (0,0) {H};
-    	\node[circle,draw=gray,dashed,gray] (1) at (1,0) {1};
-    	\node[circle,draw] (2) at (2,0) {2};
-    	\node[rectangle,draw] (T) at (3,0) {T};
-    	\node[draw=white,scale=.7] (P) at (1,-0.7) {p};
-    	\draw[->] (H) edge[bend left=45] (2);
+    }\,. Point \lstinline!head! to \lstinline!p->next! then free \lstinline!p!:\ %
+    \tikz[>={Stealth[round]},
+    	  every node/.style={inner sep=0pt, minimum size=1.7mm,draw}] {
+    	\node[rectangle] (H) at (0,0) {};
+    	\node[circle,draw=gray] (1) [right=5mm of H] {};
+    	\node[circle] (2) [right=5mm of 1] {};
+    	\node[rectangle] (T) [right=5mm of 2] {};
+    	\draw[->] (H) edge[bend left=30] (2);
     	\draw[->] (1) -- (2);
     	\draw[->] (2) -- (T);
-    	\draw[->] (P) -- (1);
-    }
-    \end{center}
+    }\,.
 
-	\item Deleting a node in the middle of the list.
-    \begin{center}
-    \tikz[>={Stealth[round]},
-    	  every rectangle node/.style={draw},
-    	  every circle node/.style={draw}] {
-    	\node[rectangle] (H) at (0,0) {H};
-    	\node[circle] (0) at (1,0) {0};
-    	\node[circle] (1) at (2,0) {1};
-    	\node[circle] (2) at (3,0) {2};
-    	\node[rectangle] (T) at (4,0) {T};
-    	\node[draw=white,scale=.7] (P) at (2,-0.7) {p};
-    	\draw[->] (H) -- (0);
-	    \draw[->] (0) -- (1);
+	\item Deleting a node in the middle of the list:\,%
+	\tikz[>={Stealth[round]},
+    	  every node/.style={inner sep=0pt, minimum size=1.7mm,draw}] {
+    	\node[rectangle] (H) at (0,0) {};
+    	\node[circle] (1) [right=5mm of H] {};
+    	\node[circle,fill] (2) [right=5mm of 1] {};
+		\node[circle] (3) [right=5mm of 2] {};
+    	\node[rectangle] (T) [right=5mm of 3] {};
+    	\draw[->] (H) -- (1);
     	\draw[->] (1) -- (2);
-    	\draw[->] (2) -- (T);
-    	\draw[->] (P) -- (1);
-    }
-    \end{center}
-
-    \lstinline;list.head != p;, \lstinline;p->next != tail;, overwrite \lstinline!p! with \lstinline!p->next!, then free \lstinline!p->next!.
-
-	\begin{center}
-    \tikz[>={Stealth[round]}] {
-    	\node[rectangle,draw] (H) at (0,0) {H};
-		\node[circle,draw] (0) at (1,0) {0};
-    	\node[circle,draw] (1) at (2,0) {2};
-    	\node[circle,draw=gray,dashed,gray] (2) at (3,0) {2};
-    	\node[rectangle,draw] (T) at (4,0) {T};
-    	\node[draw=white,scale=.7] (P) at (2,-0.7) {p};
-    	\draw[->] (1) edge[bend left=45] (T);
-		\draw[->] (H) -- (0);
-		\draw[->] (0) -- (1);
-    	\draw[->] (2) -- (T);
-    	\draw[->] (P) -- (1);
-    }
-    \end{center}
-
-    \item Deleting the last node.
-
-    \begin{center}
+		\draw[->] (2) -- (3);
+    	\draw[->] (3) -- (T);
+    }\,. Overwrite \lstinline!p! with \lstinline!p->next!, then free \lstinline!p->next!:\ %
     \tikz[>={Stealth[round]},
-    	  every rectangle node/.style={draw},
-    	  every circle node/.style={draw}] {
-    	\node[rectangle] (H) at (0,0) {H};
-    	\node[circle] (1) at (1,0) {1};
-    	\node[circle] (2) at (2,0) {2};
-    	\node[rectangle] (T) at (3,0) {T};
-    	\node[draw=white,scale=.7] (P) at (2,-0.7) {p};
+    	  every node/.style={inner sep=0pt, minimum size=1.7mm,draw}] {
+    	\node[rectangle] (H) at (0,0) {};
+    	\node[circle] (1) [right=5mm of H] {};
+    	\node[circle] (2) [right=5mm of 1] {};
+		\node[circle,draw=gray] (3) [right=5mm of 2] {};
+    	\node[rectangle] (T) [right=5mm of 3] {};
+    	\draw[->] (H) -- (1);
+    	\draw[->] (1) -- (2);
+		\draw[->] (2) edge[bend left=30] (T);
+    	\draw[->] (3) -- (T);
+    }\,.
+
+    \item Deleting the last node:\,%
+    \tikz[>={Stealth[round]},
+    	  every node/.style={inner sep=0pt, minimum size=1.7mm,draw}] {
+    	\node[rectangle] (H) at (0,0) {};
+    	\node[circle] (1) [right=5mm of H] {};
+    	\node[circle,fill] (2) [right=5mm of 1] {};
+    	\node[rectangle] (T) [right=5mm of 2] {};
     	\draw[->] (H) -- (1);
     	\draw[->] (1) -- (2);
     	\draw[->] (2) -- (T);
-    	\draw[->] (P) -- (2);
-    }
-    \end{center}
-
-    \lstinline!p->next == tail!, free \lstinline!tail! and make \lstinline!p! the new sentinel node.
-
-	\begin{center}
-    \tikz[>={Stealth[round]}] {
-    	\node[rectangle,draw] (H) at (0,0) {H};
-		\node[circle,draw] (1) at (1,0) {1};
-    	\node[rectangle,draw] (2) at (2,0) {T};
-    	\node[rectangle,draw=gray,dashed,gray] (T) at (3,0) {T};
-    	\node[draw=white,scale=.7] (P) at (2,-0.7) {p};
-		\draw[->] (H) -- (1);
+    }\,. Free \lstinline!tail! and make \lstinline!p! the new sentinel node:\ %
+    \tikz[>={Stealth[round]},
+    	  every node/.style={inner sep=0pt, minimum size=1.7mm,draw}] {
+    	\node[rectangle] (H) at (0,0) {};
+    	\node[circle] (1) [right=5mm of H] {};
+    	\node[rectangle,fill] (2) [right=5mm of 1] {};
+    	\node[rectangle,draw=gray] (T) [right=5mm of 2] {};
+    	\draw[->] (H) -- (1);
     	\draw[->] (1) -- (2);
-    	\draw[->] (P) -- (2);
     }
-    \end{center}
 \end{enumerate}
 
 \paragraph{3-8} The winning condition is for $n$ \lstinline!X! or \lstinline!O! to be placed in a row, column or diagonal. We can keep \lstinline!X! and \lstinline!O! counters for every row, column and diagonal. There are $n$ rows, $n$ columns and 2 diagonals, so we need $2n+2$ counters to keep state, which is $O(n)$ space as requested.
