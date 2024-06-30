@@ -34,8 +34,6 @@ bottom=0.75in % 3/4 inch
 \usepackage[inline]{enumitem}  % enumerate
 \usepackage{listings}
 \usepackage{tikz}
-\usepackage{wrapfig}
-\usepackage{multicol}
 
 \usetikzlibrary{patterns}
 \usetikzlibrary{positioning}
@@ -1434,11 +1432,63 @@ More precisely, we seek an edge that is not a bridge. A \emph{bridge} is a tree 
   0 -- { 4 -- 5 -- 6 }; };. This vertex has two neighbors, each the first of an $n$ node sublist. By running DFS on $v$, one of the two sublists will be traversed first to the end, and marked processed on the way back to $v$. At this point, $n$ vertices are marked processed while another $n$ are not yet discovered, namely those on the second sublist.
 \end{enumerate}
 
+\paragraph{7-8} Here is an example tree and its pre and in-order traversals:
 
+\tikz[>={Stealth[round]}] { % TODO make tree smaller, text prettier, cool arrows
+\graph[binary tree layout,
+       nodes={circle,draw}]
+{ A -> {
+	B -> {D, E},
+	C -> {F, G}
+  }
+};
+\node[text width=7cm, anchor=west, right=of C]
+  { Pre-order: $A\to B\to D\to E\to C\to F\to G$ \\
+    In-order: $D\to B\to E\to A\to F\to C\to G$.}
+}
 
+The first element in the pre-order indicates the root of the tree, $A$. By searching for $A$ in the in-order traversal we can determine the elements of the left and right subtrees, namely $\{D,B,E\}$ and $\{F,G,C\}$; but each of these subtrees has to be reconstructed as well.
 
+From the in-order traversal we see how many elements are in the left subtree: these come immediately after the root in the pre-order. Recursively, we identify $B$ as the root of this subtree, and find that it partitions elements $\{D,B,E\}$ such that $D$ and $E$ are its left and right children respectively. The same method applied to the elements to the right of root $A$ (in the in-order), namely $\{F,G,C\}$, does the same for the right subtree of the root.
 
+But how does this method fare against incomplete binary trees?
 
+\tikz[>={Stealth[round]}] {
+\graph[binary tree layout,nodes={circle,draw}]
+{ A -> {
+    B -> { , D},
+    C -> {E, F}
+  }
+};
+\node[text width=7cm, anchor=west, right=of C]
+  { Pre-order: $A\to B\to D\to C\to E\to F$ \\
+    In-order: $B\to D\to A\to E\to C\to F$. }
+}
+
+Out of a final group of 3 (two leaves and their parent), the parent is always in the middle in the in-order, so it shows up first for the case of missing left child, and last for the case of missing right child (and alone for no children). In the example above %TODO add figure references
+$B$ appears first as it is the root of a subtree with no left child.
+
+\smallskip
+
+% TODO create an \algorithm environment
+Here is a (slightly) more precise definition of the procedure. To reconstruct a binary tree, take the first element in the pre-order---this is the root. Find the element in the in-order, counting elements to the left of the root. This count is the number of elements that belong in the left subtree. Recurse to reconstruct the left subtree, with subsequences of both orders corresponding only to the elements identified as being in the left subtree. Finally, use the remaining elements---namely, those appearing after the root in the in-order---to reconstruct the right subtree.\ \okthen
+
+\smallskip
+
+For the case where we are given pre and post-order traversals it's not possible to devise such a method. As a counterexample, here are two different trees that produce the same pair of traversals:
+
+\tikz[>={Stealth[round]}] {
+ \graph[binary tree layout,nodes={circle,draw}]
+ { A -> { , B -> { C, D } } }; 
+}
+\hspace{1cm}
+\tikz[>={Stealth[round]}] {
+ \graph[binary tree layout,nodes={circle,draw}]
+ { A -> { B -> { C, D }, } };
+ \node[text width=5cm, anchor=west, right=of B]
+  { Pre-order: $A\to C\to B\to D$ \\
+    Post-order: $C\to D\to B\to A$. }
+}
 
 
 
