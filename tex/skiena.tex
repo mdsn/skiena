@@ -1,5 +1,6 @@
 \documentclass{report}
 
+% TAOCP page geometry?
 % left  (outside)
 % right  (inside)
 % top 5/8 inch to page number, 1in to text
@@ -8,6 +9,7 @@
 % 45~50 lines to a page
 
 % TODO add \label to tikz pictures (\begin{figure}) and \ref in the text
+% TODO break chapters into their own files
 
 \usepackage[
 paper=letterpaper,
@@ -31,10 +33,9 @@ bottom=0.75in % 3/4 inch
 \usepackage{amsmath}
 \usepackage{amsthm}
 \usepackage{amsfonts}
-\usepackage[inline]{enumitem}  % enumerate
-\usepackage{listings}
-\usepackage{tikz}
+\usepackage[inline]{enumitem}
 
+\usepackage{tikz}
 \usetikzlibrary{patterns}
 \usetikzlibrary{positioning}
 \usetikzlibrary{graphs,graphdrawing}
@@ -44,18 +45,14 @@ bottom=0.75in % 3/4 inch
 \usegdlibrary{trees,layered}
 \usegdlibrary{force}
 
+\usepackage{listings}
 \lstset{
-	basicstyle=\ttfamily,
-	columns=fullflexible,  % thanks https://tex.stackexchange.com/a/172705
-	keepspaces=true,
+ basicstyle=\ttfamily,
+ columns=fullflexible,  % thanks https://tex.stackexchange.com/a/172705
+ keepspaces=true,
+ xleftmargin=\parindent,
 }
-
-%\forestset{
-%	default preamble={
-%		for tree={circle,draw},
-%		/tikz/every node/.append style={font=\footnotesize},
-%	}
-%}
+\newcommand{\li}{\lstinline}
 
 \newcommand{\R}{\mathbb{R}}
 \newcommand{\N}{\mathbb{N}}
@@ -64,12 +61,10 @@ bottom=0.75in % 3/4 inch
 
 % https://tex.stackexchange.com/a/668327
 \newcommand{\ldotsTwo}{%
-  \mathinner{{\ldotp}{\ldotp}}%
+ \mathinner{{\ldotp}{\ldotp}}%
 }
 % bootleg DEK's qed symbol
 \newcommand{\okthen}{\rule[-1.4pt]{0.3em}{0.77em}}
-
-\newcommand{\li}{\lstinline}
 
 \begin{document}
 
@@ -380,7 +375,6 @@ We could say that $b^{2n-2} xy$ takes $O(1)$ for $xy$, which is then added to it
 \paragraph{3-5}
 \begin{enumerate}[label=\alph*)]
 	\item Suppose the array has size $2^n$. This underflow strategy has us release the top half of our allocated memory when we come down to $2^{n-1}$ items.
-
         \begin{center}
         \begin{tikzpicture}
         	[scale=.46,
@@ -396,11 +390,9 @@ We could say that $b^{2n-2} xy$ takes $O(1)$ for $xy$, which is then added to it
         		\filldraw[filled] (\x+11,0) rectangle ++(1, 1);
         \end{tikzpicture}
         \end{center}
-
         If our program now adds an item to the dynamic array the same space needs to be allocated that was just freed, potentially moving all $2^{n-1}$ items. Imagine this delete-one/add-one cycle repeats, such as may happen with a stack backed by this dynamic array. Each append-one operation copies the (now) lower half to a new location, taking linear time on the number of items.
 
 	\item The problem with that underflow strategy is that both the ``grow'' and ``shrink'' events are at the same threshold---when half full, shrink by half thus making it full again, but this guarantees the next append will trigger a ``grow''. If the two thresholds are dissociated, we will avoid this pathological behavior. For this, only shrink the array to half size when it is a fourth full.
-
         \begin{center}
         \begin{tikzpicture}[scale=.46,filled/.style={fill=black!15}]
         	\foreach \x in {0,...,3}
@@ -417,7 +409,6 @@ We could say that $b^{2n-2} xy$ takes $O(1)$ for $xy$, which is then added to it
         		\draw (\x+\offset,0) rectangle ++(1,1);
         \end{tikzpicture}
         \end{center}
-
         We are then at the situation after a grow operation just duplicated the size of the array for us, thus amortizing the cost of grow/shrink operations.
 \end{enumerate}
 
@@ -427,8 +418,7 @@ One improvement might be to use a queue, whatever has been in there the longest 
 
 The answer is a \emph{priority queue}. Prioritize the item that expires next. This ensures that items that have longer expiration dates wait the most.
 
-\paragraph{3-7} The book says to keep a sentinel for the end of the list. There are three cases for deleting a node \li!p!: \begin{enumerate*}[label=\arabic*)]\item delete the first node; \item delete a node in the middle; \item delete the last node.\end{enumerate*}
-
+\paragraph{3-7} The book says to keep a sentinel for the end of the list. There are three cases for deleting a node \li!p!: \begin{enumerate*}[label=\arabic*)]\item delete the first node; \item delete a node in the middle; \item delete the last node.\end{enumerate*} Suppose we have a list \li!l!, represented here by the first square.
 \begin{enumerate}[label=\arabic*)]
 	\item Deleting the head:\ %
 	\tikz[>={Stealth[round]},
@@ -440,7 +430,7 @@ The answer is a \emph{priority queue}. Prioritize the item that expires next. Th
     	\draw[->] (H) -- (1);
     	\draw[->] (1) -- (2);
     	\draw[->] (2) -- (T);
-    }\,. Point \lstinline!head! to \lstinline!p->next! then free \lstinline!p!:\ %
+    }\,. Point \lstinline!l! to \lstinline!p->next! then free \lstinline!p!:\ %
     \tikz[>={Stealth[round]},
     	  every node/.style={inner sep=0pt, minimum size=1.7mm,draw}] {
     	\node[rectangle] (H) at (0,0) {};
@@ -1493,6 +1483,8 @@ For the case where we are given pre and post-order traversals it's not possible 
     Post-order: $C\to D\to B\to A$. }
 }
 \end{center}
+
+
 
 
 
