@@ -1449,13 +1449,11 @@ More precisely, we seek an edge that is not a bridge. A \emph{bridge} is a tree 
     In-order: $D\to B\to E\to A\to F\to C\to G$.}
 }
 \end{center}
-
 The first element in the pre-order indicates the root of the tree, $A$. By searching for $A$ in the in-order traversal we can determine the elements of the left and right subtrees, namely $\{D,B,E\}$ and $\{F,G,C\}$; but each of these subtrees has to be reconstructed as well.
 
 From the in-order traversal we see how many elements are in the left subtree: these come immediately after the root in the pre-order. Recursively, we identify $B$ as the root of this subtree, and find that it partitions elements $\{D,B,E\}$ such that $D$ and $E$ are its left and right children respectively. The same method applied to the elements to the right of root $A$ (in the in-order), namely $\{F,G,C\}$, does the same for the right subtree of the root.
 
 But how does this method fare against incomplete binary trees?
-
 \begin{center}
 \tikz[>={Stealth[round]}, sibling distance=3mm, level distance=3mm] {
 \graph[binary tree layout,
@@ -1470,7 +1468,6 @@ But how does this method fare against incomplete binary trees?
     In-order: $B\to D\to A\to E\to C\to F$. }
 }
 \end{center}
-
 Out of a final group of 3 (two leaves and their parent), the parent is always in the middle in the in-order, so it shows up first for the case of missing left child, and last for the case of missing right child (and alone for no children). In the example above %TODO add figure references
 $B$ appears first as it is the root of a subtree with no left child.
 
@@ -1482,13 +1479,12 @@ Here is a (slightly) more precise definition of the procedure. To reconstruct a 
 \smallskip
 
 For the case where we are given pre and post-order traversals it's not possible to devise such a method. As a counterexample, here are two different trees that produce the same pair of traversals:
-
 \begin{center}
 \tikz[>={Stealth[round]}, sibling distance=3mm, level distance=3mm] {
  \graph[binary tree layout,nodes={circle,draw,font=\tiny,inner sep=0pt, minimum size=3mm}]
  { A -> { , B -> { C, D } } }; 
 }
-\hspace{1cm}
+\hspace{.7cm}
 \tikz[>={Stealth[round]}, sibling distance=3mm, level distance=3mm] {
  \graph[binary tree layout,nodes={circle,draw,font=\tiny,inner sep=0pt, minimum size=3mm}]
  { A -> { B -> { C, D }, } };
