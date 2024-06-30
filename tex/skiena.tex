@@ -1434,9 +1434,11 @@ More precisely, we seek an edge that is not a bridge. A \emph{bridge} is a tree 
 
 \paragraph{7-8} Here is an example tree and its pre and in-order traversals:
 
-\tikz[>={Stealth[round]}] { % TODO make tree smaller, text prettier, cool arrows
+\begin{center}
+\tikz[>={Stealth[round]}, sibling distance=3mm, level distance=3mm] {
+% TODO make tree smaller, text prettier, cool arrows
 \graph[binary tree layout,
-       nodes={circle,draw}]
+       nodes={circle,draw,font=\tiny,inner sep=0pt, minimum size=3mm}]
 { A -> {
 	B -> {D, E},
 	C -> {F, G}
@@ -1446,6 +1448,7 @@ More precisely, we seek an edge that is not a bridge. A \emph{bridge} is a tree 
   { Pre-order: $A\to B\to D\to E\to C\to F\to G$ \\
     In-order: $D\to B\to E\to A\to F\to C\to G$.}
 }
+\end{center}
 
 The first element in the pre-order indicates the root of the tree, $A$. By searching for $A$ in the in-order traversal we can determine the elements of the left and right subtrees, namely $\{D,B,E\}$ and $\{F,G,C\}$; but each of these subtrees has to be reconstructed as well.
 
@@ -1453,8 +1456,10 @@ From the in-order traversal we see how many elements are in the left subtree: th
 
 But how does this method fare against incomplete binary trees?
 
-\tikz[>={Stealth[round]}] {
-\graph[binary tree layout,nodes={circle,draw}]
+\begin{center}
+\tikz[>={Stealth[round]}, sibling distance=3mm, level distance=3mm] {
+\graph[binary tree layout,
+       nodes={circle,draw,font=\tiny,inner sep=0pt, minimum size=3mm}]
 { A -> {
     B -> { , D},
     C -> {E, F}
@@ -1464,6 +1469,7 @@ But how does this method fare against incomplete binary trees?
   { Pre-order: $A\to B\to D\to C\to E\to F$ \\
     In-order: $B\to D\to A\to E\to C\to F$. }
 }
+\end{center}
 
 Out of a final group of 3 (two leaves and their parent), the parent is always in the middle in the in-order, so it shows up first for the case of missing left child, and last for the case of missing right child (and alone for no children). In the example above %TODO add figure references
 $B$ appears first as it is the root of a subtree with no left child.
@@ -1477,18 +1483,20 @@ Here is a (slightly) more precise definition of the procedure. To reconstruct a 
 
 For the case where we are given pre and post-order traversals it's not possible to devise such a method. As a counterexample, here are two different trees that produce the same pair of traversals:
 
-\tikz[>={Stealth[round]}] {
- \graph[binary tree layout,nodes={circle,draw}]
+\begin{center}
+\tikz[>={Stealth[round]}, sibling distance=3mm, level distance=3mm] {
+ \graph[binary tree layout,nodes={circle,draw,font=\tiny,inner sep=0pt, minimum size=3mm}]
  { A -> { , B -> { C, D } } }; 
 }
 \hspace{1cm}
-\tikz[>={Stealth[round]}] {
- \graph[binary tree layout,nodes={circle,draw}]
+\tikz[>={Stealth[round]}, sibling distance=3mm, level distance=3mm] {
+ \graph[binary tree layout,nodes={circle,draw,font=\tiny,inner sep=0pt, minimum size=3mm}]
  { A -> { B -> { C, D }, } };
  \node[text width=5cm, anchor=west, right=of B]
-  { Pre-order: $A\to C\to B\to D$ \\
+  { Pre-order: $A\to B\to C\to D$ \\
     Post-order: $C\to D\to B\to A$. }
 }
+\end{center}
 
 
 
