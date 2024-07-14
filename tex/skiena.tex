@@ -44,6 +44,7 @@ bottom=0.75in % 3/4 inch
 \usetikzlibrary{arrows.meta}
 \usegdlibrary{trees,layered}
 \usegdlibrary{force}
+\usegdlibrary{circular}
 
 \usepackage{listings}
 \lstset{
@@ -1484,9 +1485,57 @@ For the case where we are given pre and post-order traversals it's not possible 
 }
 \end{center}
 
+\paragraph{7-9} To convert from an adjacency matrix to an adjacency lists representation we have to check all $n^2$ positions of the matrix, so the best we can do is $O(n^2)$.
+\begin{lstlisting}
+for i in [0 .. n-1]
+  for j in [0 .. n-1]
+    if M[i,j] == 1
+      insert_edge(G, i, j)
+\end{lstlisting}
 
+Next we have an adjacency list representation and seek to convert it to an \emph{incidence matrix} representation, which has $n$ rows, one for each vertex, and $m$ columns, one for each edge. In the incidence matrix, element $M[i,j]$ is 1 if vertex $i$ is part of edge $j$.
 
+It's worth illustrating this with an example. In this incidence matrix, the first row represents vertex $A$, the second vertex $B$ and the third vertex $C$.
+\[ % from https://tex.stackexchange.com/a/580983
+  \begin{alignedat}{2}
+  & \raisebox{-0.5\height}{
+    \tikz[] {
+     \graph[simple necklace layout,
+            nodes={circle,draw,font=\tiny,inner sep=0pt, minimum size=3mm}]
+     { A -- B -- C }
+    }
+  }
+  & \hspace{4em}
+  & \begin{pmatrix}
+      1 & 0 \\
+      1 & 1 \\
+      0 & 1
+     \end{pmatrix}
+  \end{alignedat}
+\]
 
+It should be clear that just zeroing out the memory for an $n\times m$ matrix will take $O(nm)$ time; since walking the vertices and edges in the adjacency list representation will be $O(n+m)$, the total time complexity of this algorithm is $O(nm)$.
+
+The data type used in the book for the adjacency list representation does not have an identifier for edges. In other words, while traversing the edges adjacent to a vertex we have no way of knowing which column in the incidence matrix corresponds to each one.
+
+Suppose we have a counter that indicates the next column to populate. If we can afford the memory space, we can use a secondary matrix $M'$ of size $n\times n$ that is not only an adjacency matrix but also tells us what column of the incidence matrix represents the edge that connects to vertices.
+
+\smallskip
+
+% TODO add tiny matrices inline
+Let us run this idea for the example above with three vertices and two edges. Initially our column pointer is 1, the first edge. Visit $A$ and traverse its first edge: $A\to B$. We check $M'$ and see that $M'[A,B] = 0$. This means we have a new edge, therefore we set $M'[A,B] = M'[B,A] = 1$, the current value of the column pointer. In the incidence matrix, mark $M[A,1] = 1$, then increment the column pointer to 2. Now $M = \big(\begin{smallmatrix}1&0\\0&0\\0&0\end{smallmatrix}\big)$ and $M' = \big(\begin{smallmatrix}0&1&0\\1&0&0\\0&0&0\end{smallmatrix}\big)$.
+
+As $A$ has no more edges, we now visit vertex $B$. The first edge in $B$ is $B\to A$. We check $M'[B,A]$ and see it indicates this edge is represented by column 1 in the incidence matrix, therefore mark $M[B,1] = 1$. The next edge in $B$ is $B\to C$; $M'[B,C]$ is not set, so this is a new edge. Mark $M[B,2] = 1$ and $M'[B,C] = M'[C,B] = 2$. Increment the column pointer to 3. Now $M = \big(\begin{smallmatrix}1&0\\1&1\\0&0\end{smallmatrix}\big)$ and $M' = \big(\begin{smallmatrix}0&1&0\\1&0&2\\0&2&0\end{smallmatrix}\big)$.
+
+Finally we visit $C$ and see that its only edge, $C\to B$ is already known and represented in column 2, since $M'[C,B] = 2$. So we mark $M[C,2] = 1$, and since this is the last edge of the last vertex, we are done with $M = \big(\begin{smallmatrix}1&0\\1&1\\0&1\end{smallmatrix}\big)$.\ \okthen
+
+\smallskip
+
+This algorithm visits each vertex and each edge only once, so it takes $O(n+m)$ time. Because of the auxiliary matrix, it uses $O(\max(n^2, nm))$ space.
+
+\medskip
+
+Finally, we must convert from an incident matrix to an adjacency list representation. The approach is clearer---go column by column, inserting each edge into the adjacency list of the two affected vertices. Scanning each column takes $O(n)$ time, and there are $m$ columns, for a total $O(mn)$ time.
 
 
 
