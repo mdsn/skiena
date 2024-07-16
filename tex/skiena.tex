@@ -1543,10 +1543,19 @@ Each node is visited once, with the results of more nested computations bubbling
 
 \paragraph{7-11} To evaluate an expression with shared subexpressions represented as a DAG we can run a DFS with an auxiliary array to store the computed values for each node. By hooking into \li!process_vertex_late()! the DFS ensures that the values of all dependencies are already computed by the time an internal node is processed.
 
-Note that this requires traversing the adjacency list of each node twice---once during the graph traversal, then again when processing each internal node in order to collect all the intermediate results computed ``backwards'' in the DAG. The second pass over the edges does not result in traversing the graph again, as every result is already stored in an auxiliary array and can be accessed in $O(1)$. Concretely, shared subexpressions need not be traversed twice; their results are cached in the auxiliary array and can be accessed directly by the time another part of the tree requires their value.
+Note that this requires traversing the adjacency list of each node twice---once during the graph traversal, then again when processing each internal node in order to collect all the intermediate results computed ``backwards'' in the DAG. The second pass over the edges does not result in traversing the graph again, as every result is already stored in an auxiliary array and can be accessed in $O(1)$. Concretely, shared subexpressions need not be traversed twice; their results are cached in the auxiliary array and can be accessed directly by the time another part of the expression requires their value.
 
 The DFS takes $O(n+m)$ time, then the $m$ edges are visited again while unwinding the call stack to collect the computed values of every subexpression referred to by internal nodes, for a total $O(n+m)$ running time.
 
+\paragraph{7-13} The chutes and ladders graph can be viewed as a directed graph where there is an edge from each cell to the next one in number, which are replaced by edges to arbitrary cells in ones that represent chute mouths or ladder bases.
+
+We need to determine a shortest path from the starting cell to the final one, but one thing to consider is we only have one six sided die, so some paths may require more than one throw. We know BFS will give us a shortest path from start to end, but a condition of the game is that one must \emph{land} on a ladder or chute to take the shortcut. Therefore these vertices in the path have to be precisely targeted with die throws.
+
+Suppose we have a shortest path, courtesy of BFS. To minimize the number of throws we always want to advance as much as possible towards the next shortcut. A shortcut cell can be identified by the fact that the following cell is not its immediate successor. For example, if we had a path $[1\to2\to3\to4\to5\to6\to7\to8\to23\to24]$ we can see that 8 is the base of a ladder; whereas a path like $[5\to6\to7\to8\to9\to10\to3\to4]$ tells us that 10 is the mouth of a chute.
+
+A linear scan over the shortest path would let us count the number of throws necessary to traverse it: take as many steps as possible (up to six) towards the next shortcut or the final cell. The BFS is $O(n+m)$ while the linear scan is $O(n)$ since in the worst case all nodes will be part of the shortest path.
+
+\paragraph{7-14} We don't need to find a shortest path---any path will do, as long as it is safe. Let us consider the poles as being the vertices of a complete graph. A modified DFS, in which only the neighbors within a safe distance are visited, will eventually make its way to the target pole if a safe path exists. Since the graph is complete, there is a quadratic number of edges with respect to the number of vertices, therefore this is an $O(n^2)$ algorithm.
 
 
 
