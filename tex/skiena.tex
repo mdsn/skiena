@@ -1547,6 +1547,9 @@ Note that this requires traversing the adjacency list of each node twice---once 
 
 The DFS takes $O(n+m)$ time, then the $m$ edges are visited again while unwinding the call stack to collect the computed values of every subexpression referred to by internal nodes, for a total $O(n+m)$ running time.
 
+\subsection*{Applications}
+\subsectionmark{Applications}
+
 \paragraph{7-13} The chutes and ladders graph can be viewed as a directed graph where there is an edge from each cell to the next one in number, which are replaced by edges to arbitrary cells in ones that represent chute mouths or ladder bases.
 
 We need to determine a shortest path from the starting cell to the final one, but one thing to consider is we only have one six sided die, so some paths may require more than one throw. We know BFS will give us a shortest path from start to end, but a condition of the game is that one must \emph{land} on a ladder or chute to take the shortcut. Therefore these vertices in the path have to be precisely targeted with die throws.
@@ -1556,6 +1559,18 @@ Suppose we have a shortest path, courtesy of BFS. To minimize the number of thro
 A linear scan over the shortest path would let us count the number of throws necessary to traverse it: take as many steps as possible (up to six) towards the next shortcut or the final cell. The BFS is $O(n+m)$ while the linear scan is $O(n)$ since in the worst case all nodes will be part of the shortest path.
 
 \paragraph{7-14} We don't need to find a shortest path---any path will do, as long as it is safe. Let us consider the poles as being the vertices of a complete graph. A modified DFS, in which only the neighbors within a safe distance are visited, will eventually make its way to the target pole if a safe path exists. Since the graph is complete, there is a quadratic number of edges with respect to the number of vertices, therefore this is an $O(n^2)$ algorithm.
+
+\paragraph{7-15} This is a coloring problem, each table being a color. The input is easily interpreted as a graph, each guest being a vertex, and the list of guests with whom they are on bad terms being its adjacency list. The algorithm, based on BFS, traverses the components in this graph assigning the first guest in each component to, say, table 1, and then each visited neighbor to the complement of the table of the parent. If any guest is already assigned to the same table as one of its neighbor vertices, the graph is not bipartite and there is no suitable seating arrangement.
+
+
+
+
+
+
+
+
+
+
 
 
 
