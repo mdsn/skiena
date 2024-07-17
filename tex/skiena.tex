@@ -46,6 +46,8 @@ bottom=0.75in % 3/4 inch
 \usegdlibrary{force}
 \usegdlibrary{circular}
 
+\usepackage{wrapfig}
+
 \usepackage{listings}
 \lstset{
  basicstyle=\ttfamily,
@@ -1562,12 +1564,37 @@ A linear scan over the shortest path would let us count the number of throws nec
 
 \paragraph{7-15} This is a coloring problem, each table being a color. The input is easily interpreted as a graph, each guest being a vertex, and the list of guests with whom they are on bad terms being its adjacency list. The algorithm, based on BFS, traverses the components in this graph assigning the first guest in each component to, say, table 1, and then each visited neighbor to the complement of the table of the parent. If any guest is already assigned to the same table as one of its neighbor vertices, the graph is not bipartite and there is no suitable seating arrangement.
 
+\subsection*{Algorithm design}
+\subsectionmark{Algorithm design}
 
+\paragraph{7-16} Skiena forgot to finish the problem statement, but let's assume he meant for us to construct the square of some given graph.
 
+In the square of a directed graph there is an edge between any two vertices that are at distance 2 in the original graph (that is, they are separated by two edges). The intuitive way to think about the construction of the square of a graph is that, for every vertex $v$, we want to list all of its neighbors' neighbors, and draw the direct connections in a new graph with the same set of vertices.
+\begin{center}
+\tikz[>={Stealth[round]}] {
+ \graph[spring layout,
+        node distance=7mm,
+        nodes={circle,draw,font=\tiny,inner sep=0pt, minimum size=3mm}] {
+  1 -> 2 -> 4, 3 -> 2
+ };
+ \node[above left=-.2cm and .6cm of 2] { $G =$ }
+}
+\hspace{.7cm}
+\tikz[>={Stealth[round]}] {
+ \graph[spring layout,
+        node distance=7mm,
+        nodes={circle,draw,font=\tiny,inner sep=0pt, minimum size=3mm}] {
+  1 ->[draw=white] 2 ->[draw=white] 4, 3 ->[draw=white] 2
+ };
+ \path[->] (1) edge (4);
+ \path[->] (3) edge (4);
+ \node[above left=-.2cm and .6cm of 2] { $G^2 =$ }
+}
+\end{center}
 
+With an adjacency matrix representation, start by initializing and zeroing out a new adjacency matrix of dimension $n\times n$. Then for each vertex $v$ in the original graph, traverse the row or column of its neighbors $u$. For each vertex $w$ that is a neighbor of $u$, add an edge in the new adjacency matrix between $v$ and $w$. Looking at all the neighbors of each vertex $u$ is $O(n^2)$, and this is done $n$ times, one for each vertex $v$, making this algorithm $O(n^3)$.
 
-
-
+With an adjacency list representation, the algorithm proceeds by traversing the adjacency list of each vertex $v$. For every edge $(v,u)$, the adjacency list of $u$ is traversed, adding edges from $v$ to each neighbor $w$ of $u$ in the new graph. The traversal of the neighbors of $u$ takes $O(n)$ time, and there are $m$ edges in the graph, for a total $O(nm)$ time algorithm.
 
 
 
