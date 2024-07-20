@@ -1704,6 +1704,7 @@ Note that after selecting the two leaf vertices connected to the root we can't d
 
 Finally, let $G$ be a tree with arbitrary weights. Again we seek an algorithm to find a minimum weight vertex cover. (??) % TODO
 
+\paragraph{7-18} The DFS tree of a (undirected) graph can have tree edges or back edges. Consider any leaf. If it is of degree 1 then it can be safely deleted because its discoverer will cover its one edge; otherwise it has back edges to already visited vertices, and it can also be safely deleted because those vertices will cover said back edges.\ \okthen
 
 
 
