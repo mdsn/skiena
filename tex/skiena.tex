@@ -13,11 +13,14 @@
 
 \usepackage[
 paper=letterpaper,
-twoside=true,
+%twoside=true,
 top=1in,
 inner=0.625in, % 5/8 of an inch
-outer=0.875in, % 7/8 of an inch
-bottom=0.75in % 3/4 inch
+outer=0.625in, % 5/8 of an inch
+%outer=0.875in, % 7/8 of an inch
+bottom=0.75in, % 3/4 inch
+%marginparwidth=0.8in,
+%marginparsep=0in
 ]{geometry}
 
 \usepackage[twoside]{fancyhdr}
@@ -46,7 +49,8 @@ bottom=0.75in % 3/4 inch
 \usegdlibrary{force}
 \usegdlibrary{circular}
 
-\usepackage{wrapfig}
+\usepackage{bclogo}%  \bcpanchant https://tex.stackexchange.com/a/484296
+\newcommand{\underconstruction}{\marginpar{\bcpanchant}}
 
 \usepackage{listings}
 \lstset{
@@ -1086,8 +1090,8 @@ Skiena didn't mention operations \li!inspect(i)! or \li!compare(i,j)!, which he 
 
 Now, on to the task at hand.
 \begin{enumerate}[label=(\alph*)]
-\item With \li!swap()! at our disposal we may implement a selection sort: find the smallest item and swap it with the element at index 0. Find the second smallest and swap it with the element at index 1, and so on. It should be clear that $O(n)$ swaps are done, for each element---once found---is placed in its final position and not moved again. Each swap takes a constant number of \li!reverse()! operations (at most two), for the desired $O(n)$ reversals.\,\okthen
-\item (?)
+\item With \li!swap()! at our disposal we may implement a selection sort: find the smallest item and swap it with the element at index 0. Find the second smallest and swap it with the element at index 1, and so on. It should be clear that $O(n)$ swaps are done, for each element---once found---is placed in its final position and not moved again. Each swap takes a constant number of \li!reverse()! operations (at most two), for the desired $O(n)$ reversals.\ \okthen
+\underconstruction
 \end{enumerate}
 
 \subsection*{Mergesort}
@@ -1179,7 +1183,7 @@ What is faulty about this algorithm? We first stated that it would be no good to
 \paragraph{4-37}
 \begin{enumerate}[label=(\alph*)]
 \item As in exercise 4-23, the limited key space is very strong. In this case, partitioning sorts all elements in linear time using $n-1$ comparisons. It is optimal insofar as every element needs to be visited and compared to the pivot to know if it has to be moved.
-\item (??)
+\underconstruction
 \end{enumerate}
 
 \subsection*{Lower bounds}
@@ -1702,7 +1706,7 @@ Note that after selecting the two leaf vertices connected to the root we can't d
 
 \smallskip
 
-Finally, let $G$ be a tree with arbitrary weights. Again we seek an algorithm to find a minimum weight vertex cover. (??) % TODO
+Finally, let $G$ be a tree with arbitrary weights. Again we seek an algorithm to find a minimum weight vertex cover. \underconstruction
 
 \paragraph{7-18} The DFS tree of a (undirected) graph can have tree edges or back edges. Consider any leaf. If it is of degree 1 then it can be safely deleted because its discoverer will cover its one edge; otherwise it has back edges to already visited vertices, and it can also be safely deleted because those vertices will cover said back edges.\ \okthen
 
