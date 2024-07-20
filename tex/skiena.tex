@@ -1596,6 +1596,118 @@ With an adjacency matrix representation, start by initializing and zeroing out a
 
 With an adjacency list representation, the algorithm proceeds by traversing the adjacency list of each vertex $v$. For every edge $(v,u)$, the adjacency list of $u$ is traversed, adding edges from $v$ to each neighbor $w$ of $u$ in the new graph. The traversal of the neighbors of $u$ takes $O(n)$ time, and there are $m$ edges in the graph, for a total $O(nm)$ time algorithm.
 
+\paragraph{7-17} Let $G = (V,E)$ be a graph. We seek to find minimum size vertex covers---subsets of $V$ such that every edge in the original graph is still incident to some vertex.
+
+\smallskip
+
+First, let $G$ be a tree. Intuitively, and visually, we can safely remove every leaf and be left with a vertex cover. Now we must select the parents of those discarded leaves into the cover. We can now consider the tree that results from ignoring the discarded leaves and their selected parents, and apply the same process until we have trimmed the entire tree.
+
+\begin{center}
+\tikz[tree layout, level distance=3mm, sibling distance=4mm] {
+\graph[nodes={circle,draw,inner sep=0pt, minimum size=2mm,as=}] {
+ a -- {
+  b -- { e, f },
+  c -- g,
+  d -- h -- { i, j }
+ }
+};
+}
+\hspace{.2cm}
+\tikz[baseline=-.8cm] \node {$\rightarrow$};
+\hspace{.2cm}
+\tikz[tree layout, level distance=3mm, sibling distance=4mm,deleted/.style={draw=gray}] {
+\graph[nodes={circle,draw,inner sep=0pt, minimum size=2mm,as=}] {
+ a -- {
+  b[fill] -- { e[deleted], f[deleted] },
+  c[fill] -- g[deleted],
+  d -- h[fill] -- { i[deleted], j[deleted] }
+ }
+};
+}
+\hspace{.2cm}
+\tikz[baseline=-.8cm] \node {$\rightarrow$};
+\hspace{.2cm}
+\tikz[tree layout, level distance=3mm, sibling distance=4mm,
+      deleted/.style={draw=gray},
+      selected/.style={draw=gray,fill=gray}] {
+\graph[nodes={circle,draw,inner sep=0pt, minimum size=2mm,as=}] {
+ a[fill] --[gray] b[selected] --[gray] { e[deleted], f[deleted] },
+ a --[gray] c[selected] --[gray] g[deleted],
+ a -- d[deleted] --[gray] h[selected] --[gray] { i[deleted], j[deleted] }
+};
+}
+\end{center}
+
+\smallskip
+
+Now let $G$ be a tree such that the weight of each vertex is equal to its degree. We seek a minimum weight vertex cover of $G$. This is trickier. Here is an example, with vertices labeled with their weight.
+\begin{center}
+\tikz[every node/.style=draw,circle,node distance=2mm,font=\tiny,inner sep=0pt,minimum size=3mm] {
+ \node (1) {1};
+ \node (2) [right=of 1] {4};
+ \node (3) [above=of 2] {1};
+ \node (4) [below=of 2] {1};
+ \node (5) [right=of 2] {4};
+ \node (6) [above=of 5] {1};
+ \node (7) [right=of 5] {3};
+ \node (8) [above=of 7] {1};
+ \node (9) [below=of 7] {1};
+ \node (10) [above right=of 7] {1};
+ \draw (1) -- (2) -- (5) -- (7) -- (9);
+ \draw (3) -- (2) -- (4);
+ \draw (6) -- (5) -- (8);
+ \draw (7) -- (10);
+}
+\hspace{.5cm}
+\tikz[tree layout, level distance=3mm, sibling distance=4mm] {
+\graph[nodes={circle,draw,inner sep=0pt, minimum size=2mm,as=}] {
+ a -- {
+   g -- { h, i, j },
+   b, c,
+   d -- { e, f }
+ }
+}
+}
+\end{center}
+
+Consider any leaf vertex $v$. It must be of degree 1. Its only neighbor (its ``parent'') can be of degree larger or equal to $v$. It can only be of degree 1 when it is the root of the tree and has a single child, otherwise it has a parent and therefore is of degree higher than $v$. Thus it is always convenient to select the leaves of the tree to cover their edges. By the same logic as before, after selecting the leaves into the cover and discarding their parents, ignore them all and consider the resulting tree to proceed recursively.
+
+\begin{center}
+\tikz[tree layout, level distance=3mm, sibling distance=4mm,
+      deleted/.style={draw=gray},
+      selected/.style={draw=gray,fill=gray}] {
+\graph[nodes={circle,draw,inner sep=0pt, minimum size=2mm,as=}] {
+ a -- {
+   g[deleted] -- { h[fill], i[fill], j[fill] },
+   b[fill], c[fill],
+   d[deleted] -- { e[fill], f[fill] }
+ }
+};
+}
+\hspace{.2cm}
+\tikz[baseline=-.55cm] \node {$\rightarrow$};
+\hspace{.2cm}
+\tikz[tree layout, level distance=3mm, sibling distance=4mm,
+      deleted/.style={draw=gray},
+      selected/.style={draw=gray,fill=gray}] {
+\graph[nodes={circle,draw,inner sep=0pt, minimum size=2mm,as=}] {
+ a[fill] -- g[deleted] --[gray] { h[selected], i[selected], j[selected] },
+ a --[gray] { b[selected], c[selected] },
+ a -- d[deleted] --[gray] { e[selected], f[selected] }
+ }
+}
+\end{center}
+
+Note that after selecting the two leaf vertices connected to the root we can't discard their parent because it has other child nodes that have been discarded, therefore the edges connecting them to the root vertex still have to be covered. In other words, we can only discard a parent node if all of its children have been selected.
+
+\smallskip
+
+Finally, let $G$ be a tree with arbitrary weights. Again we seek an algorithm to find a minimum weight vertex cover. (??) % TODO
+
+
+
+
+
 
 
 
