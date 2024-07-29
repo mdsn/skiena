@@ -1761,7 +1761,7 @@ After processing each node, compute and store the aggregate weight of each kind.
 
 This is far from a proof. Particularly the notion of ``flipping'' a subtree may be worth exploring more. When a child is selected, flipping it does not necessarily imply that its children also have to be flipped---it is acceptable for a discarded node to have discarded children. Therefore a more sophisticated method of reprocessing a subtree may be required to guarantee the maximum possible weight under the constraint that the root is to be selected or discarded.\underconstruction
 
-
+\paragraph{7-20} An \emph{independent vertex cover} is a set of vertices that both forms a vertex cover, and is an independent set. From the definitions above, this is a set of vertices such that every edge in $G$ is covered by exactly one vertex. Finding such a set is equivalent to 2-coloring---if the graph is bipartite we will find that discarding one of the groups leaves an independent vertex cover. The basic BFS method to color the graph can both find such a coloring and test for bipartiteness.
 
 
 
