@@ -13,7 +13,7 @@
 
 \usepackage[
 paper=letterpaper,
-%twoside=true,
+%twoside=true, % breaks \marginpar
 top=1in,
 inner=0.625in, % 5/8 of an inch
 outer=0.625in, % 5/8 of an inch
@@ -1709,6 +1709,57 @@ Note that after selecting the two leaf vertices connected to the root we can't d
 Finally, let $G$ be a tree with arbitrary weights. Again we seek an algorithm to find a minimum weight vertex cover. \underconstruction
 
 \paragraph{7-18} The DFS tree of a (undirected) graph can have tree edges or back edges. Consider any leaf. If it is of degree 1 then it can be safely deleted because its discoverer will cover its one edge; otherwise it has back edges to already visited vertices, and it can also be safely deleted because those vertices will cover said back edges.\ \okthen
+
+\paragraph{7-19} Now we turn to the concept of an \emph{independent set} of an undirected graph $G = (V,E)$. This is a set of vertices $U$ such that no edge in $E$ is incident to two vertices in $U$; equivalently, a set $U$ such that every edge in $E$ is incident to \emph{at most} one vertex in $U$. Behind this equivalent definition rests the fact that an independent set of vertices allows for edges not adjacent to any vertices.
+
+An intuitive way to understand the construction of an independent set is that, for any edge in $E$, only one of its endpoints can be selected into $U$. For trivial cases, consider that the empty set and any unit set---if the graph is simple or has no edges from and to the same vertex---form independent sets.
+
+First, we are concerned with selecting an independent set of maximum size. It is clear that selecting a vertex precludes any of its neighbors from being selected. In the case of trees, selecting a vertex prevents its parent and children from being selected, but has no bearing on the selection of its siblings. Since a single node can have one or more children, it always pays to select the leaves at the cost of discarding their parents. This is the inverse logic to that of 7-17---select leaves, discard parents, recurse.
+
+\smallskip
+
+Now we seek to maximize the weight, where each vertex in the tree has weight equal to its degree. Now in choosing between all the leaves and their parent, in all but the case of the root the parent will be of degree one more than the sum of all the leaves; therefore it always pays to discard the leaves and select their parent. This selection in turn discards the parent's parent; ignore all three generations and recurse. (Note that cases like the tree below can result in uncovered edges.)
+
+\begin{center}
+\tikz[tree layout, level distance=3mm, sibling distance=4mm,
+      deleted/.style={draw=gray},
+      selected/.style={draw=gray,fill=gray}] {
+\graph[nodes={circle,draw,inner sep=0pt, minimum size=2mm,as=}] {
+ a[deleted] -- {
+  b[deleted] -- e[fill] -- { f[deleted], g[deleted], h[deleted] },
+  c[fill] -- { i[deleted], j[deleted] },
+  d[fill] -- { k[deleted], l[deleted] }
+ }
+};
+}
+\end{center}
+
+Finally we seek to maximize the total weight of an independent set of a tree with arbitrary weights. We established that a choice has to be made between a vertex and its children, and the traversal that lets us aggregate the total weight of the immediate children and compare it with the weight of the parent is the post-order traversal.
+
+Consider a tree of depth 2. Each leaf can only report its own weight, and mark itself as selected, for the choice is not in conflict with any subtrees and it maximizes the total local weight. Then the parent may make a choice as to select itself or its children.
+
+Now consider a higher level node, $v$. When processing such a node there are three possible scenarios: \begin{enumerate*}[label=\arabic*)]
+\item all children are discarded, \label{7-19-scenario1}
+\item all children are selected, \label{7-19-scenario2}
+\item some children are discarded and some are selected\label{7-19-scenario3}
+\end{enumerate*}.
+Scenario \ref{7-19-scenario1} is the easiest: each subtree is maximized already, so we can safely select $v$ if it will increase the total weight, namely if its weight is positive. Scenario \ref{7-19-scenario2} is not as simple. It requires a decision about whether it is convenient to select $v$ at the cost of flipping the children. Finally, scenario \ref{7-19-scenario3} is sort of an intermediary state---if $v$ is selected, the selected children have to be flipped; if $v$ is discarded, then no changes are necessary to any children.
+
+\smallskip
+
+Let each node carry its weight, state (selected or discarded) and the sum of the total selected and discarded weight across its subtrees, each including the node's own weight. Traverse the tree post-order, and suppose we are processing some non-leaf node $v$. Because of the post-order traversal, every subtree has already been processed and maximized.
+
+If all children are discarded, select $v$ provided it adds to the total weight.
+
+If all children are selected, compute the potential weight as the sum of the discarded weight over all subtrees plus the current node weight; if it is larger than the sum of all the selected weight across children, select $v$ and recursively flip its subtrees. Otherwise discard $v$.
+
+Finally, if some children are selected and some are discarded, perform the same comparison as above with the selected children, and determine if they need to be flipped so $v$ can be selected.
+
+After processing each node, compute and store the aggregate weight of each kind. The maximum weight will be stored in the root node of the tree.\ \okthen
+
+\smallskip
+
+This is far from a proof. Particularly the notion of ``flipping'' a subtree may be worth exploring more. When a child is selected, flipping it does not necessarily imply that its children also have to be flipped---it is acceptable for a discarded node to have discarded children. Therefore a more sophisticated method of reprocessing a subtree may be required to guarantee the maximum possible weight under the constraint that the root is to be selected or discarded.\underconstruction
 
 
 
