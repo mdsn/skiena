@@ -1763,12 +1763,83 @@ This is far from a proof. Particularly the notion of ``flipping'' a subtree may 
 
 \paragraph{7-20} An \emph{independent vertex cover} is a set of vertices that both forms a vertex cover, and is an independent set. From the definitions above, this is a set of vertices such that every edge in $G$ is covered by exactly one vertex. Finding such a set is equivalent to 2-coloring---if the graph is bipartite we will find that discarding one of the groups leaves an independent vertex cover. The basic BFS method to color the graph can both find such a coloring and test for bipartiteness.
 
+\paragraph{7-21} What does a triangle in a graph look like? One obvious property is that a triangle's vertices must have degree at least 2.
 
+The obvious brute force algorithm takes each vertex $v$ and, for every other vertex $u$, if $(u,v)\in E$, it looks over every other vertex $w$ to see if $(v,w)\in E$. There are $|V|$ total vertices in $G$, and three nested passes over $V$, so this is a $O(|V|^3)$ algorithm. Building the adjacency matrix is $O(|V|^2)$ for zeroing out the memory and $O(|V|+|E|)$ for traversing the adjacency lists.
 
+Better time complexity can be achieved by considering the BFS tree of a graph. A triangle will be detected as soon as a cross-edge to a sibling is explored. This is an edge between two nodes with the same parent.
 
+\smallskip
 
+{\bf NB.} However, the BFS is $O(|V|+|E|)$ so this is not the desired $O(|V|\cdot|E|)$ algorithm Skiena had in mind. I can't think of what that algorithm is, and this is the reason for the shoveling sign.\underconstruction
 
+\paragraph{7-22} We have $k$ movies and a set of customers, each of whom wants to see two movies during the weekend. We must find a screening schedule that lets everyone enjoy the movies they want.
 
+This feels somewhat like a two-coloring problem, but it's not readily apparent what the correct modeling is. Since multiple movies can be screened at once, one trivial solution is to screen every movie every day; whatever pair of movies $(M_i,M_j)$ a customer wants to see will necessarily be screened, and therefore everyone will be satisfied.
+
+But what about a schedule where every movie is screened only once? We can assume consumers don't care in which order they watch their movies. If every movie must be screened once, then for any pair of movies a customer wants to watch, those two movies can't be screened on the same day. Consider then the set of movies as vertices, and for every consumer, draw an edge between the two movies they want to watch. Then 2-color the graph, one color representing each day of the weekend. This can be done with BFS; if the movie graph is not bipartite, there is no schedule that works.\ \okthen
+
+\paragraph{7-23} One important detail about this exercise---that I overlooked at first---is that it defines, and asks to determine, the diameter of a \emph{tree}, not a general graph. This should hopefully make the task simpler.
+
+Let's consider a couple of examples to drive the thinking.
+\begin{center}
+\tikz[tree layout, level distance=3mm, sibling distance=4mm,>={Stealth[round]}] {
+\graph[nodes={circle,draw,inner sep=0pt, minimum size=2mm,as=}] {
+ a -- {
+  b -- e -- {
+   f, g, h -- {i, j}
+  },
+  c -- { k, l },
+  d -- m -- { n, o }
+ },
+ { % TODO how to factor out all this boilerplate
+  o ->[bend right=30] m
+    ->[bend right=30] d
+    ->[bend right=30] a
+    ->[bend right=30] b
+    ->[bend right=30] e
+    ->[bend right=30] h
+    ->[bend right=30] j
+ }
+};
+}
+\hspace{.5cm}
+\tikz[tree layout, level distance=3mm, sibling distance=4mm,>={Stealth[round]}] {
+\graph[nodes={circle,draw,inner sep=0pt, minimum size=2mm,as=}] {
+ a -- {
+  b -- {
+   d -- f -- { g, h },
+   e -- i -- { , j }
+  },
+  c
+ },
+ {
+  h ->[bend right=30] f
+    ->[bend right=30] d
+    ->[bend right=30] b
+    ->[bend left=30] e
+    ->[bend left=30] i
+    ->[bend left=30] j
+ }
+};
+}
+\end{center}
+
+The arrows mark the longest path between nodes in each tree. The left tree has diameter 7, and the right tree has diameter 6. The right tree makes it clear that the longest path between nodes isn't always through the root. In fact, the longest path will be between two subtrees such that the sum of their depth is maximized throughout all subtrees of a common parent.
+
+In the first example, the root has subtrees of depth 4, 2 and 3. The maximum depth sum is 7, and no other node has two subtrees whose depth adds up to a larger number. Therefore, the deepest leaves on those two subtrees provide a path whose edge count is the diameter of the tree.
+
+In the second example the root has subtrees of depth 4 and 1, but its left child has subtrees of depth 3 and 3; their sum is 6 and this represents the maximum possible distance between two leaves in the tree.
+
+\smallskip
+
+To show the correctness of this reasoning, first note that the diameter of a tree must be given by a path between two leaves; if it were not, and one or both of the endpoints were not leaves, we could extend the length of the path with edges to their leaves.
+
+Now suppose that we determine the diameter of the tree as the sum of the depth of the two deepest subtrees of some node, as we mentioned above, and furthermore suppose that this is incorrect, and there is some larger path between two nodes in the tree. These two nodes must share an ancestor, and the length of the path between them must be the sum of the paths between each of them and this common ancestor. But this is exactly the measure by which we had found our maximal length path, so this new sum can't be larger.\ \okthen
+
+\smallskip
+
+Now, on to the method by which we determine the diameter of a tree. Traverse the tree post-order. When finished processing a node, take the maximum depth across children plus one, as well as the sum of the two maximum depths across children, and return them to the parent node. Each child will have reported the sum of the two deepest subtrees, so each node can choose to send that value instead of it can't do better with its own subtrees. The maximum depth across all children serves to add up the total depth of the subtree, by which a node's parent knows which two subtrees to add up as the longest path. This maximum sum is the diameter of each subtree---at the end of the traversal, when processing the root node, this will be the diameter of the tree.
 
 
 
