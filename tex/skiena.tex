@@ -334,7 +334,7 @@ The recurrence seems to hold, at least up to $n=5$. This suggests a closed form 
 \begin{lstlisting}
 for i=1 to n do
   for j=i to 2*i do
-    output ``foobar''
+    output "foobar"
 \end{lstlisting}
 \begin{enumerate}[label=\alph*.]
 	\item $T(n) = \sum_{i=1}^n \sum_{j=1}^{2i} 1$. Let's look at the inner sum. There are $i$ elements between $i$ and $2i$, so
@@ -346,7 +346,7 @@ for i=1 to n do
 for i=1 to n/2 do
   for j=i to n-i do
     for k=1 to j do
-      output ``foobar''
+      output "foobar"
 \end{lstlisting}
 \begin{enumerate}[label=\alph*.]
 	\item $T(n) = \sum_{i=1}^{n/2} \sum_{j=i}^{n-i} \sum_{k=1}^j 1$.
@@ -632,15 +632,15 @@ Before \lstinline!delete()! we can query for the predecessor of the element---if
 
 Our set structure is backed by a balanced binary search tree. The \lstinline!member()! query searches for the element, taking $O(\log n)$ time. The \lstinline!insert()! operation is the regular BST insert---if the key already exists, it is overwritten; this also takes $O(\log n)$ time. Finally, \lstinline!delete()! has to find the $k$-th smallest element. Assume our BST has $O(\log n)$ \lstinline!minimum()! and $O(1)$ \lstinline!successor()!, as in the previous exercise. Then we need to query for the minimum element and then $k$ calls to \lstinline!successor()!, then one $O(\log n)$ delete and one $O(\log n)$ rebalance.
 
-Unfortunately this doesn't work---consider always deleting the last element. After finding the minimum, we always do $n$ calls to \lstinline!successor()!, turning this into a $O(n)$ algorithm in the worst case. \lstinline!:\!
+Unfortunately this doesn't work---consider always deleting the last element. After finding the minimum, we always do $n$ calls to \lstinline!successor()!, turning this into a $O(n)$ algorithm in the worst case. \lstinline!:\!\underconstruction
 
-\paragraph{3-21} This may be cheating somehow, but if the two sets are disjoint and all keys in $S_1$ are less than every key in $S_2$, we can concatenate both trees by finding the minimum element in $S_2$ and making the root of $S_1$ its left child. It would wreak havoc on the balance of the tree, but rebalancing should take at most $O(n+m)$ time, for $n$ elements in $S_1$ and $m$ elements in $S_2$. The traversal of $S_2$ to its minimum would be $O(log m)$ and the concatenation---a simple matter of pointer manipulation---would be constant time.
+\paragraph{3-21} This may be cheating somehow, but if the two sets are disjoint and all keys in $S_1$ are less than every key in $S_2$, we can concatenate both trees by finding the minimum element in $S_2$ and making the root of $S_1$ its left child. It would wreak havoc on the balance of the tree, but rebalancing should take at most $O(n+m)$ time, for $n$ elements in $S_1$ and $m$ elements in $S_2$. The traversal of $S_2$ to its minimum would be $O(\log m)$ and the concatenation---a simple matter of pointer manipulation---would be constant time.
 
 \paragraph{3-22} We're to design a data structure that supports \lstinline!insert()! and \lstinline!median()! operations, both in $O(\log n)$ time. Inserting is easy enough, but the median is an element relative to all other elements in the structure; it depends on its logical position within the set of all the elements, so it's not clear that it can be determined without somehow keeping track of counts.
 
 Suppose the structure keeps two binary search trees, the median, and counters for the elements in each tree. The elements in the left tree are less than the median, while those on the right tree are greater than the median.
 
-When inserting, we compare the element to the median to select which side to insert it into. It's then inserted in the correct tree, taking $O(\log n)$ time (actually $\log m$, with $m$ the number of elements on that side of the median). We increase the counter on this side, and if the difference in elements between both sides is greater than 1, we know we need to shift the median.
+When inserting, we compare the element to the median to select which side to insert it into. It's then inserted in the correct tree, taking $O(\log n)$ time---actually $O(\log m)$, with $m$ the number of elements on that side of the median. We increase the counter on this side, and if the difference in elements between both sides is greater than 1, we know we need to shift the median.
 
 To rebalance the structure, suppose the left side has two more elements than the right side. We can insert the median in the right tree in $O(\log n)$ time, then find and delete the maximum from the left tree, also in $O(\log n)$ time, and set it as the new median. The right counter increases by one, the left counter decreases by one, and we are balanced again.
 
