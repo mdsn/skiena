@@ -73,6 +73,7 @@ bottom=0.75in, % 3/4 inch
 }
 % bootleg DEK's qed symbol
 \newcommand{\okthen}{\rule[-1.4pt]{0.3em}{0.77em}}
+\newcommand{\notabene}{{\bf NB.}\ } % useful to make fancy excuses
 
 \begin{document}
 
@@ -304,9 +305,7 @@ To prove that $(n+a)^b = \Omega(n^b)$, by the same argument, $c n^b \le (n+a)^b 
 \begin{enumerate}[label=(\alph*)]
 	\item $\sum_1^n 3^i = \Theta(3^{n-1})$? This would imply both $\Omega(3^{n-1})$ and $O(3^{n-1})$. For the first we need $c$ such that $c 3^{n-1} \le \sum_1^n 3^i = 3^n + \ldots + 3$. Well, for $c=1$ this inequality holds.
 
-	Now for $O(3^{n-1})$ we need $c$ such that $\sum_1^n 3^i \le c 3^{n-1}$. Let $c=9$, then $c 3^{n-1} = 9\cdot 3^{n-1} = 3^{n+1} \ge \sum_1^n 3^i$ for large enough $n$.
-
-	Thus the answer is true.
+	Now for $O(3^{n-1})$ we need $c$ such that $\sum_1^n 3^i \le c 3^{n-1}$. Let $c=9$, then $c 3^{n-1} = 9\cdot 3^{n-1} = 3^{n+1} \ge \sum_1^n 3^i$ for large enough $n$. Thus the answer is true.
 
 	\item $\sum_1^n 3^i = \Theta(3^n)$? True.
 	\item $\sum_1^n 3^i = \Theta(3^{n+1})$? True.
@@ -1414,7 +1413,7 @@ More precisely, we seek an edge that is not a bridge. A \emph{bridge} is a tree 
 
 \paragraph{7-7}
 \begin{enumerate}[label=\alph*)]
-\item Consider a star graph where $v$ is the center node:\,%
+\item The star graph $K_{1,3}$ where $v$ is the internal node:\,%
 \tikz[baseline=-1.4mm]
 \graph[spring layout,
 	   node distance=2.7mm,
@@ -1440,7 +1439,7 @@ More precisely, we seek an edge that is not a bridge. A \emph{bridge} is a tree 
 
 \begin{center}
 \tikz[>={Stealth[round]}, sibling distance=3mm, level distance=3mm] {
-% TODO make tree smaller, text prettier, cool arrows
+% TODO make tree smaller, text prettier
 \graph[binary tree layout,
        nodes={circle,draw,font=\tiny,inner sep=0pt, minimum size=3mm}]
 { A -> {
@@ -1457,7 +1456,7 @@ The first element in the pre-order indicates the root of the tree, $A$. By searc
 
 From the in-order traversal we see how many elements are in the left subtree: these come immediately after the root in the pre-order. Recursively, we identify $B$ as the root of this subtree, and find that it partitions elements $\{D,B,E\}$ such that $D$ and $E$ are its left and right children respectively. The same method applied to the elements to the right of root $A$ (in the in-order), namely $\{F,G,C\}$, does the same for the right subtree of the root.
 
-But how does this method fare against incomplete binary trees?
+How does this method fare against incomplete binary trees?
 \begin{center}
 \tikz[>={Stealth[round]}, sibling distance=3mm, level distance=3mm] {
 \graph[binary tree layout,
@@ -1713,7 +1712,7 @@ Note that after selecting the two leaf vertices connected to the root we can't d
 
 \smallskip
 
-Finally, let $G$ be a tree with arbitrary weights. Again we seek an algorithm to find a minimum weight vertex cover. \underconstruction
+Finally, let $G$ be a tree with arbitrary weights. Again we seek an algorithm to find a minimum weight vertex cover. Something like the procedure described in 7-19 may work here.\underconstruction
 
 \paragraph{7-18} The DFS tree of a (undirected) graph can have tree edges or back edges. Consider any leaf. If it is of degree 1 then it can be safely deleted because its discoverer will cover its one edge; otherwise it has back edges to already visited vertices, and it can also be safely deleted because those vertices will cover said back edges.\ \okthen
 
@@ -1778,7 +1777,7 @@ Better time complexity can be achieved by considering the BFS tree of a graph. A
 
 \smallskip
 
-{\bf NB.} However, the BFS is $O(|V|+|E|)$ so this is not the desired $O(|V|\cdot|E|)$ algorithm Skiena had in mind. I can't think of what that algorithm is, and this is the reason for the shoveling sign.\underconstruction
+\notabene However, the BFS is $O(|V|+|E|)$ so this is not the desired $O(|V|\cdot|E|)$ algorithm Skiena had in mind. I can't think of what that algorithm is, and this is the reason for the shoveling sign.\underconstruction
 
 \paragraph{7-22} We have $k$ movies and a set of customers, each of whom wants to see two movies during the weekend. We must find a screening schedule that lets everyone enjoy the movies they want.
 
