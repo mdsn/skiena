@@ -1841,6 +1841,64 @@ Now suppose that we determine the diameter of the tree as the sum of the depth o
 
 Now, on to the method by which we determine the diameter of a tree. Traverse the tree post-order. When finished processing a node, take the maximum depth across children plus one, as well as the sum of the two maximum depths across children, and return them to the parent node. Each child will have reported the sum of the two deepest subtrees, so each node can choose to send that value instead of it can't do better with its own subtrees. The maximum depth across all children serves to add up the total depth of the subtree, by which a node's parent knows which two subtrees to add up as the longest path. This maximum sum is the diameter of each subtree---at the end of the traversal, when processing the root node, this will be the diameter of the tree.
 
+\paragraph{7-24} Put in simpler terms, an induced graph $F$ is so induced by a subset of the vertices of another graph $G$, as this subset produces a selection of the edges between those vertices. In particular, given an integer $k$, this problem adds the requirement that every vertex in the induced subgraph be of degree greater than or equal to $k$.
+
+\smallskip
+
+Assume each vertex holds its degree. Traverse the list of vertices---for each vertex, if its degree is less than $k$, mark it as discarded and traverse its edges, subtracting 1 from the degree of each neighbor. If a neighbor's degree falls under $k$, add it to a queue and continue visiting vertices.
+
+Once all vertices have been visited once, visit each vertex $v$ in the queue. If $v$ is not yet discarded, mark it so and go through the same process: visit each of its neighbors, and if they are not yet discarded, decrease their degree by 1, potentially adding them to the queue if the degree should fall under $k$. Continue this process until the queue is empty.
+
+Finally, traverse the list of vertices once more. For each vertex $u$ not discarded, add it to the induced graph $F$, and traverse its list of edges. For each neighbor $w$ that is not discarded, add an edge $(u,w)$ to $F$.\ \okthen
+
+This algorithm removes any vertex that can't be a part of the induced subgraph due to its degree, and any further vertices that also can't be in there due to them, and so on. What remains is the maximum induced subgraph.
+
+\smallskip
+
+Here is an example. With $k=2$, the resulting subgraph will be the one induced by $\langle4,5,7\rangle$. Even though vertex 2 initially has degree 3, the absence of vertices 1 and 3 brings its degree down to 1, so it doesn't make it in. Vertex 5, on the other hand, only has its degree decreased to 2 after vertex 6 is discarded, so it is still in the induced subgraph. The same thing happens to vertex 4 once vertex 2 is discarded.
+
+\begin{center}
+\tikz[every node/.style=draw,circle,node distance=2mm,font=\tiny,inner sep=0pt,minimum size=3mm] {
+ \node (1) {1};
+ \node (2) [below right=of 1] {2};
+ \node (3) [below=of 2] {3};
+ \node (4) [thick,above right=of 2] {4};
+ \node (5) [thick,below right=of 4] {5};
+ \node (6) [below=of 5] {6};
+ \node (7) [thick,above right=of 5] {7};
+
+ \draw (1) -- (2);
+ \draw (2) -- (3);
+ \draw (2) -- (4);
+ \draw (4) -- (5);
+ \draw (4) -- (7);
+ \draw (5) -- (7);
+ \draw (5) -- (6);
+}
+\end{center}
+
+In the initial stage we only traverse edge lists of discarded vertices, and then only of vertices discarded subsequently. There can only ever be $n$ discarded vertices in the worst case (all of them) and at most $m$ edges visited in total, so this stage is $O(n+m)$. When the first stage is completed, the list of vertices is traversed once more. This time, only the edge list of the remaining vertices---namely, those not discarded---are visited to populate the induced graph with only these vertices and only the edges between them. In the worst case, no vertex was discarded in the first stage, so this is also $O(n+m)$.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
