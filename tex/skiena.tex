@@ -1885,6 +1885,48 @@ Here is an example. With $k=2$, the resulting subgraph will be the one induced b
 
 In the initial stage we only traverse edge lists of discarded vertices, and then only of vertices discarded subsequently. There can only ever be $n$ discarded vertices in the worst case (all of them) and at most $m$ edges visited in total, so this stage is $O(n+m)$. When the first stage is completed, the list of vertices is traversed once more. This time, only the edge list of the remaining vertices---namely, those not discarded---are visited to populate the induced graph with only these vertices and only the edges between them. In the worst case, no vertex was discarded in the first stage, so this is also $O(n+m)$.
 
+\paragraph{7-25} Consider running a DFS from $v$ on such a graph. It visits vertices, exploring until it hits $w$. By increasing a counter every time we recurse to visit a new neighbor we could have carried the traversed distance, but this is just some path, not necessarily the shortest one. But, as we unwind the call stack, we can tag each vertex in the path with its distance to $w$. As other paths are explored, and edges are traversed to vertices already processed, the length of paths in those directions can be readily computed, for we know the distance traveled so far, and how far the path takes in already explored directions.
+
+\begin{center}
+\tikz[every node/.style=draw,circle,node distance=4mm,font=\tiny,inner sep=0pt,minimum size=3mm,>={Stealth[round]}] {
+ \node (v) {$v$};
+ \node (1) [below right=of v]{1};
+ \node (2) [right=of 1] {2};
+ \node (3) [above right=of 2] {3};
+ \node (4) [above right=of v] {4};
+ \node (5) [right=of 4] {5};
+ \node (6) [above right=of 3] {6};
+ \node (7) [above right=of 4] {7};
+ \node (8) [right=of 7] {8};
+ \node (w) [below right=of 6] {$w$};
+
+ \draw[->] (v) -- (1);
+ \draw[->] (1) -- (2);
+ \draw[->] (2) -- (3);
+ \draw[->] (v) -- (4);
+ \draw[->] (4) -- (5);
+ \draw[->] (4) -- (7);
+ \draw[->] (5) -- (6);
+ \draw[->] (5) -- (3);
+ \draw[->] (7) -- (8);
+ \draw[->] (8) -- (6);
+ \draw[->] (3) -- (w);
+ \draw[->] (6) -- (w);
+ \draw[->] (3) -- (v);
+}
+\end{center}
+
+Let's explore this idea. Suppose that DFS first traverses a longer path: $v\to4\to7\to8\to6\to w$. This is so far the shortest path seen, so we store a \emph{minimum length} 5 and a \emph{count} of 1. As the call stack is unwound, vertices in the path get assigned the shortest known distances to $w$ so far: vertex $6\leftarrow1; 8\leftarrow2; 7\leftarrow3; 4\leftarrow 4$. Here, on vertex 4, DFS finds another neighbor to explore, so it recurses into 5 with the current distance (from $v$) equal to 1.
+
+Let us denote by $\delta(u)$ the distance from $u$ to $w$; this can be kept in an auxiliary array representing the $\delta$ of each vertex. Then on vertex 5, DFS sees edge $(5,6)$ and determines that 6 is already processed with $\delta(6)=1$. Therefore $\delta(5)=2$, and we now know of a path of length 4, less than the current minimum. Reset the count to 1, and set the minimum distance to 4. Now vertex 5 has neighbor 3 and moves into it; edge $(3,w)$ is found, and a new path is encountered, also of length 4; the counter is increased to 2.
+
+Vertex 3 now has one particular edge to process, $(3,v)$. This creates a cycle, and we must be careful not to mess up the state---this is a back edge, and due to the DFS traversal $v$ may not yet have a stored $\delta$; indeed, in our example traversal so far we haven't finished processing vertex 4, the first one visited from $v$. The characterization of back edges as those discovered but not processed provides the necessary validation.
+
+Now, vertex 3 has no more edges to process, so the stack is unwound to 5. The $\delta$ of its most recently processed neighbor is still 1, so $\delta(5)$ remains at 2. DFS moves back to vertex 4, and here is a critical piece---whereas by way of the path through vertex 7, $\delta(4)=4$, the fact that $\delta(5)=2$ gives vertex 4 a new shortest distance. In other words, now $\delta(4)=3$.
+
+Vertex 4 has no more neighbors, so we return back to $v$ and set $\delta(v)=\delta(4)+1=4$. Next we find neighbor 1 and visit with a call depth (or equivalently, \emph{distance to $v$}) of 1; from there on to vertex 2, then onto vertex 3 and we see that $\delta(3)=1$; thus we don't need to continue down that path, as we know its length will be 4. This is the current minimum length, so we increase the counter to 3.
+
+By the time DFS finishes, we have encountered 3 paths of length 4. DFS is $O(n+m)$, so we have our desired linear time algorithm.
 
 
 
