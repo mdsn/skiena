@@ -1928,12 +1928,84 @@ Vertex 4 has no more neighbors, so we return back to $v$ and set $\delta(v)=\del
 
 By the time DFS finishes, we have encountered 3 paths of length 4. DFS is $O(n+m)$, so we have our desired linear time algorithm.
 
+\paragraph{7-26} The notion of discovered or processed edges that underlie the implementation of the canonical traversal algorithms is of no use here, as the deletion of a vertex may trigger a cascade of effects back over already processed vertices. Therefore a strategy like that of 7-24, in which we look at the vertices in a sort of ``representation order'' as they are stored in the adjacency lists representation will fit our purpose.
+
+\smallskip
+
+Let us maintain a queue of vertices to delete and an auxiliary array of booleans indicating if a vertex is deleted.
+
+Start by looking at each vertex and checking its degree. Enqueue every vertex of degree 2. Once done, if the queue is empty, there are no vertices to delete and the algorithm is finished. Otherwise, take the element at the front of the queue.
+
+Call this vertex $u$. If its degree is still 2, mark it as deleted in the auxiliary array. Traverse its adjacency list. There will be two edges to live vertices---let us call them $v$ and $w$.
+
+We have now deleted vertex $u$. Consider the edge $(v,w)$ that we would now add according to the rules of the exercise. Look among the neighbors of $v$; if $w$ isn't one of them, we can add the new edge to both $v$ and $w$. (Observe that the deletion of vertex $u$ and the edges $(u,v)$ and $(u,w)$ are compensated by the creation of the new edge $(v,w)$, and thus the degrees of $v$ and $w$ are not affected.) Otherwise, if $w$ is already a neighbor of $v$, edge $(v,w)$ is a duplicate. Since we haven't technically modified their adjacency lists, all we need to do is decrement the degrees of $v$ and $w$. When doing this, if either of their degrees comes down to 2, enqueue them for future deletion. 
+
+If the queue is not empty, take the vertex at the front and, if its degree is still 2, proceed to delete it in the same fashion. Otherwise, if the queue is empty, we are done making changes to the graph. This stage looks at every vertex once, which takes $O(n)$ time. Then for every vertex marked for deletion, their adjacency list is traversed; every vertex can be deleted at most once, so this is in the worst case $O(n+m)$. 
+
+Finally we can construct the final graph, without the deleted elements, by way of a second traversal: look at every vertex; if it is not deleted, add it to the new graph, and insert every edge to a non-deleted vertex in its new adjacency list. This will be at most $O(n+m)$, if nothing was deleted from the original graph.\ \okthen
+
+\smallskip
+
+Let us run the algorithm on this small example.
+\begin{center}
+\tikz[every node/.style=draw,circle,node distance=3mm,font=\tiny,inner sep=0pt,minimum size=3mm] {
+ \node (1) {1};
+ \node (2) [above right=of 1] {2};
+ \node (3) [above right=of 2] {3};
+ \node (4) [below right=of 3] {4};
+ \node (5) [below left=of 4] {5};
 
 
+ \draw (1) -- (2);
+ \draw (2) -- (3);
+ \draw (2) -- (5);
+ \draw (3) -- (4);
+ \draw (3) -- (5);
+ \draw (4) -- (5);
+}
+\end{center}
+In the first stage, we look at every vertex and enqueue the ones that begin with degree 2. Only vertex 4 fulfills that condition, so the queue only contains this value when the second stage begins.
+
+We take the first vertex from the front of the queue: 4. Its degree is still 2, so we mark it as deleted in the auxiliary array. Its two live neighbors are vertices 3 and 5, so we consider edge $(3,5)$ and look at the neighbors of vertex 3. These are vertices 2, 4 and 5---the last one indicates that this is a duplicate edge we are creating, so we decrement the degree of vertices 3 and 5. Both come down to degree 2, so we enqueue them.
+\begin{center}
+\tikz[every node/.style=draw,circle,node distance=3mm,font=\tiny,inner sep=0pt,minimum size=3mm] {
+ \node (1) {1};
+ \node (2) [above right=of 1] {2};
+ \node (3) [above right=of 2] {3};
+ \node (5) [below right=of 2] {5};
 
 
+ \draw (1) -- (2);
+ \draw (2) -- (3);
+ \draw (2) -- (5);
+ \draw (3) -- (5);
+}
+\end{center}
 
+Take the next vertex from the queue, it's vertex 3. Its degree is still 2, thus we mark it as deleted. Its live neighbors are vertices 2 and 5, so consider edge $(2,5)$ and review the neighbors of vertex 2. Vertex 5 is there, so this is another duplicate edge---decrement the degree of vertices 2 and 5.
 
+Now vertex 2 is of degree 2, so it is enqueued. But now vertex 5 is of degree 1 and thus safe from deletion, even though it is enqueued already. This is the reason we need to check the degree of a vertex after popping it off the queue.
+\begin{center}
+\tikz[every node/.style=draw,circle,node distance=3mm,font=\tiny,inner sep=0pt,minimum size=3mm] {
+ \node (1) {1};
+ \node (2) [above right=of 1] {2};
+ \node (5) [below right=of 2] {5};
+
+ \draw (1) -- (2);
+ \draw (2) -- (5);
+}
+\end{center}
+
+Take the next node from the front of the queue; it's vertex 5 which is no longer of degree 2, so we ignore it and move on to the next element in the queue, vertex 2, still of degree 2. Mark it deleted and determine that its live neighbors are vertices 1 and 5. Consider edge $(1,5)$ and verify that vertex 5 is indeed not among the neighbors of vertex 1. The edge can be added to both vertices without affecting their degree.
+\begin{center}
+\tikz[every node/.style=draw,circle,node distance=4mm,font=\tiny,inner sep=0pt,minimum size=3mm] {
+ \node (1) {1};
+ \node (5) [right=of 1] {5};
+ \draw (1) -- (5);
+}
+\end{center}
+
+One final pass over the adjacency lists, ignoring deleted vertices as well as edges to deleted vertices, and we end up with the final graph in a new instance.
 
 
 
