@@ -49,3 +49,6 @@ executable ex04_32
     import: skiena
     main-is: ex04_32.hs
 
+executable ex07_23
+    import: skiena
+    main-is: ex07_23.hs
