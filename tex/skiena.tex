@@ -2007,9 +2007,43 @@ Take the next node from the front of the queue; it's vertex 5 which is no longer
 
 One final pass over the adjacency lists, ignoring deleted vertices as well as edges to deleted vertices, and we end up with the final graph in a new instance.
 
+\subsection*{Directed Graphs}
+\subsectionmark{Directed Graphs}
 
+\paragraph{7-27} Loop over every vertex in the adjacency list; for each vertex $v$, pull every edge in its adjacency list---these represent edges $(v,w)$ for every neighbor $w$ of $v$. Push an edge $(w,v)$ into a stack for each of those. Once finished, pop from the stack until it's empty, inserting each new edge in its corresponding vertex.
 
+\paragraph{7-28} We need to produce a topological sort of the kids such that every hateful kid is closer to the front of the line. We will think of the line as being populated front-to-back, with the most hateful kids first. Thus, if our graph of animosity is a DAG, a topological sort will exist and be found in $O(n+m)$ by DFS; if a back edge is found, the graph is not a DAG and a topological sort does not exist: two or more kids hate each other in a cycle, so nobody can be in the back.
 
+\smallskip
+
+Now, instead of standing the children in a line we wish to arrange them in the minimum possible number of rows, so that a hateful bully will sit in a lower row to that of his or her prey.
+
+\begin{center}
+\tikz[every node/.style=draw,circle,node distance=4mm,font=\tiny,inner sep=0pt,minimum size=3mm,>={Stealth[round]}] {
+ \node (0) {0};
+ \node (1) [above right=of 0]{1};
+ \node (2) [right=of 0] {2};
+ \node (3) [below right=of 0] {3};
+ \node (4) [below right=of 3] {4};
+ \node (5) [right=of 2] {5};
+ \node (6) [above right=of 4] {6};
+ \node (7) [right=of 5] {7};
+
+ \draw[->] (0) -- (2);
+ \draw[->] (0) -- (3);
+ \draw[->] (1) -- (5);
+ \draw[->] (2) -- (5);
+ \draw[->] (3) -- (4);
+ \draw[->] (3) -- (6);
+ \draw[->] (4) -- (6);
+ \draw[->] (5) -- (7);
+ \draw[->] (6) -- (7);
+}
+\end{center}
+
+At first sight it seems that the minimum number of rows needed is equal to the length of the longest chain in the DAG. This is an irreducible chain of hatred---in the example above this is 5, and the culprits are children $0,3,4,6,7$.
+
+DFS will solve this for us. For every child that is not hated by anyone, run a DFS that computes the longest chain of hate. The desired number of rows will be the maximum among these.
 
 
 
