@@ -414,7 +414,7 @@ We could say that $b^{2n-2} xy$ takes $O(1)$ for $xy$, which is then added to it
         		\draw (\x,0) rectangle ++(1,1);
 
         	\draw[->] (9,0.5) -- ++(1,0);
-	
+
         	\def\offset{11}
         	\foreach \x in {0,...,1}
         		\filldraw[filled] (\x+\offset,0) rectangle ++(1, 1);
@@ -1115,7 +1115,7 @@ So the first pass merges $2n$ elements, the next $3n$ and so on:
 \paragraph{4-30} We have $k$ arrays, $n$ elements each, sorted. The proposed algorithm divides them into $k/2$ pairs of arrays. Then it merges each pair to get $k/2$ arrays of length $2n$. These arrays are in turn paired up to form $k/4$ pairs, which are then merged, and so on and so forth, until there are two arrays of length $(k-1)n$ merged into a single array of length $kn$.
 
 First note that we can pair up arrays $\lg k$ times until we end up with a single one. What is the cost of each merge? Well, the first looks at $2n$ elements $k/2$ times. The second pairing/merging looks at $4n$ elements $k/4$ times.
-\[ 2n \frac{k}{2} + 4n \frac{k}{4} + \cdots + (k-1)n \frac{k}{2^{k-1}} 
+\[ 2n \frac{k}{2} + 4n \frac{k}{4} + \cdots + (k-1)n \frac{k}{2^{k-1}}
 	= \sum_{i=1}^{\lg k} 2^i n \frac{k}{2^i}
 	= \sum_{i=1}^{\lg k} kn = O(kn\lg k). \]
 
@@ -1285,7 +1285,7 @@ In the representation of this graph as it is printed, the BFS path looks like th
 	\node (B) [right=of A] {B};
 	\node (C) [right=of B] {C};
 	\node (D) [right=of C] {D};
-	
+
 	\node (E) [below=of A] {E};
 	\node (F) [right=of E] {F};
 	\node (G) [right=of F] {G};
@@ -1300,7 +1300,7 @@ In the representation of this graph as it is printed, the BFS path looks like th
 	\node (N) [right=of M] {N};
 	\node (O) [right=of N] {O};
 	\node (P) [right=of O] {P};
-	
+
 	\draw[->] (A) to (B);
 	\draw[->] (B) to (E);
 	\draw[->] (E) to (C);
@@ -1331,7 +1331,7 @@ In the printed representation, the DFS path makes it evident that the processing
 	\node (B) [right=of A] {B};
 	\node (C) [right=of B] {C};
 	\node (D) [right=of C] {D};
-	
+
 	\node (E) [below=of A] {E};
 	\node (F) [right=of E] {F};
 	\node (G) [right=of F] {G};
@@ -1346,7 +1346,7 @@ In the printed representation, the DFS path makes it evident that the processing
 	\node (N) [right=of M] {N};
 	\node (O) [right=of N] {O};
 	\node (P) [right=of O] {P};
-	
+
 	\draw[->] (M) to (N);
 	\draw[->] (N) to (O);
 	\draw[->] (O) to (P);
@@ -1485,7 +1485,7 @@ For the case where we are given pre and post-order traversals it's not possible 
 \begin{center}
 \tikz[>={Stealth[round]}, sibling distance=3mm, level distance=3mm] {
  \graph[binary tree layout,nodes={circle,draw,font=\tiny,inner sep=0pt, minimum size=3mm}]
- { A -> { , B -> { C, D } } }; 
+ { A -> { , B -> { C, D } } };
 }
 \hspace{.7cm}
 \tikz[>={Stealth[round]}, sibling distance=3mm, level distance=3mm] {
@@ -1938,9 +1938,9 @@ Start by looking at each vertex and checking its degree. Enqueue every vertex of
 
 Call this vertex $u$. If its degree is still 2, mark it as deleted in the auxiliary array. Traverse its adjacency list. There will be two edges to live vertices---let us call them $v$ and $w$.
 
-We have now deleted vertex $u$. Consider the edge $(v,w)$ that we would now add according to the rules of the exercise. Look among the neighbors of $v$; if $w$ isn't one of them, we can add the new edge to both $v$ and $w$. (Observe that the deletion of vertex $u$ and the edges $(u,v)$ and $(u,w)$ are compensated by the creation of the new edge $(v,w)$, and thus the degrees of $v$ and $w$ are not affected.) Otherwise, if $w$ is already a neighbor of $v$, edge $(v,w)$ is a duplicate. Since we haven't technically modified their adjacency lists, all we need to do is decrement the degrees of $v$ and $w$. When doing this, if either of their degrees comes down to 2, enqueue them for future deletion. 
+We have now deleted vertex $u$. Consider the edge $(v,w)$ that we would now add according to the rules of the exercise. Look among the neighbors of $v$; if $w$ isn't one of them, we can add the new edge to both $v$ and $w$. (Observe that the deletion of vertex $u$ and the edges $(u,v)$ and $(u,w)$ are compensated by the creation of the new edge $(v,w)$, and thus the degrees of $v$ and $w$ are not affected.) Otherwise, if $w$ is already a neighbor of $v$, edge $(v,w)$ is a duplicate. Since we haven't technically modified their adjacency lists, all we need to do is decrement the degrees of $v$ and $w$. When doing this, if either of their degrees comes down to 2, enqueue them for future deletion.
 
-If the queue is not empty, take the vertex at the front and, if its degree is still 2, proceed to delete it in the same fashion. Otherwise, if the queue is empty, we are done making changes to the graph. This stage looks at every vertex once, which takes $O(n)$ time. Then for every vertex marked for deletion, their adjacency list is traversed; every vertex can be deleted at most once, so this is in the worst case $O(n+m)$. 
+If the queue is not empty, take the vertex at the front and, if its degree is still 2, proceed to delete it in the same fashion. Otherwise, if the queue is empty, we are done making changes to the graph. This stage looks at every vertex once, which takes $O(n)$ time. Then for every vertex marked for deletion, their adjacency list is traversed; every vertex can be deleted at most once, so this is in the worst case $O(n+m)$.
 
 Finally we can construct the final graph, without the deleted elements, by way of a second traversal: look at every vertex; if it is not deleted, add it to the new graph, and insert every edge to a non-deleted vertex in its new adjacency list. This will be at most $O(n+m)$, if nothing was deleted from the original graph.\ \okthen
 
@@ -2049,9 +2049,55 @@ DFS will solve this for us. For every child that is not hated by anyone, run a D
 
 \paragraph{7-30} The gotcha pairs determine a directed graph on the cards. If this graph is a DAG, it will be possible to find a winning pickup order by using DFS to find a topological sort.
 
+\paragraph{7-31} If we stack the words and look at the ``most significant'' position it's clear that once a symbol changes it does not change back, as this would contradict the condition that the words are given in lexicographic order. Furthermore, the symbols in the most significant position partition the words in such a way that, within each group, the second most significant position follows the same logic.
 
+The example words from the book will clarify this.
+\begin{lstlisting}
+	QQZ
+	QZZ
+	XQZ
+	XQX
+	XXX
+\end{lstlisting}
+Taken as a whole, the second position sees \li!Q! $\to$ \li!Z! $\to$ \li!Q!, but within the two groups determined by the symbols \li!Q! and \li!X!, there is no such contradiction.
 
+This is more clearly visualized as a tree with an empty or meaningless root, where each node in the second level represents a symbol in the most significant position. Within a level, the child nodes of a same parent indicate an alphabetic relation between them.
+\begin{center}
+	\tikz[>={Stealth[round]}, sibling distance=3mm, level distance=3mm] {
+	 \graph[tree layout,nodes={circle,draw,font=\tiny,inner sep=0pt, minimum size=3mm}]
+		{
+			0/"*" -> {
+				a/"Q" -> {
+					b/"Q" -> d/"Z",
+					c/"Z" -> e/"Z"
+				},
+				f/"X" -> {
+					g/"Q" -> { i/"Z", j/"X" },
+					h/"X" -> k/"X",
+				}
+			}
+		};
+	}
+\end{center}
+In this case, the two symbols in the most significant place express the relation \li!Q! $\to$ \li!X!. In the second level there are two relations, \li!Q! $\to$ \li!Z! and \li!Q! $\to$ \li!X! which we already knew from the first level. Finally, in the third level, the leaf nodes with no siblings give no information, but we get \li!Z! $\to$ \li!X!. Put together, these three relations describe the following DAG:
+\begin{center}
+	\tikz[every node/.style=draw,circle,node distance=4mm,font=\tiny,inner sep=0pt,minimum size=3mm,>={Stealth[round]}] {
+	 \node (0) {Q};
+	 \node (1) [below right=of 0]{Z};
+	 \node (2) [above right=of 1] {X};
 
+	 \draw[->] (0) -- (1);
+	 \draw[->] (1) -- (2);
+	 \draw[->] (0) -- (2);
+	}
+\end{center}
+A topological sort of this DAG will output \li!Q! $\to$ \li!Z! $\to$ \li!X!, the desired alphabetical order.
+
+\smallskip
+
+A simpler way of seeing the structure of this tree is to observe that between any two adjacent words, the leftmost (most significant) different characters indicate an edge in the DAG; these are two nodes in the tree that share the same parent. If, in two adjacent words, the characters in position $n-1$ are different, then nothing can be said about the alphabetical order of the characters in position $n$ or about any subsequent characters. For example, \li!QZZ! $\to$ \li!XQZ!, and \li!Q! $\ne$ \li!X!, so we can't assume anything about the relationship between \li!Z! and \li!Q!. On the tree, this shows up as two nodes in the same level of the tree but with a different parent.
+
+This observation provides an easy way to construct the DAG. Traverse the array of words in overlapping pairs (that is, the first and second, then the second and third, and so on). Then for every $j \in [1\ldotsTwo k]$, if the $j$th character in the two words is different, push the corresponding edge into the DAG.
 
 
 
