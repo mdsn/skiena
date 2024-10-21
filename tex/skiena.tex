@@ -2099,10 +2099,56 @@ A simpler way of seeing the structure of this tree is to observe that between an
 
 This observation provides an easy way to construct the DAG. Traverse the array of words in overlapping pairs (that is, the first and second, then the second and third, and so on). Then for every $j \in [1\ldotsTwo k]$, if the $j$th character in the two words is different, push the corresponding edge into the DAG.
 
+\paragraph{7-32} Let us consider two example scenarios.
+\begin{center}
+	\tikz[every node/.style=draw,circle,node distance=4mm,inner sep=0pt,minimum size=2mm,>={Stealth[round]}] {
+	 \node (1) {};
+	 \node (2) [above left=of 1] {};
+	 \node (3) [below left=of 1] {};
+	 \node (4) [right=of 1] {};
+	 \node (5) [above right=of 4] {};
+	 \node (6) [below right=of 4] {};
+	 \draw[->] (1) -- (2);
+	 \draw[->] (2) -- (3);
+	 \draw[->] (3) -- (1);
+	 \draw[->] (1) -- (4);
+	 \draw[->] (4) -- (5);
+	 \draw[->] (5) -- (6);
+	 \draw[->] (6) -- (4);
+	}
+\end{center}
+This graph is an example of a single weakly connected component. Although the groups of three vertices on each side are strongly connected, the single directed edge connecting the two clusters makes it impossible to get from the right to the left, unless they are thought of as undirected. Adding an edge from the right to the left cluster makes the entire graph strongly connected. The operation reduces the number of weakly connected components by 1.
 
+The following graph is an example of a graph with two disjoint components, each weakly connected. Adding a single edge between the two disjoint components makes a single weakly connected component out of the two. The operation reduces the count of weakly connected components from 2 to 1.
+\begin{center}
+	\tikz[every node/.style=draw,circle,node distance=4mm,inner sep=0pt,minimum size=2mm,>={Stealth[round]}] {
+	 \node (1) {};
+	 \node (2) [above left=of 1] {};
+	 \node (3) [below left=of 1] {};
+	 \node (4) [right=of 1] {};
+	 \node (5) [above right=of 4] {};
+	 \node (6) [below right=of 4] {};
+	 \draw[->] (2) -- (3);
+	 \draw[->] (3) -- (1);
+	 \draw[->] (4) -- (5);
+	 \draw[->] (5) -- (6);
+	}
+\end{center}
 
+Here is a somewhat more precise argument. A single directed edge may not reduce the number of weakly connected components. For example, adding an edge between the two filled vertices to the following graph keeps the count of weakly connected components at 1.
+\begin{center}
+	\tikz[every node/.style=draw,circle,node distance=4mm,inner sep=0pt,minimum size=2mm,>={Stealth[round]}] {
+	 \node (1) [fill] {};
+	 \node (2) [fill, above left=of 1] {};
+	 \node (3) [below left=of 1] {};
+	 \node (4) [right=of 1] {};
+	 \draw[->] (2) -- (3);
+	 \draw[->] (3) -- (1);
+	 \draw[->] (4) -- (1);
+	}
+\end{center}
 
-
+So let us assume that for some graph, adding a single directed edge does decrease the number of weakly connected components. A single directed edge can connect at most 2 vertices; those can either belong in the same weakly connected component, as in the first example above, or to separate ones, as in the second example. If they belong in the same weakly connected component, then by the assumption of decrease we can have reduced at most a single component into a strongly connected component. If the vertices belong in separate weakly connected components, we are connecting at most 2 such weakly connected components, and they must be disjoint---otherwise, they would be 1 weakly connected component. In this case we are making a single weakly connected component out of 2, again reducing the count by only 1.\ \okthen
 
 
 
