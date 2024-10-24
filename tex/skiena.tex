@@ -2158,5 +2158,28 @@ Then our algorithm is: start DFS from one of the vertices in $e$. If we hit on a
 
 The algorithm is linear, $O(n+m)$, the cost of one DFS traversal.
 
+\paragraph{7-34} A trivial algorithm will run a DFS from each vertex until one of them produces the desired arborescence, or none of them do, which confirms one doesn't exist. Unfortunately in the worst case, when an arborescence doesn't exist, $n$ DFS will be executed for a total cost of $O(n^2+nm)$, a quadratic cost and thus hardly ``efficient''.
+
+One interesting notion is that the test for arborescence is less strong than a test for strong connectivity. Whereas the latter requires that every vertex be reachable from every other vertex, here we are looking for all vertices to be reachable from at least one vertex. Any one will do.
+
+Here is a thought. Suppose we start a DFS from some arbitrary vertex, and not every other vertex is reachable from it. There will be some number of vertices left undiscovered. Then any potential arborescence must be discoverable from one of those undiscovered vertices; any already processed vertex can't possibly be the root of an arborescence, or it would have been found during its processing.
+
+While seemingly better at first thought than the naive algorithm, some pathological graphs can still trigger a quadratic runtime---at least formally. Consider a graph with $n$ vertices and 0 edges; this graph will force $n$ DFS, although each will look at an individual vertex. As a second example, consider the following graph:
+\begin{center}
+	\tikz[every node/.style=draw,circle,node distance=4mm,inner sep=0pt,minimum size=2mm,>={Stealth[round]}] {
+	 \node (1) {};
+	 \node (2) [left=of 1] {};
+	 \node (3) [left=of 2] {};
+	 \node (4) [left=of 3] {};
+	 \node (5) [left=of 4] {};
+	 \node (6) [below=of 3] {};
+	 \draw[->] (1) -- (6);
+	 \draw[->] (2) -- (6);
+	 \draw[->] (3) -- (6);
+	 \draw[->] (4) -- (6);
+	 \draw[->] (5) -- (6);
+	}
+\end{center}
+Here each of the 5 vertices on top will leave all others undiscovered. Once again, a graph like this will trigger $O(n)$ DFS, each of which would only come to find the same already discovered vertex.
 
 \end{document}
