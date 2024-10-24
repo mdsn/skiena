@@ -2150,7 +2150,13 @@ Here is a somewhat more precise argument. A single directed edge may not reduce 
 
 So let us assume that for some graph, adding a single directed edge does decrease the number of weakly connected components. A single directed edge can connect at most 2 vertices; those can either belong in the same weakly connected component, as in the first example above, or to separate ones, as in the second example. If they belong in the same weakly connected component, then by the assumption of decrease we can have reduced at most a single component into a strongly connected component. If the vertices belong in separate weakly connected components, we are connecting at most 2 such weakly connected components, and they must be disjoint---otherwise, they would be 1 weakly connected component. In this case we are making a single weakly connected component out of 2, again reducing the count by only 1.\ \okthen
 
+\paragraph{7-33} We know DFS will find cycles---the classification of an edge as a back edge signals a cycle. But how do we use this to test for a cycle that specifically contains edge $e$? A cycle that contains edge $e = (u,v)$ must contain both vertices $u$ and $v$.
 
+Starting from an arbitrary vertex is complicated; we may visit one or both of the vertices in $e$ before finding a cycle, but we don't know when the cycle started. Fortunately, we can always start DFS from one of the vertices in $e$, say $u$. A cycle that contains $e$ will see the traversal discover and visit $v$ before $u$ is finished processing.  Note as well that if we start DFS from one of the vertices in $e$, and there is a cycle in the graph, then the final edge in that cycle must end in the same vertex.
+
+Then our algorithm is: start DFS from one of the vertices in $e$. If we hit on a back edge to this vertex and both vertices in $e$ are discovered but not processed, then we have found a cycle containing $e$.\ \okthen
+
+The algorithm is linear, $O(n+m)$, the cost of one DFS traversal.
 
 
 \end{document}
