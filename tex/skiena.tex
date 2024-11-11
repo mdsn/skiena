@@ -2182,4 +2182,13 @@ While seemingly better at first thought than the naive algorithm, some pathologi
 \end{center}
 Here each of the 5 vertices on top will leave all others undiscovered. Once again, a graph like this will trigger $O(n)$ DFS, each of which would only come to find the same already discovered vertex.
 
+\paragraph{7-35} A similar argument to the previous one will work here. Given a vertex $v$, a DFS or BFS traversal will either discover every other vertex, in which case $v$ is a mother vertex of $G$, or it won't, meaning that it isn't. A test for the existence of a mother vertex will also follow the same idea as before. Start a DFS or BFS from an arbitrary vertex. If not every vertex is discovered this way, then if there is a mother vertex it must be one of the undiscovered ones, thus reducing the number of candidates to do further tests. The same caveats apply regarding pathological cases though.
+
+\subsection*{Articulation Vertices}
+\subsectionmark{Articulation Vertices}
+
+\paragraph{7-38} Skiena calls a back edge a ``security cable'' that gives redundancy to the connectivity of the vertices between the beginning and the end of the cycle. Thus one way to find such a vertex is to refer to the parent of a vertex which holds a back edge to an ancestor.
+
+But what if the graph has no cycles? Then a leaf in the discovery tree of DFS will be safe to delete, because---in the words of Professor Skiena---it connects no one but itself to the main trunk.
+
 \end{document}
