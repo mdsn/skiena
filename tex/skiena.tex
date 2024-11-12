@@ -2191,4 +2191,20 @@ Here each of the 5 vertices on top will leave all others undiscovered. Once agai
 
 But what if the graph has no cycles? Then a leaf in the discovery tree of DFS will be safe to delete, because---in the words of Professor Skiena---it connects no one but itself to the main trunk.
 
+\paragraph{7-39} After running DFS, we have a discovery tree with one or more leaf nodes, each of which is safe to delete.
+
+Let our algorithm do a DFS, and every time it discovers a vertex with no outgoing edges to undiscovered vertices---that is, a leaf node in the discovery tree---push this vertex into a stack. If the graph is not empty, then by virtue of DFS eventually finishing and visiting a node last, this stack will have at least one element. Remember as well that during the traversal, DFS populates an auxiliary data structure that links each node but the initial one to its parent or discoverer (this is, in effect, the discovery tree). Furthermore, let us assume that each vertex holds the count of its discovered children; this can be computed during DFS with no change in time complexity and $O(n)$ space.
+
+With DFS done it's time to start deleting vertices. Pop an element $v$ from the stack and consider its parent $u$. If $u$ has only one discovered children left, this must be $v$. Delete $v$ and push $u$ into the stack. Otherwise, $u$ still has other subtrees that may get disconnected if it were deleted. In this case, just decrement its count of children and delete $v$, but do not push $u$ yet.
+
+Suppose the second scenario just happened. A parent node $u$ of some deleted vertex has other children. Then in the discovery tree there must be some other leaf node, a descendant of $u$, and it must be in the stack. Therefore eventually, by continuing to delete stacked nodes and stacking their parents if they have no more children, we will end up deleting every node as a leaf without ever disconnecting a component. Special handling is necessary when reaching the initial node of the DFS, which has no parent, but by then---if it has no more children---it can be safely deleted last.
+
+\paragraph{7-40} The answer is yes, every bridge must be a tree edge in the discovery tree of an undirected graph. DFS classifies the edges it discovers into tree edges and back edges. If a bridge were not a tree edge it would have to be a back edge, in which case it could not be a bridge for there would be some other already discovered path between the vertices it links.
+
+\paragraph{7-41} Let $G=(V,E)$ be a connected, undirected graph with no bridges. For any vertices $u,v\in V$, there is some path between them. This path can be oriented in such a way that, in the final oriented graph $G'$, there is a path from $u$ to $v$. Suppose this path consists of a sequence of edges $(x, y)$. Then for each of those edges, since there are no bridges in $G$, there is an alternative path connecting vertices $x$ and $y$. The sequence of alternative paths amounts to an alternative path between $u$ and $v$. Each of those alternative paths can be oriented in such a way that $G'$ also contains a path from $v$ to $u$. Therefore $G'$ is strongly connected.\ \okthen
+
+\smallskip
+
+Now we seek an algorithm to orient every edge in $G$ so the resulting oriented graph $G'$ is strongly connected. Do a DFS on $G$. This will classify every edge as a tree edge or a back edge. Orient every tree edge $(u,v)$ from $u$ to $v$, and every back edge $(v,u)$ from $v$ to $u$. The oriented tree edges will form a path between any edge $u$ and its descendents, while the back edges will form opposite paths. By the argument above, there will be such alternative paths between every pair of vertices in $G$.
+
 \end{document}
